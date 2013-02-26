@@ -1,16 +1,61 @@
+# bundler state
+/.bundle
+/vendor/bundle/
+
+# minimal Rails specific artifacts
+db/*.sqlite3
+/log/*.log
+/tmp
+
+# various artifacts
+**.war
 *.rbc
 *.sassc
-.sass-cache
-capybara-*.html
 .rspec
-/.bundle
-/vendor/bundle
-/log/*
-/tmp/*
-/db/*.sqlite3
-/public/system/*
+.redcar/
+.sass-cache
+/config/config.yml
+/config/database.yml
+/coverage.data
 /coverage/
+/db/*.javadb/
+/db/*.sqlite3-journal
+/doc/api/
+/doc/app/
+/doc/features.html
+/doc/specs.html
+/public/cache
+/public/stylesheets/compiled
+/public/system/*
+/public/uploads
 /spec/tmp/*
-**.orig
-rerun.txt
-pickle-email-*.html
+/cache
+/capybara*
+/capybara-*.html
+/gems
+/rerun.txt
+/spec/requests
+/spec/routing
+/spec/views
+/specifications
+
+# Mac finder artifacts
+.DS_Store
+*.DS_Store
+
+# vim artifacts
+**.swp
+
+# Simple-cov
+coverage/*
+
+# Database.yml - we might set up our database access differently
+# and we don't want to override eachother on commits.
+config/database.yml
+
+#local Env
+/config/heroku_env.rb
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
