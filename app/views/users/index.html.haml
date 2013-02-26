@@ -1,2 +1,16 @@
 %h1
-  Hello World!
+  Users
+
+- if @users.count == 0
+  There are no users at this time.
+- else
+  %table.table
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td
+            = @user.email
+          %td
+            = @user.first_name
+          %td
+            = @user.last_name
