@@ -1,0 +1,2 @@
+facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
+facebook_secret: <%= ENV['FACEBOOK_SECRET'] %>

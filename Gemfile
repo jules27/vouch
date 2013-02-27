@@ -37,7 +37,11 @@ group :assets do
 end
 
 gem 'activeadmin'
+gem 'devise'
 gem 'haml', '3.1.7'
 gem 'jquery-rails'
+gem 'koala' # Facebook API
+gem 'omniauth'
+gem 'omniauth-facebook'
 gem 'rails_config'
 gem 'slim'

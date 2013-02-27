@@ -54,8 +54,7 @@ coverage/*
 config/database.yml
 
 #local Env
-/config/heroku_env.rb
-
+config/heroku_env.rb
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
