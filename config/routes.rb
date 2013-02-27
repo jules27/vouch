@@ -1,9 +1,7 @@
 Vouch::Application.routes.draw do
   ActiveAdmin.routes(self)
+  root to: "landing#index"
 
   devise_for :users
-
-  root to: "users#index"
-
   resources :vouch_lists
 end
