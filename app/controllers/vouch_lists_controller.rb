@@ -1,0 +1,2 @@
+class VouchListsController < ApplicationController
+end
