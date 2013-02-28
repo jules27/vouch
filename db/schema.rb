@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227224831) do
+ActiveRecord::Schema.define(:version => 20130228185714) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -27,6 +27,32 @@ ActiveRecord::Schema.define(:version => 20130227224831) do
   add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
+
+  create_table "business_types", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "businesses", :force => true do |t|
+    t.integer  "business_type_id",  :null => false
+    t.string   "name",              :null => false
+    t.string   "phone"
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "neighborhood"
+    t.text     "categories"
+    t.string   "yelp_id"
+    t.integer  "yelp_rating"
+    t.integer  "yelp_review_count"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
@@ -54,6 +80,14 @@ ActiveRecord::Schema.define(:version => 20130227224831) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "vouch_items", :force => true do |t|
+    t.integer  "vouch_list_id", :null => false
+    t.integer  "business_id",   :null => false
+    t.text     "description"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "vouch_lists", :force => true do |t|
     t.integer  "owner_id",    :null => false

@@ -1,0 +1,2 @@
+class VouchItemsController < ApplicationController
+end
