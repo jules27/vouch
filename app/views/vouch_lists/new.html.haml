@@ -6,23 +6,22 @@
   .control-group
     = f.label :title, "Or, alternatively, give your list a different title!"
     .controls
-    = f.text_field :title, class: "input-xxlarge", placeholder: "Your own title!"
+    = f.text_field :title, class: "input-xxlarge", placeholder: "Your own title here!"
 
   .control-group
     %h4 Search for Restaurants
     .input-append
-      -# = f.text_field :business_id, placeholder: "Type restaurant name..."
-      = text_field_tag 'business_name', nil, placeholder: "Start typing...", class: "input-large"
-      %button.btn
+      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :id => "typed_restaurant_name"
+      %button.btn{ id: "add_restaurant" }
         Add to list
 
-  %table.table
+  %table.table.restaurants-table
     %thead
       %tr
         %th
-          Name
+          Restaurant
     %tbody
-      %tr
+      %tr.restaurants-list
         %td
           Your list of favorite restaurants will appear here!
 

@@ -4,6 +4,9 @@ class VouchList < ActiveRecord::Base
 
   attr_accessible :owner_id, :title, :description, :status
 
+  accepts_nested_attributes_for :vouch_items, allow_destroy: true
+  attr_accessible :vouch_items_attributes
+
   validates_presence_of :owner_id, :title
 
   before_create :set_defaults
