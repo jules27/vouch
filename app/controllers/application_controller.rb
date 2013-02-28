@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     current_user
   end
 
-  # def after_sign_in_path_for(resource)
-  #  current_user_path
-  # end
+  def after_sign_in_path_for(resource)
+   new_vouch_list_path
+  end
 end

@@ -1,0 +1,31 @@
+%h3
+  Tell us your favorite five restaurants for a sunny company outing!
+
+= form_for @vouch_list do |f|
+
+  .control-group
+    = f.label :title, "Or, alternatively, give your list a different title!"
+    .controls
+    = f.text_field :title, class: "input-xxlarge", placeholder: "Your own title!"
+
+  .control-group
+    %h4 Search for Restaurants
+    .input-append
+      -# = f.text_field :business_id, placeholder: "Type restaurant name..."
+      = text_field_tag 'business_name', nil, placeholder: "Start typing...", class: "input-large"
+      %button.btn
+        Add to list
+
+  %table.table
+    %thead
+      %tr
+        %th
+          Name
+    %tbody
+      %tr
+        %td
+          Your list of favorite restaurants will appear here!
+
+  %br
+  .control-group
+    = f.submit "Save My List", class: "btn btn-primary btn-large"

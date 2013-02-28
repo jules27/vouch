@@ -1,14 +1,16 @@
 .jumbotron
   - if user_signed_in?
     %h2 Welcome back, #{current_user.first_name} #{current_user.last_name}!
+
+    %br
+    %a#get_started.btn.btn-large.btn-success{ :href => new_vouch_list_path }
+      Get started with restaurants in San Francisco!
+
   - else
     %h1 Welcome to Vouch!
 
     %p.lead
       You don’t care what 4,000 people think of La Luce, you just want to know where your foodie friend would go to dinner tonight.
-
-    -# %a#get_started.btn.btn-large.btn-success{ :href => "#" }
-    -#   Get Started
 
     .get-started-form
       = facebook_login_banner
