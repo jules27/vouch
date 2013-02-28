@@ -41,6 +41,7 @@ gem 'devise'
 gem 'haml', '3.1.7'
 gem 'jquery-rails'
 gem 'koala' # Facebook API
+gem 'oauth'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rails_config'

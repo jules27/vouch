@@ -2,3 +2,9 @@
 # Facebook app info for login
 facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
 facebook_secret: <%= ENV['FACEBOOK_SECRET'] %>
+
+# Yelp API
+yelp_consumer_key: <%= ENV['YELP_CONSUMER_KEY'] %>
+yelp_consumer_secret: <%= ENV['YELP_CONSUMER_SECRET'] %>
+yelp_token: <%= ENV['YELP_TOKEN'] %>
+yelp_token_secret: <%= ENV['YELP_TOKEN_SECRET'] %>

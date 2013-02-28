@@ -14,6 +14,7 @@ class CreateBusinesses < ActiveRecord::Migration
       t.string  :yelp_id
       t.integer :yelp_rating
       t.integer :yelp_review_count
+      t.string  :image_url
       t.float   :latitude
       t.float   :longitude
 

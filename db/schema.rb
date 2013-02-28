@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20130228185714) do
     t.string   "yelp_id"
     t.integer  "yelp_rating"
     t.integer  "yelp_review_count"
+    t.string   "image_url"
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "created_at",        :null => false
