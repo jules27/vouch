@@ -5,21 +5,24 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand{ href: "#" } Vouch
+      %a.brand{ href: root_path } Vouch
       .container-fluid.nav-collapse
         %ul.nav
-          %li
-            = link_to "My Vouches", "#"
-          %li
-            = link_to "Mutually Vouched", "#"
-          %li
-            = link_to "To Vouch", "#"
+          - if user_signed_in?
+            %li
+              = link_to "My Vouches", "#"
+            %li
+              = link_to "Mutually Vouched", "#"
+            %li
+              = link_to "To Vouch", "#"
         %ul.nav.pull-right
           - if user_signed_in?
             %li
               = link_to "Sign Out", destroy_user_session_path, method: :delete
           - else
             %li
-              = link_to "Sign Up", new_user_session_path
-            %li
-              = link_to "Sign In", user_session_path
+              = facebook_login_link
+            -# %li
+            -#   = link_to "Sign Up", new_user_session_path
+            -# %li
+            -#   = link_to "Sign In", user_session_path
