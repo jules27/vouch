@@ -40,7 +40,7 @@ module YelpHelper
       city:     business['location']['city'],
       state:    business['location']['state_code'],
       zip:      business['location']['postal_code'],
-      neighborhood: business['location']['neighborhoods'].join(","),
+      neighborhood: business['location']['neighborhoods'].join(", "),
       categories:   business['categories'].flatten,
       yelp_id:      business['id'],
       yelp_rating:  business['rating'],

@@ -2,6 +2,7 @@
   Tell us your favorite five restaurants for a sunny company outing!
 
 = form_for @vouch_list do |f|
+  .alert.alert-error.list-errors
 
   .control-group
     = f.label :title, "Or, alternatively, give your list a different title!"
@@ -20,11 +21,22 @@
       %tr
         %th
           Restaurant
+        %th
+          Neighborhoods
+        %th
+          City
+        %th
+          Yelp Rating
+        %th
+          Yelp Reviews
     %tbody
       %tr.restaurants-list
-        %td
+        %td.restaurant-placeholder{ colspan: "5" }
           Your list of favorite restaurants will appear here!
 
   %br
   .control-group
     = f.submit "Save My List", class: "btn btn-primary btn-large"
+
+:javascript
+  var CITY = "San Francisco";
