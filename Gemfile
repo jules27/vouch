@@ -40,6 +40,7 @@ gem 'activeadmin'
 gem 'devise'
 gem 'haml', '3.1.7'
 gem 'jquery-rails'
+gem 'knockoutjs-rails'
 gem 'koala' # Facebook API
 gem 'oauth'
 gem 'omniauth'

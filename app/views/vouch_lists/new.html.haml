@@ -1,6 +1,6 @@
 .list-creation-first
-  %h2
-    Let's make a list.
+  -# %h2
+  -#   Let's make a list.
   %h3
     Tell us your favorite five restaurants for a sunny company outing!
 
@@ -12,19 +12,21 @@
       .controls
       = f.text_field :title, class: "input-xxlarge", placeholder: "Favorite date night restaurants"
 
-    .control-group
-      = f.label :description, "Optionally, add some fancy descriptions here!"
-      = f.text_area :description, rows: 5, class: "input-xxlarge"
+    -# .control-group
+    -#   = f.label :description, "Optionally, add some fancy descriptions here!"
+    -#   = f.text_area :description, rows: 5, class: "input-xxlarge"
 
-    = f.submit "I'm Okay With This", class: "btn btn-primary submit-list"
+    -# = f.submit "I'm Okay With This", class: "btn btn-primary submit-list"
 
 .list-creation-second
   .control-group
     %h4 Search for Restaurants
     .input-append
-      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :id => "typed_restaurant_name"
-      %button.btn{ id: "add_restaurant" }
-        Add to list
+      %form{ 'data-bind' => "submit: addItem" }
+        = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName'
+        %button.btn{ :type => "submit" }
+          Add to list
+
     %span.alert.alert-error.restaurant-input-error
     .loading-image
 
@@ -41,10 +43,17 @@
           Yelp Rating
         %th
           Yelp Reviews
-    %tbody
-      %tr.restaurants-list
-        %td.restaurant-placeholder{ colspan: "5" }
-          Your list of favorite restaurants will appear here!
+    %tbody{ 'data-bind' => 'foreach: items' }
+      %tr
+        %td{ 'data-bind' => "text: name" }
+        %td{ 'data-bind' => "text: neighborhood" }
+        %td{ 'data-bind' => "text: city" }
+        %td{ 'data-bind' => "text: yelp_rating" }
+        %td{ 'data-bind' => "text: yelp_reviews" }
+
+      -# %tr.restaurants-list
+      -#   %td.restaurant-placeholder{ colspan: "5" }
+      -#     Your list of favorite restaurants will appear here!
 
 .list-creation-third
   %br
