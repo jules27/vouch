@@ -1,3 +1,14 @@
 .list-errors {
   display: none;
 }
+
+.loading-image {
+  width: 16px;
+  height: 16px;
+  background: url(image_path("loading.gif")) no-repeat;
+  display: none;
+}
+
+.restaurant-input-error {
+  display: none;
+}

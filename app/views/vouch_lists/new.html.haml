@@ -15,6 +15,8 @@
       = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :id => "typed_restaurant_name"
       %button.btn{ id: "add_restaurant" }
         Add to list
+    %span.alert.alert-error.restaurant-input-error
+    .loading-image
 
   %table.table.restaurants-table
     %thead
