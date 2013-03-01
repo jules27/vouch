@@ -41,3 +41,7 @@ $ ->
         $(".list-errors").fadeIn("fast")
       complete: ->
         $(".loading-image").hide()
+
+
+  $(".submit-list").on "click", (e) ->
+    # Do some error checking    

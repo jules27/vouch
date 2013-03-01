@@ -1,14 +1,24 @@
-%h3
-  Tell us your favorite five restaurants for a sunny company outing!
+.list-creation-first
+  %h2
+    Let's make a list.
+  %h3
+    Tell us your favorite five restaurants for a sunny company outing!
 
-= form_for @vouch_list do |f|
-  .alert.alert-error.list-errors
+  = form_for @vouch_list do |f|
+    .alert.alert-error.list-errors
 
-  .control-group
-    = f.label :title, "Or, alternatively, give your list a different title!"
-    .controls
-    = f.text_field :title, class: "input-xxlarge", placeholder: "Your own title here!"
+    .control-group
+      = f.label :title, "Or, alternatively, give your list a different title!"
+      .controls
+      = f.text_field :title, class: "input-xxlarge", placeholder: "Favorite date night restaurants"
 
+    .control-group
+      = f.label :description, "Optionally, add some fancy descriptions here!"
+      = f.text_area :description, rows: 5, class: "input-xxlarge"
+
+    = f.submit "I'm Okay With This", class: "btn btn-primary submit-list"
+
+.list-creation-second
   .control-group
     %h4 Search for Restaurants
     .input-append
@@ -36,9 +46,10 @@
         %td.restaurant-placeholder{ colspan: "5" }
           Your list of favorite restaurants will appear here!
 
+.list-creation-third
   %br
   .control-group
-    = f.submit "Save My List", class: "btn btn-primary btn-large"
+    = submit_tag "Save My List", class: "btn btn-primary btn-large"
 
 :javascript
   var CITY = "San Francisco";

@@ -12,7 +12,8 @@ class VouchList < ActiveRecord::Base
   before_create :set_defaults
 
   def set_defaults
-    self.status = "saved"
+    self.status  = "pending"
+    self.title ||= "Favorite restaurants for a sunny company outing"
     self.save
   end
 end
