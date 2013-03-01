@@ -1,6 +1,4 @@
 .list-creation-first
-  -# %h2
-  -#   Let's make a list.
   %h3
     Tell us your favorite five restaurants for a sunny company outing!
 
@@ -16,19 +14,17 @@
     -#   = f.label :description, "Optionally, add some fancy descriptions here!"
     -#   = f.text_area :description, rows: 5, class: "input-xxlarge"
 
-    -# = f.submit "I'm Okay With This", class: "btn btn-primary submit-list"
-
 .list-creation-second
-  .control-group
-    %h4 Search for Restaurants
-    .input-append
-      %form{ 'data-bind' => "submit: addItem" }
-        = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName'
-        %button.btn{ :type => "submit" }
-          Add to list
+  .alert.alert-error.restaurant-input-error
+  -# .control-group
+  %h4 Search for Restaurants
+  .input-append
+    %form{ 'data-bind' => "submit: addItem" }
+      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName', :id => "typed_restaurant_name"
+      %button.btn{ :type => "submit" }
+        Add to list
 
-    %span.alert.alert-error.restaurant-input-error
-    .loading-image
+  .loading-image
 
   %table.table.restaurants-table
     %thead
@@ -50,6 +46,7 @@
         %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
+        %input{ 'data-bind' => "text: id", :type => "hidden" }
 
       -# %tr.restaurants-list
       -#   %td.restaurant-placeholder{ colspan: "5" }
@@ -58,7 +55,8 @@
 .list-creation-third
   %br
   .control-group
-    = submit_tag "Save My List", class: "btn btn-primary btn-large"
+    %button{ 'data-bind' => 'click: save', :class => "btn btn-primary btn-large" }
+      Save My List
 
 :javascript
   var CITY = "San Francisco";

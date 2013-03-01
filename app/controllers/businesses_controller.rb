@@ -8,7 +8,10 @@ class BusinessesController < ApplicationController
           render json: { success: true,
                          business: @business }
         else
-          render json: { errors: @business.errors.full_messages.join(", ") }
+          render json: {
+                         status: 422,
+                         errors: "Unable to find business named \"#{params[:name]}\" in #{params[:city]}."
+                       }
         end
       end
     end
