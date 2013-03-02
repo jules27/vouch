@@ -1,4 +1,6 @@
 .list-creation-first
+  .alert.alert-error.list-errors
+
   %h3
     Tell us your favorite five restaurants for a sunny company outing!
 
@@ -6,6 +8,7 @@
     = label_tag "title", "Or, alternatively, give your list a different title! Tell us your..."
     .controls
     = text_field_tag "title", nil, :placeholder => "Favorite date night restaurants", :class => "input-xxlarge", 'data-bind' => "value: title"
+    = hidden_field_tag 'owner_id', current_user.id
 
     -# .control-group
     -#   = f.label :description, "Optionally, add some fancy descriptions here!"
@@ -15,8 +18,8 @@
   .alert.alert-error.restaurant-input-error
   %h4 Search for Restaurants
   .input-append
-    %form{ 'data-bind' => "submit: addItem" }
-      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + @restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName', :id => "typed_restaurant_name"
+    %form{ 'data-bind' => "submit: addItem", :autocomplete => "off" }
+      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName', :id => "typed_restaurant_name"
       %button.btn{ :type => "submit" }
         Add to list
 

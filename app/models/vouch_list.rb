@@ -14,6 +14,5 @@ class VouchList < ActiveRecord::Base
   def set_defaults
     self.status  = "pending"
     self.title ||= "Favorite restaurants for a sunny company outing"
-    self.save
   end
 end

@@ -78,11 +78,28 @@ $ ->
     self.save = () ->
       dataToSave = $.map(self.items(), (item) ->
         return {
-          id: item.id()
+          business_id: item.id()
         }
       )
-      console.log "send to server: " + JSON.stringify(dataToSave)
-      console.log "and: " + self.title()
+
+      # Create the list with items!!!
+      $.ajax '/vouch_lists/',
+        type: 'post'
+        dataType: 'json'
+        data: {
+          vouch_items: dataToSave,
+          vouch_list: {
+            owner_id: $('#owner_id').val(),
+            title: self.title()
+          }
+        }
+        success: (data, status, xhr) ->
+          console.log "yay!"
+          return
+        error: (xhr, status, error) ->
+          console.log "error!"
+          $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
+          $(".list-errors").fadeIn("fast")
 
     # This is needed to prevent coffeescript from adding "return self.addItem",
     # which throws off knockout's js parser.
