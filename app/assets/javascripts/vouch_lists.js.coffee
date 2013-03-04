@@ -82,7 +82,12 @@ $ ->
         }
       )
 
-      # Create the list with items!!!
+      if (dataToSave.length == 0)
+        $(".restaurant-input-error").html("Please add some items to your list.")
+        $(".restaurant-input-error").fadeIn("fast")
+        return
+
+      # Create the list with items!
       $.ajax '/vouch_lists/',
         type: 'post'
         dataType: 'json'
@@ -94,10 +99,15 @@ $ ->
           }
         }
         success: (data, status, xhr) ->
-          console.log "yay!"
+          if (data.status == 422)
+            $(".restaurant-input-error").html("Errors: " + data.errors)
+            $(".restaurant-input-error").fadeIn("fast")
+            return
+
+          notice = "Your list has been successfully saved!"
+          window.location.replace "/vouch_lists/#{data.list_id}?notice=#{notice}"
           return
         error: (xhr, status, error) ->
-          console.log "error!"
           $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
           $(".list-errors").fadeIn("fast")
 

@@ -1,2 +1,7 @@
+- if params[:notice]
+  .alert.alert-success
+    %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
+    = params[:notice]
+
 %h2
-  Hello #{@vouch_list.title}
+  = @vouch_list.title

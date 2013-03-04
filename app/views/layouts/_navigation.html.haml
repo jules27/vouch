@@ -17,6 +17,8 @@
               = link_to "To Vouch", "#"
         %ul.nav.pull-right
           - if user_signed_in?
+            %li
+              = link_to "Make New Vouches", new_vouch_list_path
             %li.dropdown
               %a{ :href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown" }
                 #{current_user.first_name} #{current_user.last_name}

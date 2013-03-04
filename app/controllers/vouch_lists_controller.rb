@@ -5,33 +5,33 @@ class VouchListsController < ApplicationController
   end
 
   def create
-    puts "***********"
-    puts params
-
     @vouch_list = VouchList.new(params[:vouch_list])
-    # TODO: test this
     unless @vouch_list.save
       render json: {
                      status: 422,
                      errors: "The list was unable to be created."
                    }
+      return
     end
 
     # List was created, let's create items under this list
     params[:vouch_items].each do |item|
       vouch_item = @vouch_list.vouch_items.build(item.second)
 
-      # TODO: test this
       unless vouch_item.save
-        business    = Business.find(item.second.id)
+        business = Business.find(item.second[:business_id])
         render json: {
                        status: 422,
-                       errors: "The item with business #{business.name} was unable to be saved."
+                       errors: "The list with item \"#{business.name}\" was unable to be saved."
                      }
+        return
       end
     end
 
-    render json: { success: true }
+    render json: {
+                   success: true,
+                   list_id: @vouch_list.id
+                 }
   end
 
   def show
