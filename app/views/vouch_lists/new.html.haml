@@ -45,6 +45,8 @@
         %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
+        %td
+          = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }
 
       -# %tr.restaurants-list

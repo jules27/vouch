@@ -14,6 +14,10 @@ $ ->
     self.items = ko.observableArray([])
     self.newItemName = ko.observable()
 
+    # Remove an item from the list
+    self.removeItem = (item) ->
+      self.items.remove(item)
+
     # Get the details for a business and add it to the list
     self.addItem = () ->
       name = $("#typed_restaurant_name").val()
@@ -52,7 +56,7 @@ $ ->
           should_quit = false
           $.each self.items(), (index, value) ->
             if value.id() == item_id
-              $(".restaurant-input-error").html('You have already added this business to the list.<a class="close" data-dismiss="alert">&#215;</a>')
+              $(".restaurant-input-error").html('You have already added this business to the list.')
               $(".restaurant-input-error").fadeIn("fast")
               self.newItemName("") # Clear the text box
               should_quit = true
@@ -73,6 +77,11 @@ $ ->
         error: (xhr, status, error) ->
           $(".restaurant-input-error").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
           $(".restaurant-input-error").fadeIn("fast")
+
+      # TODO: Sort the items
+      # this.items.sort( (a, b) ->
+      #   return a.name < b.name ? -1 : 1
+      # )
 
     # Create a list with businesses listed
     self.save = () ->
@@ -116,6 +125,11 @@ $ ->
     return
 
   ko.applyBindings(new VouchList())
+
+  # This is for vouch_list#show. Fade out notice message if any.
+  if ($('.list-show-message').is(":visible"))
+    $('.list-show-message').delay(2000).fadeOut("slow")
+
   return
 
   ###
