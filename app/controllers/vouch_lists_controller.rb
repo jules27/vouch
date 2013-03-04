@@ -64,6 +64,13 @@ class VouchListsController < ApplicationController
                           }
   end
 
+  def destroy
+    vouch_list = VouchList.find(params[:id])
+    vouch_list.destroy
+
+    redirect_to vouch_lists_path, notice: "List has been deleted."
+  end
+
   def show
     @vouch_list = VouchList.find(params[:id])
   end

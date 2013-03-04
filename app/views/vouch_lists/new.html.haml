@@ -2,11 +2,16 @@
   .alert.alert-error.list-errors
   .alert.alert-success.list-success
 
-  %h3
-    Tell us your favorite five restaurants for a sunny company outing!
+  - if vouch_list.present?
+    %h3
+      Vouch list for...
+  - else
+    %h3
+      Tell us your favorite five restaurants for a sunny company outing!
 
   .control-group
-    = label_tag "title", "Or, alternatively, give your list a different title! Tell us your..."
+    - unless vouch_list.present?
+      = label_tag "title", "Or, alternatively, give your list a different title! Tell us your..."
     .controls
       = text_field_tag "title", nil, :placeholder => "Favorite date night restaurants", :class => "input-xxlarge", 'data-bind' => "value: title"
       = hidden_field_tag 'owner_id', current_user.id
@@ -60,6 +65,8 @@
   .control-group
     %button{ 'data-bind' => 'click: save', :class => "btn btn-primary btn-large" }
       Save My List
+    - if vouch_list.present?
+      = link_to "Delete List", vouch_list_path(vouch_list), :method => :delete, 'data-confirm' => "Are you sure you want to delete this list?", :class => "btn btn-danger pull-right"
 
 - vouch_list_id = vouch_list.present? ? vouch_list.id : 0
 :javascript
