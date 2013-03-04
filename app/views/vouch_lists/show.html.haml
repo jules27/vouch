@@ -3,6 +3,48 @@
     %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
     = params[:notice]
 
+%h4
+  Awesome! Now share your vouches with your friends!
+
 %h2
   = @vouch_list.title
 
+.span6
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Restaurants
+        -# %th
+        -#   Categories
+        -# %th
+        -#   Neighborhood
+    %tbody
+      - @vouch_list.vouch_items.each do |item|
+        - b = Business.find(item.business_id)
+        %tr
+          %td{ colspan: "3" }
+            = b.name
+        %tr
+          %td
+          %td
+            = b.categories_formatted
+          %td
+            = b.neighborhood
+
+.span5
+  %table.table.table-hover
+    %thead
+      %tr
+        %th
+          Friends
+    %tbody
+      %tr
+        %td
+          
+
+= javascript_include_tag "jquery"
+:javascript
+  if ($('.list-show-message').is(":visible")) {
+    $('.list-show-message').delay(2000).fadeOut("slow");
+  }

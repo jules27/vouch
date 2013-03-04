@@ -1,4 +1,12 @@
 class VouchListsController < ApplicationController
+  def index
+    @vouch_lists = VouchList.find_by_owner_id(current_user.id)
+  end
+
+  def show
+    @vouch_list = VouchList.find(params[:id])
+  end
+
   def new
     restaurants = Business.find_all_by_city("San Francisco")
     render 'new', locals: {
@@ -69,10 +77,6 @@ class VouchListsController < ApplicationController
     vouch_list.destroy
 
     redirect_to vouch_lists_path, notice: "List has been deleted."
-  end
-
-  def show
-    @vouch_list = VouchList.find(params[:id])
   end
 
   # Used to load and initialize data for data-binding

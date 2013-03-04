@@ -15,11 +15,19 @@ class Business < ActiveRecord::Base
 
   # For editing in active admin
   def categories_raw
-    self.categories.join("|") if self.categories.present?
+    self.categories.join("|") if categories.present?# and categories.class != String
   end
 
   def categories_raw=(values)
     self.categories = []
     self.categories = values.split("|")
+  end
+
+  def categories_formatted
+    c = Array.new
+    categories.each_with_index do |category, index|
+      c << category if index % 2 == 0
+    end
+    c.join(", ")
   end
 end

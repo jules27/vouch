@@ -209,8 +209,4 @@ $ ->
       (data) ->
         ko.applyBindings(new VouchList(true, data.title, data.items))
 
-  # This is for vouch_list#show. Fade out notice message if any.
-  if ($('.list-show-message').is(":visible"))
-    $('.list-show-message').delay(2000).fadeOut("slow")
-
   return
