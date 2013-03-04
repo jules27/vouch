@@ -1,0 +1,21 @@
+%h2
+  #{current_user.name}'s Vouches
+
+.span6
+  %table.table.table-striped.table-hover
+    %thead
+      %tr
+        %th
+          Lists
+    %tbody
+      - @vouch_lists.each do |list|
+        %tr
+          %td
+            = list.title
+        %tr
+          %td
+            %ul
+              - list.vouch_items.each do |item|
+                %li
+                  - b = Business.find(item.business_id)
+                  = b.name

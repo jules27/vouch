@@ -1,6 +1,6 @@
 class VouchListsController < ApplicationController
   def index
-    @vouch_lists = VouchList.find_by_owner_id(current_user.id)
+    @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
   end
 
   def show
