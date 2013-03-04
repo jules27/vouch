@@ -15,4 +15,6 @@
 //= require twitter/bootstrap
 //= require knockout
 //= require knockout.mapping
-//= require_tree .
+//= require ./active_admin
+//= require ./bootstrap
+//= require_tree ./shared

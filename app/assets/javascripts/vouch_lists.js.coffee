@@ -8,11 +8,17 @@ $ ->
     this.yelp_reviews = ko.observable(data.yelp_reviews)
     return
 
-  VouchList = () ->
+  VouchList = (initialize, listTitle, listItems) ->
     self = this
-    self.title = ko.observable()
-    self.items = ko.observableArray([])
-    self.newItemName = ko.observable()
+
+    if (initialize == false)
+      self.title = ko.observable()
+      self.items = ko.observableArray([])
+      self.newItemName = ko.observable()
+    else
+      self.title = ko.observable(listTitle)
+      self.items = ko.observableArray(listItems)
+      self.newItemName = ko.observable()
 
     # Remove an item from the list
     self.removeItem = (item) ->
@@ -25,7 +31,9 @@ $ ->
         $(".restaurant-input-error").html('Please enter a restaurant name.<a class="close" data-dismiss="alert">&#215;</a>')
         $(".restaurant-input-error").fadeIn("fast")
         return;
+
       $(".restaurant-input-error").fadeOut("fast")
+      $(".list-success").hide()
 
       item_id   = ""
       item_name = ""
@@ -78,53 +86,97 @@ $ ->
           $(".restaurant-input-error").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
           $(".restaurant-input-error").fadeIn("fast")
 
-      # TODO: Sort the items
-      # this.items.sort( (a, b) ->
-      #   return a.name < b.name ? -1 : 1
-      # )
+      # Add ajax call to create item
+      # if (VOUCH_LIST > 0)
+
 
     # Create a list with businesses listed
     self.save = () ->
-      dataToSave = $.map(self.items(), (item) ->
-        return {
-          business_id: item.id()
-        }
-      )
+      $(".list-success").hide()
+      $(".restaurant-input-error").hide()
 
-      if (dataToSave.length == 0)
-        $(".restaurant-input-error").html("Please add some items to your list.")
-        $(".restaurant-input-error").fadeIn("fast")
-        return
-
-      # Create the list with items!
-      $.ajax '/vouch_lists/',
-        type: 'post'
-        dataType: 'json'
-        data: {
-          vouch_items: dataToSave,
-          vouch_list: {
-            owner_id: $('#owner_id').val(),
-            title: self.title()
+      if (VOUCH_LIST == 0)
+        # Create the list with items!
+        dataToSave = $.map(self.items(), (item) ->
+          return {
+            business_id: item.id()
           }
-        }
-        success: (data, status, xhr) ->
-          if (data.status == 422)
-            $(".restaurant-input-error").html("Errors: " + data.errors)
-            $(".restaurant-input-error").fadeIn("fast")
-            return
-
-          notice = "Your list has been successfully saved!"
-          window.location.replace "/vouch_lists/#{data.list_id}?notice=#{notice}"
+        )
+        if (dataToSave.length == 0)
+          $(".restaurant-input-error").html("Please add some items to your list.")
+          $(".restaurant-input-error").fadeIn("fast")
           return
-        error: (xhr, status, error) ->
-          $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
-          $(".list-errors").fadeIn("fast")
+
+        $.ajax '/vouch_lists/',
+          type: 'post'
+          dataType: 'json'
+          data: {
+            vouch_items: dataToSave,
+            vouch_list: {
+              owner_id: $('#owner_id').val(),
+              title: self.title()
+            }
+          }
+          success: (data, status, xhr) ->
+            if (data.status == 422)
+              $(".restaurant-input-error").html("Errors: " + data.errors)
+              $(".restaurant-input-error").fadeIn("fast")
+              return
+
+            notice = "Your list has been successfully saved!"
+            window.location.replace "/vouch_lists/#{data.list_id}?notice=#{notice}"
+            return
+          error: (xhr, status, error) ->
+            $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
+            $(".list-errors").fadeIn("fast")
+      else
+        # Update an existing list
+        dataToSave = $.map(self.items(), (item) ->
+          return {
+            business_id: item.id
+          }
+        )
+        if (dataToSave.length == 0)
+          $(".restaurant-input-error").html("Please add some items to your list.")
+          $(".restaurant-input-error").fadeIn("fast")
+          return
+
+        $.ajax '/vouch_lists/' + VOUCH_LIST,
+          type: 'put'
+          dataType: 'json'
+          data: {
+            vouch_items: dataToSave,
+            vouch_list: {
+              owner_id: $('#owner_id').val(),
+              title: self.title()
+            }
+          }
+          success: (data, status, xhr) ->
+            if (data.status == 422)
+              $(".restaurant-input-error").html("Errors: " + data.errors)
+              $(".restaurant-input-error").fadeIn("fast")
+              return
+
+            $(".list-success").html("Your list has been successfully updated!")
+            $(".list-success").fadeIn("fast")
+            return
+          error: (xhr, status, error) ->
+            $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
+            $(".list-errors").fadeIn("fast")
 
     # This is needed to prevent coffeescript from adding "return self.addItem",
     # which throws off knockout's js parser.
     return
 
-  ko.applyBindings(new VouchList())
+  if (VOUCH_LIST == 0)
+    console.log "create new"
+    ko.applyBindings(new VouchList(false))
+  else
+    console.log "existing"
+    # Initialize data from server
+    $.get '/vouch_list_details/' + VOUCH_LIST,
+      (data) ->
+        ko.applyBindings(new VouchList(true, data.title, data.items))
 
   # This is for vouch_list#show. Fade out notice message if any.
   if ($('.list-show-message').is(":visible"))
