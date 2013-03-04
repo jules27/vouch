@@ -49,6 +49,7 @@
         %td
           = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }
+        %input{ 'data-bind' => "text: item_id", :type => "hidden" }
 
       -# %tr.restaurants-list
       -#   %td.restaurant-placeholder{ colspan: "5" }

@@ -28,6 +28,7 @@ class VouchList < ActiveRecord::Base
       new_item["city"] = business.city
       new_item["yelp_rating"]  = business.yelp_rating
       new_item["yelp_reviews"] = business.yelp_review_count
+      new_item["item_id"] = item.id
 
       items << new_item
     end

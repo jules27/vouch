@@ -6,6 +6,7 @@ $ ->
     this.city = ko.observable(data.city)
     this.yelp_rating  = ko.observable(data.yelp_rating)
     this.yelp_reviews = ko.observable(data.yelp_reviews)
+    this.item_id = ko.observable(data.item_id)
     return
 
   VouchList = (initialize, listTitle, listItems) ->
@@ -17,12 +18,36 @@ $ ->
       self.newItemName = ko.observable()
     else
       self.title = ko.observable(listTitle)
-      self.items = ko.observableArray(listItems)
+      self.items = ko.observableArray([])
+
+      $.each listItems, (index, value) ->
+        v = new VouchItem({
+                        id:   value.id,
+                        name: value.name,
+                        neighborhood: value.neighborhood,
+                        city: value.city,
+                        yelp_rating:  value.yelp_rating,
+                        yelp_reviews: value.yelp_reviews,
+                        item_id:      value.item_id
+                      })
+        self.items.push(v)
+
       self.newItemName = ko.observable()
 
     # Remove an item from the list
     self.removeItem = (item) ->
       self.items.remove(item)
+
+      # Make another ajax call to remove the item if this is an existing list
+      if (VOUCH_LIST > 0)
+        $.ajax '/vouch_items/' + item.item_id(),
+        type: 'delete'
+        dataType: 'json'
+        success: (data, status, xhr) ->
+          $(".list-success").html("Item has been removed from the list.")
+          $(".list-success").fadeIn("fast")
+
+      return
 
     # Get the details for a business and add it to the list
     self.addItem = () ->
@@ -69,6 +94,9 @@ $ ->
               self.newItemName("") # Clear the text box
               should_quit = true
 
+            if should_quit == true
+              return
+
           if should_quit == true
             return
 
@@ -81,32 +109,45 @@ $ ->
                             yelp_reviews: item_yelp_reviews,
                           }))
           self.newItemName("") # Clear the text box
+
+          # Make another ajax call to create item if this is an existing list
+          if (VOUCH_LIST > 0)
+            $.post '/vouch_items/',
+            {
+              id: VOUCH_LIST,
+              vouch_item: {
+                  vouch_list_id: VOUCH_LIST,
+                  business_id:   item_id
+                }
+            },
+            (data) ->
+              if (data.success)
+                $(".list-success").html("Item has been added to the list.")
+                $(".list-success").fadeIn("fast")
+
           return
         error: (xhr, status, error) ->
           $(".restaurant-input-error").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
           $(".restaurant-input-error").fadeIn("fast")
-
-      # Add ajax call to create item
-      # if (VOUCH_LIST > 0)
-
 
     # Create a list with businesses listed
     self.save = () ->
       $(".list-success").hide()
       $(".restaurant-input-error").hide()
 
+      dataToSave = $.map(self.items(), (item) ->
+        return {
+          business_id: item.id()
+        }
+      )
+
+      if (dataToSave.length == 0)
+        $(".restaurant-input-error").html("Please add some items to your list.")
+        $(".restaurant-input-error").fadeIn("fast")
+        return
+
       if (VOUCH_LIST == 0)
         # Create the list with items!
-        dataToSave = $.map(self.items(), (item) ->
-          return {
-            business_id: item.id()
-          }
-        )
-        if (dataToSave.length == 0)
-          $(".restaurant-input-error").html("Please add some items to your list.")
-          $(".restaurant-input-error").fadeIn("fast")
-          return
-
         $.ajax '/vouch_lists/',
           type: 'post'
           dataType: 'json'
@@ -131,16 +172,6 @@ $ ->
             $(".list-errors").fadeIn("fast")
       else
         # Update an existing list
-        dataToSave = $.map(self.items(), (item) ->
-          return {
-            business_id: item.id
-          }
-        )
-        if (dataToSave.length == 0)
-          $(".restaurant-input-error").html("Please add some items to your list.")
-          $(".restaurant-input-error").fadeIn("fast")
-          return
-
         $.ajax '/vouch_lists/' + VOUCH_LIST,
           type: 'put'
           dataType: 'json'
@@ -183,11 +214,3 @@ $ ->
     $('.list-show-message').delay(2000).fadeOut("slow")
 
   return
-
-  ###
-    $.ajax '/businesses/' + CITY + "/" + name + "/details",
-      beforeSend: ->
-        $(".loading-image").show()
-      complete: ->
-        $(".loading-image").hide()
-  ###
