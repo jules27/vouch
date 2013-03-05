@@ -44,7 +44,7 @@ gem 'knockoutjs-rails'
 gem 'koala' # Facebook API
 gem 'oauth'
 gem 'omniauth'
-gem 'omniauth-facebook', '1.4.0'
+gem 'omniauth-facebook'
 gem 'rails_config'
 gem 'slim'
 gem 'thin'
