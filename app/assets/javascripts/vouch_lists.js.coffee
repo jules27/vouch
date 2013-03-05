@@ -155,6 +155,7 @@ $ ->
             vouch_items: dataToSave,
             vouch_list: {
               owner_id: $('#owner_id').val(),
+              city_id:  $('#city_id').val(),
               title: self.title()
             }
           }
@@ -179,6 +180,7 @@ $ ->
             vouch_items: dataToSave,
             vouch_list: {
               owner_id: $('#owner_id').val(),
+              city_id:  $('#city_id').val(),
               title: self.title()
             }
           }
