@@ -9,7 +9,7 @@
 
     - City.all.each do |city|
       %a#get_started.btn.btn-large.btn-success{ :href => new_vouch_list_city_path(city.name) }
-        #{city.name}!
+        = city.name
       %br
       %br
 
