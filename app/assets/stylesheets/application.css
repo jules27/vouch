@@ -11,3 +11,9 @@
  *= require_self
  *= require_tree .
  */
+
+/* Disable clicking for navbar email display */
+.navbar-email {
+  pointer-events: none;
+  cursor: default;
+}
