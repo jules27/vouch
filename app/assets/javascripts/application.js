@@ -17,4 +17,3 @@
 //= require knockout.mapping
 //= require ./active_admin
 //= require ./bootstrap
-//= require_tree ./shared
