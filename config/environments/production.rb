@@ -49,7 +49,7 @@ Vouch::Application.configure do
   config.assets.precompile += %w(
                                   application.js application.css
                                   bootstrap.js bootstrap.css
-                                  active_admin.js active_admin.js
+                                  active_admin.js active_admin.css
                                   auth-buttons.css
                                   share_vouch_lists.js
                                   businesses.js businesses.css
