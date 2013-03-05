@@ -7,7 +7,7 @@
   Awesome! Now share your vouches with your friends!
 
 %h2
-  = @vouch_list.title
+  = @vouch_list.title.capitalize
 
 .span6
   %table.table.table-striped
@@ -15,10 +15,6 @@
       %tr
         %th
           Restaurants
-        -# %th
-        -#   Categories
-        -# %th
-        -#   Neighborhood
     %tbody
       - @vouch_list.vouch_items.each do |item|
         - b = Business.find(item.business_id)
@@ -33,7 +29,16 @@
             = b.neighborhood
 
 .span5
-  %table.table.table-hover
+  %h4
+    Add Friends from Facebook
+  .alert.alert-error.friend-list-error
+  %br
+
+  %form.form-search{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
+    = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", 'data-provide' => "typeahead", 'data-source' => '["' + current_user.fb_friends.map { |f| f["name"] }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+    %button{ type: "submit", class: "btn" } Add
+
+  %table.table
     %thead
       %tr
         %th
@@ -44,7 +49,4 @@
           
 
 = javascript_include_tag "jquery"
-:javascript
-  if ($('.list-show-message').is(":visible")) {
-    $('.list-show-message').delay(2000).fadeOut("slow");
-  }
+= javascript_include_tag "share_vouch_list"

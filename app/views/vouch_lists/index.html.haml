@@ -1,21 +1,28 @@
 %h2
   #{current_user.name}'s Vouches
 
-.span6
-  %table.table.table-striped.table-hover
-    %thead
-      %tr
-        %th
-          Lists
-    %tbody
-      - @vouch_lists.each do |list|
+- if @vouch_lists.count == 0
+  %h4
+    You have no lists yet. Please create one!
+  %br
+  = link_to "Create Vouches", new_vouch_list_path, class: "btn btn-success btn-large"
+
+- else
+  .span6
+    %table.table.table-striped.table-hover
+      %thead
         %tr
-          %td
-            = list.title
-        %tr
-          %td
-            %ul
-              - list.vouch_items.each do |item|
-                %li
-                  - b = Business.find(item.business_id)
-                  = b.name
+          %th
+            Lists
+      %tbody
+        - @vouch_lists.each do |list|
+          %tr
+            %td
+              = list.title.capitalize
+          %tr
+            %td
+              %ul
+                - list.vouch_items.each do |item|
+                  %li
+                    - b = Business.find(item.business_id)
+                    = b.name

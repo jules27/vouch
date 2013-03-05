@@ -30,6 +30,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def facebook
+    @facebook ||= Koala::Facebook::API.new(token)
+    block_given? ? yield(@facebook) : @facebook
+  rescue Koala::Facebook::APIError
+    logger.info e.to_s
+    nil
+  end
+
+  def fb_friends
+    facebook { |fb| fb.get_connection("me", "friends") }
+  end
+
+  def fb_friends_count
+    facebook { |fb| fb.get_connection("me", "friends").size }
+  end
+
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)
     puts "*************"
     puts "provider = = #{auth.provider}"
