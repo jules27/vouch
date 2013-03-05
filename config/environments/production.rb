@@ -53,7 +53,7 @@ Vouch::Application.configure do
                                   active_admin.js active_admin.css
                                   active_admin/print.css
                                   auth-buttons.css
-                                  share_vouch_lists.js
+                                  share_vouch_list.js
                                   businesses.js businesses.css
                                   landing.js landing.css
                                   users.js users.css
