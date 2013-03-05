@@ -32,7 +32,6 @@
   %h4
     Add Friends from Facebook
   .alert.alert-error.friend-list-error
-  %br
 
   %form.form-search{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
     = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", 'data-provide' => "typeahead", 'data-source' => '["' + current_user.fb_friends.map { |f| f["name"] }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
@@ -46,7 +45,7 @@
     %tbody
       %tr
         %td
-          
+          In Progress
 
 = javascript_include_tag "jquery"
 = javascript_include_tag "share_vouch_list"

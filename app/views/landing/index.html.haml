@@ -2,9 +2,16 @@
   - if user_signed_in?
     %h2 Welcome back, #{current_user.first_name} #{current_user.last_name}!
 
+    %h4
+      Let's get started with restaurants in...
+
     %br
-    %a#get_started.btn.btn-large.btn-success{ :href => new_vouch_list_path }
-      Get started with restaurants in San Francisco!
+
+    - City.all.each do |city|
+      %a#get_started.btn.btn-large.btn-success{ :href => new_vouch_list_city_path(city.name) }
+        #{city.name}!
+      %br
+      %br
 
   - else
     %h1 Welcome to Vouch!

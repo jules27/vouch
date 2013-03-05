@@ -7,10 +7,24 @@ class VouchListsController < ApplicationController
     @vouch_list = VouchList.find(params[:id])
   end
 
+  # Default new now set to SF. Can deprecate later or change
+  # to all citities (slow load time?)
   def new
-    restaurants = Business.find_all_by_city("San Francisco")
+    city = City.find_by_name("San Francisco")
+    restaurants = Business.find_all_by_city(city.name)
     render 'new', locals: {
                             vouch_list:  nil,
+                            city: city,
+                            restaurants: restaurants
+                          }
+  end
+
+  def new_by_city
+    city = City.find_by_name(params[:city])
+    restaurants = Business.find_all_by_city(city.name)
+    render 'new', locals: {
+                            vouch_list:  nil,
+                            city: city,
                             restaurants: restaurants
                           }
   end
@@ -64,10 +78,12 @@ class VouchListsController < ApplicationController
 
   def edit
     @vouch_list = VouchList.find(params[:id])
-    restaurants = Business.find_all_by_city("San Francisco")
+    city = City.find_by_name(@vouch_list.city.name || "San Francisco")
+    restaurants = Business.find_all_by_city(city.name)
 
     render 'new', locals: {
                             vouch_list:  @vouch_list,
+                            city: city,
                             restaurants: restaurants
                           }
   end

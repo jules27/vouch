@@ -15,6 +15,7 @@
     .controls
       = text_field_tag "title", nil, :placeholder => "Favorite date night restaurants", :class => "input-xxlarge", 'data-bind' => "value: title"
       = hidden_field_tag 'owner_id', current_user.id
+      = hidden_field_tag 'city_id', city.id
 
     -# .control-group
     -#   = f.label :description, "Optionally, add some fancy descriptions here!"
@@ -70,8 +71,8 @@
 
 - vouch_list_id = vouch_list.present? ? vouch_list.id : 0
 :javascript
-  var CITY = "San Francisco";
-  var VOUCH_LIST = #{vouch_list_id}
+  var CITY = "#{city.name}";
+  var VOUCH_LIST = #{vouch_list_id};
 
 = javascript_include_tag "jquery"
 = javascript_include_tag "vouch_lists"

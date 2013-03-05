@@ -1,13 +1,14 @@
 class VouchList < ActiveRecord::Base
   belongs_to :owner, class_name: "User"
+  belongs_to :city
   has_many   :vouch_items
 
-  attr_accessible :owner_id, :title, :description, :status
+  attr_accessible :owner_id, :title, :description, :status, :city_id
 
   accepts_nested_attributes_for :vouch_items, allow_destroy: true
   attr_accessible :vouch_items_attributes
 
-  validates_presence_of :owner_id, :title
+  validates_presence_of :owner_id, :title, :city_id
 
   before_create :set_defaults
 

@@ -31,26 +31,48 @@ module YelpHelper
   end
 
   def self.get_businesses(location)
+    # TODO: better way to separate these?
     businesses(location).collect do |business|
-    {
-      name:     business['name'],
-      phone:    business['phone'],
-      address_line_1: business['location']['address'].first,
-      address_line_2: business['location']['address'].second,
-      city:     business['location']['city'],
-      state:    business['location']['state_code'],
-      zip:      business['location']['postal_code'],
-      neighborhood: business['location']['neighborhoods'].join(", "),
-      categories:   business['categories'].flatten,
-      yelp_id:      business['id'],
-      yelp_rating:  business['rating'],
-      yelp_review_count: business['review_count'],
-      yelp_url:   business['url'], # not currently used in model
-      image_url:  business['image_url'],
-      distance:   business['distance'], # not currently used in model
-      latitude:   business['location']['coordinate']['latitude'],
-      longitude:  business['location']['coordinate']['longitude'],
-    }
+      if business['location']['neighborhoods'].present?
+      {
+        name:     business['name'],
+        phone:    business['phone'],
+        address_line_1: business['location']['address'].first,
+        address_line_2: business['location']['address'].second,
+        city:     business['location']['city'],
+        state:    business['location']['state_code'],
+        zip:      business['location']['postal_code'],
+        neighborhood: business['location']['neighborhoods'].join(", "),
+        categories:   business['categories'].flatten,
+        yelp_id:      business['id'],
+        yelp_rating:  business['rating'],
+        yelp_review_count: business['review_count'],
+        yelp_url:   business['url'], # not currently used in model
+        image_url:  business['image_url'],
+        distance:   business['distance'], # not currently used in model
+        latitude:   business['location']['coordinate']['latitude'],
+        longitude:  business['location']['coordinate']['longitude'],
+      }
+      else
+      {
+        name:     business['name'],
+        phone:    business['phone'],
+        address_line_1: business['location']['address'].first,
+        address_line_2: business['location']['address'].second,
+        city:     business['location']['city'],
+        state:    business['location']['state_code'],
+        zip:      business['location']['postal_code'],
+        categories:   business['categories'].flatten,
+        yelp_id:      business['id'],
+        yelp_rating:  business['rating'],
+        yelp_review_count: business['review_count'],
+        yelp_url:   business['url'], # not currently used in model
+        image_url:  business['image_url'],
+        distance:   business['distance'], # not currently used in model
+        latitude:   business['location']['coordinate']['latitude'],
+        longitude:  business['location']['coordinate']['longitude'],
+      }
+      end
     end
   end
 

@@ -55,7 +55,7 @@ $ ->
       if (name == "")
         $(".restaurant-input-error").html('Please enter a restaurant name.<a class="close" data-dismiss="alert">&#215;</a>')
         $(".restaurant-input-error").fadeIn("fast")
-        return;
+        return
 
       $(".restaurant-input-error").fadeOut("fast")
       $(".list-success").hide()
