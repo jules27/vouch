@@ -7,18 +7,9 @@ namespace :yelp do
       return
     end
 
-    # Set latitude & longitude
-    # SF
-    # latitude  = 37.77509
-    # longitude = -122.39832
-
-    # Chicago
-    # latitude = 41.885978
-    # longitude = -87.656687
-
-    # Get from settings
-    latitude  = Settings.yelp_latitude.to_f
-    longitude = Settings.yelp_longitude.to_f
+    # Set latitude & longitude from environment variables
+    latitude  = Settings.yelp_latitude
+    longitude = Settings.yelp_longitude
 
     results = YelpHelper.search("#{latitude},#{longitude}")
     puts "Number of results: #{results.count}"
