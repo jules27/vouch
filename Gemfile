@@ -6,7 +6,6 @@ gem 'pg'
 group :development do
   gem 'awesome_print', '1.1.0'
   gem 'localtunnel'
-  gem 'thin'
   gem 'debugger'
 end
 
@@ -48,3 +47,4 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rails_config'
 gem 'slim'
+gem 'thin'
