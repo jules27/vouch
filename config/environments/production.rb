@@ -59,6 +59,7 @@ Vouch::Application.configure do
                                   users.js users.css
                                   vouch_items.js vouch_items.css
                                   vouch_lists.js vouch_lists.css
+                                  facebook.js
                                 )
 
   # Disable delivery errors, bad email addresses will be ignored

@@ -38,21 +38,27 @@
   %h4
     Add Friends
   .alert.alert-error.friend-list-error
+  .alert.alert-block.friend-list-notice
+  .alert.alert-success.friend-list-success
 
-
-  %form.form-search{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
+  %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
     = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
-    -# = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", 'data-provide' => "typeahead", 'data-source' => '["' + current_user.fb_friends.map { |f| f["name"] }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
     %button{ type: "submit", class: "btn" } Add
+    .btn-group
+      %button{ class: "btn btn-info import-friends" } Import
+      %button{ :class => "btn btn-info dropdown-toggle", 'data-toggle' => "dropdown" }
+        %span.caret
+      %ul.dropdown-menu
+        %li
+          = link_to "Facebook", "#", id: "facebook_log_in"
 
   %table.table
     %thead
       %tr
         %th
           Friends
-    %tbody
+    %tbody{ 'data-bind' => 'foreach: friends' }
       %tr
-        %td
-          In Progress
+        %td{ 'data-bind' => "text: name" }
 
 = javascript_include_tag "share_vouch_list"

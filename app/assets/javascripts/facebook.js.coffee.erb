@@ -1,6 +1,33 @@
 jQuery ->
   $('body').prepend('<div id="fb-root"></div>')
 
+  # Disable clicking for import dropdown button,
+  # otherwise it'll do the same thing as add friend
+  $(".import-friends").on "click", (e) ->
+    console.log "hi"
+    e.preventDefault()
+
+  $("#facebook_log_in").on "click", (e) ->
+    e.preventDefault()
+    $(".friend-list-notice").hide()
+    $(".friend-list-success").hide()
+
+    FB.getLoginStatus (response) ->
+      if (response.status == 'connected')
+        $(".friend-list-notice").html("You are already logged in.")
+        $(".friend-list-notice").fadeIn("fast")
+        $(".friend-list-notice").delay(2500).fadeOut("slow")
+      else
+        FB.login (response) ->
+          if (response.authResponse)
+            $(".friend-list-success").html("You are connected to Facebook!")
+            $(".friend-list-success").fadeIn("fast")
+            $(".friend-list-success").delay(2500).fadeOut("slow")
+
+            getFriends()
+          else
+            console.log "xx login cancelled"
+
 $j = jQuery
 
 window.fbAsyncInit = ->
@@ -9,22 +36,30 @@ window.fbAsyncInit = ->
     status: true
     cookie: true
 
-  FB.getLoginStatus (response) ->
-    if (response.status == 'connected')
-      console.log "connected"
-    else if (response.status == 'not_authorized')
-      console.log "not authorized"
-    else
-      console.log "not logged in"
-
   # FB.ui { 
   #   method: 'feed' 
   # }
-  FB.login (response) ->
-    if (response.authResponse)
-      console.log "connected"
-    else
-      console.log "cancelled"
+
+  FB.getLoginStatus (response) ->
+    if (response.status == 'connected')
+      getFriends()
+
+getFriends = () ->
+  console.log "get friends"
+  FB.api '/me/friends', (response) ->
+    if (response.data.length == 0)
+      console.log "I have no friends :("
+      return
+
+    friends = []
+    $.each response.data, (key, value) ->
+      friends.push(value.name)
+
+      # value.name
+      # value.id
+    $('#typed_friend_name').typeahead({
+      source: friends
+    })
 
 # Load the SDK Asynchronously
 $j ->
@@ -40,5 +75,5 @@ $j ->
   js.id = id
   js.src = "//connect.facebook.net/en_US/all.js"
   fjs.parentNode.insertBefore(js, fjs)
-  console.log "here"
+  console.log "Facebook SDK loaded"
   return
