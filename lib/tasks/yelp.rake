@@ -8,10 +8,9 @@ namespace :yelp do
     end
 
     # Set latitude & longitude from environment variables
-    latitude  = Settings.yelp_latitude
-    longitude = Settings.yelp_longitude
+    location =  Settings.yelp_location
 
-    results = YelpHelper.search("#{latitude},#{longitude}")
+    results = YelpHelper.search(location)
     puts "Number of results: #{results.count}"
     results.each do |restaurant|
       existing_restaurant = Business.find_by_name_and_latitude_and_longitude(

@@ -10,5 +10,4 @@ yelp_token: <%= ENV['YELP_TOKEN'] %>
 yelp_token_secret: <%= ENV['YELP_TOKEN_SECRET'] %>
 
 # For easier yelp scraping
-yelp_latitude: <%= ENV['YELP_LATITUDE'] %>
-yelp_longitude: <%= ENV['YELP_LONGITUDE'] %>
+yelp_location: <%= ENV['YELP_LOCATION'] %>
