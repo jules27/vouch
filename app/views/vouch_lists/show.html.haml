@@ -1,3 +1,6 @@
+= javascript_include_tag "jquery"
+= javascript_include_tag "facebook"
+
 - if params[:notice]
   .alert.alert-success.list-show-message
     %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
@@ -36,6 +39,7 @@
     Add Friends
   .alert.alert-error.friend-list-error
 
+
   %form.form-search{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
     = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
     -# = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", 'data-provide' => "typeahead", 'data-source' => '["' + current_user.fb_friends.map { |f| f["name"] }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
@@ -51,5 +55,4 @@
         %td
           In Progress
 
-= javascript_include_tag "jquery"
 = javascript_include_tag "share_vouch_list"
