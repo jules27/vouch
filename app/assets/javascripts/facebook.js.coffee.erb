@@ -4,7 +4,6 @@ jQuery ->
   # Disable clicking for import dropdown button,
   # otherwise it'll do the same thing as add friend
   $(".import-friends").on "click", (e) ->
-    console.log "hi"
     e.preventDefault()
 
   $("#facebook_log_in").on "click", (e) ->
@@ -43,23 +42,46 @@ window.fbAsyncInit = ->
   FB.getLoginStatus (response) ->
     if (response.status == 'connected')
       getFriends()
+    return
 
 getFriends = () ->
-  console.log "get friends"
   FB.api '/me/friends', (response) ->
     if (response.data.length == 0)
       console.log "I have no friends :("
       return
 
     friends = []
-    $.each response.data, (key, value) ->
-      friends.push(value.name)
 
-      # value.name
-      # value.id
+    $.each response.data, (key, value) ->
+      friends.push({
+        name: value.name,
+        id: value.id
+      })
+
+    friend_list = {}
     $('#typed_friend_name').typeahead({
-      source: friends
+      source: (query, process) ->
+        names = []
+
+        $.each friends, (key, value) ->
+          friend_list[value.name] = value.id
+          names.push(value.name)
+          return
+
+        process(names)
+        return
+      matcher: (item) ->
+        if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1)
+          return true
+      updater: (item) ->
+        selected_friend_id = friend_list[item]
+        $("#selected_friend_id").val(parseInt(selected_friend_id))
+
+        return item
     })
+    return
+
+  return
 
 # Load the SDK Asynchronously
 $j ->

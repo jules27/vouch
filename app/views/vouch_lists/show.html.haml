@@ -43,6 +43,7 @@
 
   %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
     = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+    -# , 'data-provide' => "typeahead"
     %button{ type: "submit", class: "btn" } Add
     .btn-group
       %button{ class: "btn btn-info import-friends" } Import
@@ -51,6 +52,7 @@
       %ul.dropdown-menu
         %li
           = link_to "Facebook", "#", id: "facebook_log_in"
+  = hidden_field_tag "selected_friend_id", nil
 
   %table.table
     %thead
@@ -60,5 +62,6 @@
     %tbody{ 'data-bind' => 'foreach: friends' }
       %tr
         %td{ 'data-bind' => "text: name" }
+        %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
 
 = javascript_include_tag "share_vouch_list"

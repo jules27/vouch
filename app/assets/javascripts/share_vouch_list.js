@@ -14,7 +14,8 @@ $(function() {
     self.friends = ko.observableArray([]);
     self.newFriendName = ko.observable();
     self.removeFriend = function(friend) {
-      return self.friends.remove(friend);
+      self.friends.remove(friend);
+      return;
     };
     self.addFriend = function() {
       var friend_fb_id, friend_name;
@@ -25,11 +26,15 @@ $(function() {
         return;
       }
       $(".friend-list-error").fadeOut("fast");
-      friend_fb_id = "";
-      friend_name = "";
-      return self.friends.push(new Friend({
-        name: friend_name
+
+      var friend_id = $("#selected_friend_id").val();
+
+      self.friends.push(new Friend({
+        name: friend_name,
+        fb_id: friend_id
       }));
+      self.newFriendName("");
+      return;
     };
   };
 
