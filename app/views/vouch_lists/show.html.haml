@@ -62,6 +62,11 @@
     %tbody{ 'data-bind' => 'foreach: friends' }
       %tr
         %td{ 'data-bind' => "text: name" }
+        %td
+          = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
         %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
+
+  %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
+    Share My List!
 
 = javascript_include_tag "share_vouch_list"
