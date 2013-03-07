@@ -1,5 +1,6 @@
 = javascript_include_tag "jquery"
 = javascript_include_tag "facebook"
+= javascript_include_tag "gmail"
 
 - if params[:notice]
   .alert.alert-success.list-show-message
@@ -41,7 +42,7 @@
   .alert.alert-success.friend-list-success
 
   %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
-    = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+    = text_field_tag 'friend_name', nil, :placeholder => "Add name or email...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
 
     %button{ type: "submit", class: "btn" } Add
     .btn-group
@@ -50,7 +51,10 @@
         %span.caret
       %ul.dropdown-menu
         %li
-          = link_to "Facebook", "#", id: "facebook_log_in"
+          = link_to "Facebook Friends", "#", id: "facebook_log_in"
+        %li
+          = link_to "Gmail Contacts", "#", id: "google_log_in"
+
   = hidden_field_tag "selected_friend_id", nil
 
   %table.table

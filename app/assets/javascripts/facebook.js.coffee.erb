@@ -8,6 +8,7 @@ jQuery ->
 
   $("#facebook_log_in").on "click", (e) ->
     e.preventDefault()
+    $(".friend-list-error").hide()
     $(".friend-list-notice").hide()
     $(".friend-list-success").hide()
 

@@ -1,0 +1,34 @@
+= javascript_include_tag "jquery"
+
+:javascript
+  #{render partial: "google_api", formats: :js}
+
+  // Parse the query string
+  var params = {}, queryString = location.hash.substring(1),
+    regex = /([^&=]+)=([^&]*)/g, m;
+  while (m = regex.exec(queryString)) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+
+  if (params.error == "access_denied") {
+    #{ error = true }
+  } else {
+    // params["access_token"], ["token_type"], ["expires_in"]
+    #{ error = false }
+    getGoogleFriends(params["access_token"], params["token_type"]);
+  }
+
+- if error == true
+  %h4
+    We're sorry you don't want to import your contacts from gmail.
+- else
+  %h4
+    Thanks for logging in!
+
+%h5
+  This window will be closed.
+
+  :javascript
+    setTimeout(function () {
+      window.close();
+    }, 3000);
