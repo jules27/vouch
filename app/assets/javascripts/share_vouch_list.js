@@ -61,16 +61,31 @@ $(function() {
       //   to: dataToSave
       // }, requestCallback);
 
-      FB.ui({
-        method: "send",
-        to: dataToSave,
-        link: document.URL,
-        description: "I have shared my Vouches with you. Check it out!"
-      }, requestCallback);
+      $.each(dataToSave, function(index, value) {
+        // If this friend is a fb id...
+        var title = $(".list-title").html();
+        if (isNaN(value) == false) {
+          FB.ui({
+            method: "send",
+            to: value,
+            link: "http://vouch-alpha.herokuapp.com/",//document.URL,
+            description: "I just put together my vouches for " + title + ". Check it out!"
+          }, requestCallback);
+        } else {
+          // Email address
+          console.log("email")
+        }
+      });
     };
 
     function requestCallback(response) {
       if (response != null) {
+        if (response.error_code == 100) {
+          var msg = "Error: " + response.error_msg;
+          $(".friend-list-error").html(msg + '<a class="close" data-dismiss="alert">&#215;</a>');
+          $(".friend-list-error").fadeIn("fast");
+          return;
+        }
         $(".friend-list-success").html('You have successfully shared your list!<a class="close" data-dismiss="alert">&#215;</a>');
         $(".friend-list-success").fadeIn("fast");
       }

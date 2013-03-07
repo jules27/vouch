@@ -9,8 +9,7 @@
 %h4
   Awesome! Now share your vouches with your friends!
 
-%h2
-  = @vouch_list.title.capitalize
+%h2.list-title #{@vouch_list.title.capitalize}
 
 .span6
   %table.table.table-striped
@@ -43,7 +42,7 @@
 
   %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
     = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
-    -# , 'data-provide' => "typeahead"
+
     %button{ type: "submit", class: "btn" } Add
     .btn-group
       %button{ class: "btn btn-info import-friends" } Import

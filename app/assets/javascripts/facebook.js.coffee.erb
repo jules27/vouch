@@ -35,10 +35,6 @@ window.fbAsyncInit = ->
     status: true
     cookie: true
 
-  # FB.ui { 
-  #   method: 'feed' 
-  # }
-
   FB.getLoginStatus (response) ->
     if (response.status == 'connected')
       getFriends()
