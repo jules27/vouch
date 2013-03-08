@@ -1,4 +1,5 @@
 class VouchListMailer < ActionMailer::Base
+  add_template_helper VouchListsHelper
   default from: "vouch@example.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
