@@ -11,3 +11,7 @@ yelp_token_secret: <%= ENV['YELP_TOKEN_SECRET'] %>
 
 # For easier yelp scraping
 yelp_location: <%= ENV['YELP_LOCATION'] %>
+
+# Sending emails
+gmail_username: <%= ENV['GMAIL_USERNAME'] %>
+gmail_password: <%= ENV['GMAIL_PASSWORD'] %>

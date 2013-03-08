@@ -127,4 +127,13 @@ class VouchListsController < ApplicationController
                  }
   end
 
+  def share_email
+    # Invoke mailer
+    vouch_list = VouchList.find(params[:id])
+    VouchListMailer.share_vouch(params[:email], vouch_list, request.protocol + request.host_with_port).deliver
+    render json: {
+                   success: true
+                 }
+  end
+
 end

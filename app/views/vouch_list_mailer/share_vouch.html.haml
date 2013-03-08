@@ -1,0 +1,14 @@
+%h1
+  #{@vouch_list.owner.name} has shared a list with you on Vouch!
+
+%h2
+  = @vouch_list.title.capitalize
+
+%p
+  You can view the full list here:
+  = link_to "#{@root_url}#{vouch_list_path(@vouch_list.id)}", "#{@root_url}#{vouch_list_path(@vouch_list.id)}"
+
+%h3
+  Sign up for Vouch today!
+%p
+  = link_to "#{@root_url}#{root_path}", "#{@root_url}#{root_path}"

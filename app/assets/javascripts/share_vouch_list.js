@@ -88,7 +88,17 @@ $(function() {
           }, requestCallback);
         } else {
           // This is an email address from google contact
-          console.log("email: " + value);
+          $(".loading-image").show();
+          var jqxhr = $.post('/vouch_lists/share_email/' + VOUCH_LIST,
+            {
+              email: value
+            },
+            function(data) {
+              console.log("Email sent to " + value + "!");
+          });
+          jqxhr.complete(function(){
+            $(".loading-image").hide();
+          });
         }
       });
     };

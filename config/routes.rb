@@ -16,6 +16,9 @@ Vouch::Application.routes.draw do
   get  '/vouch_list_details/:id' => 'vouch_lists#details', as: 'get_vouch_list'
 
   # After google oauth
-  get  '/oauth2callback'  => "landing#oauth2callback"
+  get  '/oauth2callback'   => "landing#oauth2callback"
   post '/vouch_lists/auth' => "vouch_lists#show_with_token", as: 'vouch_list_with_token'
+
+  # For mailer to share vouch lists
+  post '/vouch_lists/share_email/:id' => "vouch_lists#share_email", as: 'share_vouch_list'
 end
