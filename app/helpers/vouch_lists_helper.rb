@@ -8,4 +8,8 @@ module VouchListsHelper
     '&client_id=1058703828317.apps.googleusercontent.com'\
     '&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Foauth2callback'
   end
+
+  def capitalize_title(title)
+    title.slice(0,1).capitalize + title.slice(1..-1)
+  end
 end
