@@ -218,8 +218,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 
   # The Facebook section looks like this for Heroku deployment.
-  config.omniauth :facebook, Settings.facebook_app_id, Settings.facebook_secret,
-      {:scope => 'email, offline_access', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
+  # config.omniauth :facebook, Settings.facebook_app_id, Settings.facebook_secret,
+  #     {:scope => 'email, offline_access', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

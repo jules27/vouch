@@ -7,6 +7,29 @@ class VouchListsController < ApplicationController
     @vouch_list = VouchList.find(params[:id])
   end
 
+  def show_with_token
+    @vouch_list = VouchList.find(params[:vouch_list_id])
+
+    unless cookies[:google_auth].present?
+      expire_hours = params[:expires_in].to_i / 3600 # originally in seconds
+      cookies[:google_auth] =
+        {
+          value:   params[:access_token],
+          expires: expire_hours.hour.from_now
+        }
+      cookies[:google_token_type] =
+        {
+          value:   params[:token_type],
+          expires: expire_hours.hour.from_now
+        }
+    end
+
+    redirect_to "/vouch_lists/#{@vouch_list.id}",
+                flash: {
+                         auth_provider: "google"
+                       }
+  end
+
   # Default new now set to SF. Can deprecate later or change
   # to all citities (slow load time?)
   def new
@@ -101,6 +124,15 @@ class VouchListsController < ApplicationController
     render json: {
                    title: @vouch_list.title,
                    items: @vouch_list.items_formatted
+                 }
+  end
+
+  def share_email
+    # Invoke mailer
+    vouch_list = VouchList.find(params[:id])
+    VouchListMailer.share_vouch(params[:email], vouch_list, request.protocol + request.host_with_port).deliver
+    render json: {
+                   success: true
                  }
   end
 
