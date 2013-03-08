@@ -24,23 +24,40 @@ this.getGoogleFriends = (token, token_type) ->
         entry = $(this)
         name  = entry.find('title').text()
         email = entry.find('email, gd\\:email').attr('address')
-        # console.log("name: " + name + ", email: " + email)
+
         contacts.push {
           name: name
           email: email
         }
       addToTypeahead(contacts)
+
       return
   }
 
   return
 
 this.addToTypeahead = (contacts) ->
+  window.google_objects = contacts
   contact_list = {} # Master hash used to hold everything
+  friend_list  = {} # Possbily neede for fb objects
 
   $('#typed_friend_name').typeahead {
     source: (query, process) ->
       display_list = [] # Used for displaying on typeahead
+
+      # Also add facebook friends previously stored
+      if (window.fb_objects && (window.fb_objects != null))
+        friends = []
+        $.each window.fb_objects, (key, value) ->
+          friends.push({
+            name: value.name,
+            id: value.id
+          })
+        $.each friends, (key, value) ->
+          friend_list[value.name] = value.id
+          display_list.push(value.name)
+          return
+
       $.each contacts, (key, value) ->
         # We want a form of "name, email"
         display_string = ""
@@ -63,7 +80,14 @@ this.addToTypeahead = (contacts) ->
       return
     updater: (item) ->
       selected_contact_email = contact_list[item]
-      $("#selected_contact_email").val(selected_contact_email)
+
+      if (!selected_contact_email)
+        # This is a fb object
+        selected_friend_id = friend_list[item]
+        $("#selected_friend_id").val(parseInt(selected_friend_id))
+      else
+        # This is a google object
+        $("#selected_contact_email").val(selected_contact_email)
 
       return item
   }

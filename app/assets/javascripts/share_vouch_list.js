@@ -19,7 +19,10 @@ $(function() {
     };
 
     self.addFriend = function() {
-      // TODO: can be either fb friend or email contact!
+      $(".friend-list-error").fadeOut("fast");
+      $(".friend-list-notice").fadeOut("fast");
+      $(".friend-list-success").fadeOut("fast");
+
       var friend_fb_id, friend_name;
       friend_name = $("#typed_friend_name").val();
       if (friend_name === "") {
@@ -27,7 +30,6 @@ $(function() {
         $(".friend-list-error").fadeIn("fast");
         return;
       }
-      $(".friend-list-error").fadeOut("fast");
 
       // It's either friend id or email that's present
       var friend_id = $("#selected_friend_id").val();
@@ -101,6 +103,9 @@ $(function() {
           });
         }
       });
+
+      $(".friend-list-success").html("Your list has been shared!");
+      $(".friend-list-success").fadeIn("fast");
     };
 
     function requestCallback(response) {
