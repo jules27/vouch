@@ -1,9 +1,10 @@
 = javascript_include_tag "jquery"
 = javascript_include_tag "facebook"
-= javascript_include_tag "gmail"
+= javascript_include_tag "google_api"
 
 - if cookies[:google_auth]
-  Google auth token:
+  :javascript
+    getGoogleFriends("#{cookies[:google_auth]}", "#{cookies[:google_token_type]}");
   = cookies[:google_auth]
 
 - if params[:notice]
@@ -57,10 +58,10 @@
         %li
           = link_to "Facebook Friends", "#", id: "facebook_log_in"
         %li
-          -# = link_to "Gmail Contacts", "#", id: "google_log_in"
           = link_to "Gmail Contacts", google_login_link(@vouch_list.id)
 
   = hidden_field_tag "selected_friend_id", nil
+  = hidden_field_tag "selected_contact_email", nil
 
   %table.table
     %thead

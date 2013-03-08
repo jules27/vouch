@@ -24,7 +24,7 @@
     You have been successfully logged in!
 
 %h5
-  You will be redirected back.
+  You will be redirected back soon.
 
 .hidden_form
   %br
@@ -37,7 +37,7 @@
     %br
     = number_field_tag "expires_in", nil, readonly: true
     %br
-    = submit_tag "Go to list", class: "btn"
+    = submit_tag "Go to list", class: "btn", id: "back_to_vouch_list"
 
 :javascript
   // Set hidden fields for passing to show list view
@@ -46,7 +46,7 @@
   $("#token_type").val(params["token_type"]);
   $("#expires_in").val(params["expires_in"]);
 
--# :javascript
--#   setInterval(function() {
--#     document.getElementById("back_to_vouch_list").click();
--#   }, 2500);
+:javascript
+  setInterval(function() {
+    document.getElementById("back_to_vouch_list").click();
+  }, 3000);

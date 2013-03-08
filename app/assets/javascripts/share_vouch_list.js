@@ -2,10 +2,9 @@ $(function() {
   var Friend, FriendList;
 
   Friend = function(data) {
-    this.name = ko.observable(data.name);
+    this.name  = ko.observable(data.name);
     this.fb_id = ko.observable(data.fb_id);
-    this.fb_link = ko.observable(data.fb_link);
-    this.fb_username = ko.observable(data.fb_username);
+    this.email = ko.observable(data.email);
   };
 
   FriendList = function() {
@@ -30,13 +29,28 @@ $(function() {
       }
       $(".friend-list-error").fadeOut("fast");
 
+      // It's either friend id or email that's present
       var friend_id = $("#selected_friend_id").val();
+      if (friend_id != "") {
+        // This is an fb friend
+        self.friends.push(new Friend({
+          name: friend_name,
+          fb_id: friend_id
+        }));
+      } else {
+        // This is a google contact
+        var contact_email = $("#selected_contact_email").val();
+        self.friends.push(new Friend({
+          name: friend_name,
+          email: contact_email
+        }));
+      }
 
-      self.friends.push(new Friend({
-        name: friend_name,
-        fb_id: friend_id
-      }));
+      // Reset text field and hidden fields
       self.newFriendName("");
+      $("#selected_friend_id").val('');
+      $("#selected_contact_email").val('');
+
       return;
     };
     self.save = function() {
@@ -44,10 +58,16 @@ $(function() {
       $(".friend-list-notice").hide();
       $(".friend-list-success").hide();
 
-      // Create a list of fb id's
+      // Create a list of fb id's or contact emails
       var dataToSave = [];
       $.each(self.friends(), function(index, value) {
-        dataToSave.push(value.fb_id());
+        if (value.fb_id() == null) {
+          // This is a google contact
+          dataToSave.push(value.email());
+        } else {
+          // This is an fb friend
+          dataToSave.push(value.fb_id());
+        }
       });
 
       if (dataToSave.length == 0) {
@@ -55,12 +75,6 @@ $(function() {
         $(".friend-list-error").fadeIn("fast");
         return;
       }
-
-      // FB.ui({method: 'apprequests',
-      //   title: 'Check out my Vouches!',
-      //   message: 'I have shared my vouches with you. Check it out on ' + document.URL + '!',
-      //   to: dataToSave
-      // }, requestCallback);
 
       $.each(dataToSave, function(index, value) {
         // If this friend is a fb id...
@@ -73,8 +87,8 @@ $(function() {
             description: "I just put together my vouches for " + title + ". Check it out!"
           }, requestCallback);
         } else {
-          // Email address
-          console.log("email")
+          // This is an email address from google contact
+          console.log("email: " + value);
         }
       });
     };
