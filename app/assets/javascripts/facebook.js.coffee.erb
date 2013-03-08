@@ -55,6 +55,9 @@ getFriends = () ->
         id: value.id
       })
 
+    # Add fb objects to global variable
+    window.fb_objects = response.data
+
     friend_list = {}
     $('#typed_friend_name').typeahead({
       source: (query, process) ->

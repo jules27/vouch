@@ -5,7 +5,8 @@
 - if cookies[:google_auth]
   :javascript
     getGoogleFriends("#{cookies[:google_auth]}", "#{cookies[:google_token_type]}");
-  = cookies[:google_auth]
+  - if Rails.env.development?
+    = cookies[:google_auth]
 
 - if params[:notice]
   .alert.alert-success.list-show-message
