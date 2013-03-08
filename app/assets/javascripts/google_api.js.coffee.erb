@@ -1,0 +1,69 @@
+this.getGoogleFriends = (token, token_type) ->
+  authParams = { access_token: token, token_type: token_type }
+
+  # Get user info. This is not necessary right now.
+  # If this needs to be added, add this to the 'scope' in vouch_lists_helper:
+  # https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email
+  ###
+  user_info_url = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + token
+  $.getuser_info_url, (user_data) ->
+    // data.email, data.id, data.name
+    console.log "email: " + user_data.email
+  ###
+
+  # Get the user's contacts. It needs a max-results in order to display more
+  # than 25 results.
+  $.ajax {
+    url: 'https://www.google.com/m8/feeds/contacts/default/full?max-results=2000'
+    dataType: 'jsonp'
+    data: authParams
+    success: (data) ->
+      contacts = []
+      xml = $.parseXML(data)
+      $(xml).find('entry').each () ->
+        entry = $(this)
+        name  = entry.find('title').text()
+        email = entry.find('email, gd\\:email').attr('address')
+        # console.log("name: " + name + ", email: " + email)
+        contacts.push {
+          name: name
+          email: email
+        }
+      addToTypeahead(contacts)
+      return
+  }
+
+  return
+
+this.addToTypeahead = (contacts) ->
+  contact_list = {} # Master hash used to hold everything
+
+  $('#typed_friend_name').typeahead {
+    source: (query, process) ->
+      display_list = [] # Used for displaying on typeahead
+      $.each contacts, (key, value) ->
+        # We want a form of "name, email"
+        display_string = ""
+        if (value.name == "")
+          display_string = value.email
+        else
+          display_string = "#{value.name}, #{value.email}"
+        contact_list[display_string] = value.email
+        display_list.push(display_string)
+
+      process(display_list)
+      return
+    matcher: (item) ->
+      if(! item) # Skip undefined variables
+        return false
+
+      if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1)
+        return true
+
+      return
+    updater: (item) ->
+      selected_contact_email = contact_list[item]
+      $("#selected_contact_email").val(selected_contact_email)
+
+      return item
+  }

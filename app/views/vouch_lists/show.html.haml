@@ -1,3 +1,12 @@
+= javascript_include_tag "jquery"
+= javascript_include_tag "facebook"
+= javascript_include_tag "google_api"
+
+- if cookies[:google_auth]
+  :javascript
+    getGoogleFriends("#{cookies[:google_auth]}", "#{cookies[:google_token_type]}");
+  = cookies[:google_auth]
+
 - if params[:notice]
   .alert.alert-success.list-show-message
     %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
@@ -6,8 +15,7 @@
 %h4
   Awesome! Now share your vouches with your friends!
 
-%h2
-  = @vouch_list.title.capitalize
+%h2.list-title #{@vouch_list.title.capitalize}
 
 .span6
   %table.table.table-striped
@@ -33,22 +41,45 @@
 
 .span5
   %h4
-    Add Friends from Facebook
+    Add Friends
   .alert.alert-error.friend-list-error
+  .alert.alert-block.friend-list-notice
+  .alert.alert-success.friend-list-success
 
-  %form.form-search{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
-    = text_field_tag 'friend_name', nil, :placeholder => "Start typing...", :class => "input-large search-query", 'data-provide' => "typeahead", 'data-source' => '["' + current_user.fb_friends.map { |f| f["name"] }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+  %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
+    = text_field_tag 'friend_name', nil, :placeholder => "Add name or email...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+
     %button{ type: "submit", class: "btn" } Add
+    .btn-group
+      %button{ class: "btn btn-info import-friends" } Import
+      %button{ :class => "btn btn-info dropdown-toggle", 'data-toggle' => "dropdown" }
+        %span.caret
+      %ul.dropdown-menu
+        %li
+          = link_to "Facebook Friends", "#", id: "facebook_log_in"
+        %li
+          = link_to "Gmail Contacts", google_login_link(@vouch_list.id)
+
+  = hidden_field_tag "selected_friend_id", nil
+  = hidden_field_tag "selected_contact_email", nil
 
   %table.table
     %thead
       %tr
         %th
           Friends
-    %tbody
+    %tbody{ 'data-bind' => 'foreach: friends' }
       %tr
+        %td{ 'data-bind' => "text: name" }
         %td
-          In Progress
+          = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
+        %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
 
-= javascript_include_tag "jquery"
+  %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
+    Share My List!
+  .loading-image
+
+:javascript
+  var VOUCH_LIST = #{@vouch_list.id};
+
 = javascript_include_tag "share_vouch_list"

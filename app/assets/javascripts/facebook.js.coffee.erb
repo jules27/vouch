@@ -1,0 +1,98 @@
+jQuery ->
+  $('body').prepend('<div id="fb-root"></div>')
+
+  # Disable clicking for import dropdown button,
+  # otherwise it'll do the same thing as add friend
+  $(".import-friends").on "click", (e) ->
+    e.preventDefault()
+
+  $("#facebook_log_in").on "click", (e) ->
+    e.preventDefault()
+    $(".friend-list-error").hide()
+    $(".friend-list-notice").hide()
+    $(".friend-list-success").hide()
+
+    FB.getLoginStatus (response) ->
+      if (response.status == 'connected')
+        $(".friend-list-notice").html("You are already logged in.")
+        $(".friend-list-notice").fadeIn("fast")
+        $(".friend-list-notice").delay(2500).fadeOut("slow")
+      else
+        FB.login (response) ->
+          if (response.authResponse)
+            $(".friend-list-success").html("You are connected to Facebook!")
+            $(".friend-list-success").fadeIn("fast")
+            $(".friend-list-success").delay(2500).fadeOut("slow")
+
+            getFriends()
+          else
+            console.log "xx login cancelled"
+
+$j = jQuery
+
+window.fbAsyncInit = ->
+  FB.init
+    appId: '<%= Settings.facebook_app_id %>'
+    status: true
+    cookie: true
+
+  FB.getLoginStatus (response) ->
+    if (response.status == 'connected')
+      getFriends()
+    return
+
+getFriends = () ->
+  FB.api '/me/friends', (response) ->
+    if (response.data.length == 0)
+      console.log "I have no friends :("
+      return
+
+    friends = []
+
+    $.each response.data, (key, value) ->
+      friends.push({
+        name: value.name,
+        id: value.id
+      })
+
+    friend_list = {}
+    $('#typed_friend_name').typeahead({
+      source: (query, process) ->
+        names = []
+
+        $.each friends, (key, value) ->
+          friend_list[value.name] = value.id
+          names.push(value.name)
+          return
+
+        process(names)
+        return
+      matcher: (item) ->
+        if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1)
+          return true
+      updater: (item) ->
+        selected_friend_id = friend_list[item]
+        $("#selected_friend_id").val(parseInt(selected_friend_id))
+
+        return item
+    })
+    return
+
+  return
+
+# Load the SDK Asynchronously
+$j ->
+  d = document
+  s = 'script'
+  id = 'facebook-jssdk'
+
+  js = d.getElementsByTagName(s)[0]
+  fjs = d.getElementsByTagName(s)[0]
+  if (d.getElementById(id))
+    return
+  js = d.createElement(s)
+  js.id = id
+  js.src = "//connect.facebook.net/en_US/all.js"
+  fjs.parentNode.insertBefore(js, fjs)
+  console.log "Facebook SDK loaded"
+  return
