@@ -25,8 +25,9 @@
 
 %h5
   You will be redirected back soon.
+.loading-image{ style: "display: block;" }
 
-.hidden_form
+.hidden
   %br
   = form_tag "/vouch_lists/auth" do
     = number_field_tag "vouch_list_id", nil, readonly: true

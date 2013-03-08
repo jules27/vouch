@@ -202,10 +202,10 @@ $ ->
     return
 
   if (VOUCH_LIST == 0)
-    console.log "create new"
+    console.log "create a new list"
     ko.applyBindings(new VouchList(false))
   else
-    console.log "existing"
+    console.log "existing list"
     # Initialize data from server
     $.get '/vouch_list_details/' + VOUCH_LIST,
       (data) ->
