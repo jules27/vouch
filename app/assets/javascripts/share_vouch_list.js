@@ -31,25 +31,34 @@ $(function() {
         return;
       }
 
-      // It's either friend id or email that's present
+      // Can have either friend id or email present
       var friend_id = $("#selected_friend_id").val();
+      var contact_email = $("#selected_contact_email").val();
+      var other_contact;
+
       if (friend_id != "") {
         // This is an fb friend
         self.friends.push(new Friend({
           name: friend_name,
           fb_id: friend_id
         }));
-      } else {
+      } else if (contact_email != "") {
         // This is a google contact
-        var contact_email = $("#selected_contact_email").val();
         self.friends.push(new Friend({
           name: friend_name,
           email: contact_email
+        }));
+      } else {
+        // Get assumed email straight from the text field
+        other_contact = $("#typed_friend_name").val();
+        self.friends.push(new Friend({
+          name: other_contact
         }));
       }
 
       // Reset text field and hidden fields
       self.newFriendName("");
+      $("#typed_friend_name").val('');
       $("#selected_friend_id").val('');
       $("#selected_contact_email").val('');
 
@@ -63,12 +72,15 @@ $(function() {
       // Create a list of fb id's or contact emails
       var dataToSave = [];
       $.each(self.friends(), function(index, value) {
-        if (value.fb_id() == null) {
+        if (value.fb_id() != null) {
+          // This is an fb friend
+          dataToSave.push(value.fb_id());
+        } else if (value.email() != null) {
           // This is a google contact
           dataToSave.push(value.email());
         } else {
-          // This is an fb friend
-          dataToSave.push(value.fb_id());
+          // This should be a manually entered email
+          dataToSave.push(value.name());
         }
       });
 
@@ -90,7 +102,7 @@ $(function() {
           }, requestCallback);
         } else {
           // This is an email address from google contact
-          $(".loading-image").show();
+          // $(".loading-image").show();
           var jqxhr = $.post('/vouch_lists/share_email/' + VOUCH_LIST,
             {
               email: value
@@ -99,7 +111,7 @@ $(function() {
               console.log("Email sent to " + value + "!");
           });
           jqxhr.complete(function(){
-            $(".loading-image").hide();
+            // $(".loading-image").hide();
           });
         }
       });
