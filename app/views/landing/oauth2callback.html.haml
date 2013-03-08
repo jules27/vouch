@@ -1,8 +1,7 @@
 = javascript_include_tag "jquery"
 
+-# #{render partial: "google_api", formats: :js}
 :javascript
-  #{render partial: "google_api", formats: :js}
-
   // Parse the query string
   var params = {}, queryString = location.hash.substring(1),
     regex = /([^&=]+)=([^&]*)/g, m;
@@ -13,22 +12,41 @@
   if (params.error == "access_denied") {
     #{ error = true }
   } else {
-    // params["access_token"], ["token_type"], ["expires_in"]
     #{ error = false }
-    getGoogleFriends(params["access_token"], params["token_type"]);
+    // getGoogleFriends(params["access_token"], params["token_type"]);
   }
 
 - if error == true
   %h4
-    We're sorry you don't want to import your contacts from gmail.
+    We were unable to import your contacts from gmail.
 - else
   %h4
-    Thanks for logging in!
+    You have been successfully logged in!
 
 %h5
-  This window will be closed.
+  You will be redirected back.
 
-  :javascript
-    setTimeout(function () {
-      window.close();
-    }, 3000);
+.hidden_form
+  %br
+  = form_tag "/vouch_lists/auth" do
+    = number_field_tag "vouch_list_id", nil, readonly: true
+    %br
+    = text_field_tag "access_token", nil, readonly: true
+    %br
+    = text_field_tag "token_type", nil, readonly: true
+    %br
+    = number_field_tag "expires_in", nil, readonly: true
+    %br
+    = submit_tag "Go to list", class: "btn"
+
+:javascript
+  // Set hidden fields for passing to show list view
+  $("#vouch_list_id").val(params["state"]);
+  $("#access_token").val(params["access_token"]);
+  $("#token_type").val(params["token_type"]);
+  $("#expires_in").val(params["expires_in"]);
+
+-# :javascript
+-#   setInterval(function() {
+-#     document.getElementById("back_to_vouch_list").click();
+-#   }, 2500);

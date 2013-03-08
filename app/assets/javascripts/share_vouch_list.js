@@ -20,6 +20,7 @@ $(function() {
     };
 
     self.addFriend = function() {
+      // TODO: can be either fb friend or email contact!
       var friend_fb_id, friend_name;
       friend_name = $("#typed_friend_name").val();
       if (friend_name === "") {

@@ -2,6 +2,10 @@
 = javascript_include_tag "facebook"
 = javascript_include_tag "gmail"
 
+- if cookies[:google_auth]
+  Google auth token:
+  = cookies[:google_auth]
+
 - if params[:notice]
   .alert.alert-success.list-show-message
     %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
@@ -53,7 +57,8 @@
         %li
           = link_to "Facebook Friends", "#", id: "facebook_log_in"
         %li
-          = link_to "Gmail Contacts", "#", id: "google_log_in"
+          -# = link_to "Gmail Contacts", "#", id: "google_log_in"
+          = link_to "Gmail Contacts", google_login_link(@vouch_list.id)
 
   = hidden_field_tag "selected_friend_id", nil
 

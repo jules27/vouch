@@ -1,0 +1,66 @@
+function getGoogleFriends(token, token_type) {
+  var authParams = { access_token: token, token_type: token_type };
+
+  // Get user info. This is not necessary right now.
+  // If this needs to be added, add this to the 'scope' in gmail.js.coffee:
+  // https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email
+  /*
+  var user_info_url = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + token;
+  $.get(user_info_url, function(user_data) {
+    // data.email, data.id, data.name
+    console.log("email: " + user_data.email);
+  });
+  */
+
+  // Get the user's contacts. It needs a max-results in order to display more
+  // than 25 results.
+  $.ajax({
+    url: 'https://www.google.com/m8/feeds/contacts/default/full?max-results=2000',
+    dataType: 'jsonp',
+    data: authParams,
+    success: function(data) {
+      var contacts = [];
+      var xml = $.parseXML(data);
+      $(xml).find('entry').each(function() {
+        var entry = $(this);
+        var name  = entry.find('title').text();
+        var email = entry.find('email, gd\\:email').attr('address');
+        // console.log("name: " + name + ", email: " + email);
+        contacts.push({
+          name: name,
+          email: email
+        });
+      });
+      addToTypeahead(contacts);
+    }
+  });
+
+}
+
+function addToTypeahead(contacts) {
+  var contact_list = [];
+
+  $('#typed_friend_name').typeahead({
+    source: function(query, process) {
+      var emails = [];
+      $.each(contacts, function(key, value) {
+        contact_list[value.email] = value.name;
+        emails.push(value.email);
+      });
+
+      process(names);
+    },
+    matcher: function(item) {
+      if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+        return true;
+      }
+    },
+    updater: function(item) {
+      debugger
+      // var selected_contact_email = contact_list[item];
+      // $("#selected_friend_id").val(parseInt(selected_friend_id))
+
+      return item;
+    }
+  });
+}
