@@ -2,6 +2,7 @@ class VouchList < ActiveRecord::Base
   belongs_to :owner, class_name: "User"
   belongs_to :city
   has_many   :vouch_items
+  has_many   :shared_friends
 
   attr_accessible :owner_id, :title, :description, :status, :city_id
 

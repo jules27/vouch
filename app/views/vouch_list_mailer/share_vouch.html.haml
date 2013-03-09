@@ -5,6 +5,14 @@
   = capitalize_title(@vouch_list.title)
 
 %p
+  Here is a preview of the vouches:
+  %ul
+    - @vouch_list.vouch_items.limit(2).each do |item|
+      %li
+        - business = Business.find(item.business_id)
+        #{business.name}, #{business.city}
+
+%p
   You can view the full list here:
   = link_to "#{@root_url}#{vouch_list_path(@vouch_list.id)}", "#{@root_url}#{vouch_list_path(@vouch_list.id)}"
 

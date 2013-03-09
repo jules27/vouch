@@ -15,6 +15,9 @@ $(function() {
 
     self.removeFriend = function(friend) {
       self.friends.remove(friend);
+
+      //TODO: remove friend from database
+
       return;
     };
 
@@ -34,7 +37,8 @@ $(function() {
       // Can have either friend id or email present
       var friend_id = $("#selected_friend_id").val();
       var contact_email = $("#selected_contact_email").val();
-      var other_contact;
+      var other_contact = "";
+      var email_to_save = "";
 
       if (friend_id != "") {
         // This is an fb friend
@@ -48,13 +52,26 @@ $(function() {
           name: friend_name,
           email: contact_email
         }));
+        email_to_save = contact_email;
       } else {
         // Get assumed email straight from the text field
         other_contact = $("#typed_friend_name").val();
         self.friends.push(new Friend({
           name: other_contact
         }));
+        email_to_save = other_contact;
       }
+
+      // Persist this data
+      $.post('/vouch_lists/' + VOUCH_LIST + '/add_shared_friend',
+        {
+          name:  friend_name,
+          email: email_to_save,
+          facebook_id: friend_id,
+        },
+        function(data) {
+          console.log("Email sent to " + value + "!");
+      });
 
       // Reset text field and hidden fields
       self.newFriendName("");

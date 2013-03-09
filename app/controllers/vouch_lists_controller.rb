@@ -1,4 +1,6 @@
 class VouchListsController < ApplicationController
+  before_filter :authenticate_user!
+
   def index
     @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
   end
@@ -136,4 +138,29 @@ class VouchListsController < ApplicationController
                  }
   end
 
+  def add_shared_friend
+    vouch_list = VouchList.find(params[:id])
+    user_id    = User.find_by_email(params[:name], params[:email])
+
+    shared_friend = vouch_list.shared_friends.build(
+                                                    user_id: user_id,
+                                                    email: params[:email],
+                                                    name:  params[:name],
+                                                    facebook_id: params[:facebook_id]
+                                                   )
+    if shared_friend.save
+      render json: {
+                     success: true
+                   }
+    else
+      render json: {
+                     status: 422,
+                     errors: "The shared friend was unable to be saved."
+                   }
+      return
+    end
+  end
+
+  def delete_shared_friend
+  end
 end
