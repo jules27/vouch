@@ -31,9 +31,8 @@ jQuery ->
 $j = jQuery
 
 window.fbAsyncInit = ->
-  console.log "FB.init: appId = <%= Settings.facebook_app_id %>"
   FB.init
-    appId: "<%= Settings.facebook_app_id %>"
+    appId: '342109165894408' #"<%= Settings.facebook_app_id %>"
     status: true
     cookie: true
 
