@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery.ui.all
 //= require knockout
 //= require knockout.mapping
 //= require ./active_admin

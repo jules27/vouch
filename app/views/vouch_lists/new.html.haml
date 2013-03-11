@@ -49,6 +49,8 @@
           Yelp Rating
         %th
           Yelp Reviews
+        %th
+          Tags
     %tbody{ 'data-bind' => 'foreach: items' }
       %tr
         %td{ 'data-bind' => "text: name" }
@@ -56,6 +58,8 @@
         %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
+        %td
+          %input{ 'data-bind' => "value: tags", :class => "input-large", :type => "text", :placeholder => "Add new tags" }
         %td
           = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }
