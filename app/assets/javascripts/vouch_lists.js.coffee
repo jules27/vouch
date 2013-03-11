@@ -165,8 +165,8 @@ $ ->
               $(".restaurant-input-error").fadeIn("fast")
               return
 
-            notice = "Your list has been successfully saved!"
-            window.location.replace "/vouch_lists/#{data.list_id}?notice=#{notice}"
+            # notice = "Your list has been successfully saved!"
+            window.location.replace "/vouch_lists/#{data.list_id}" #?notice=#{notice}"
             return
           error: (xhr, status, error) ->
             $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')

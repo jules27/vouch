@@ -6,7 +6,7 @@ module VouchListsHelper
     "&state=#{list_id}"\
     '&response_type=token'\
     '&client_id=1058703828317.apps.googleusercontent.com'\
-    "&redirect_uri=http%3A%2F%2F#{Settings.domain}%3A3000%2Foauth2callback"
+    "&redirect_uri=http%3A%2F%2F#{Settings.domain}%2Foauth2callback"
   end
 
   def capitalize_title(title)
