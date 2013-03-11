@@ -117,7 +117,7 @@ $(function() {
           FB.ui({
             method: "send",
             to: value,
-            link: "http://vouch-alpha.herokuapp.com/",//document.URL,
+            link: document.URL,
             description: "I just put together my vouches for " + title + ". Check it out!"
           }, requestCallback);
         } else {
