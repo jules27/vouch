@@ -18,6 +18,7 @@ $(function() {
 
       //TODO: remove friend from database
 
+
       return;
     };
 
@@ -63,6 +64,7 @@ $(function() {
       }
 
       // Persist this data
+      /*
       $.post('/vouch_lists/' + VOUCH_LIST + '/add_shared_friend',
         {
           name:  friend_name,
@@ -72,6 +74,7 @@ $(function() {
         function(data) {
           console.log("Email sent to " + value + "!");
       });
+      */
 
       // Reset text field and hidden fields
       self.newFriendName("");

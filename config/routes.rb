@@ -11,10 +11,11 @@ Vouch::Application.routes.draw do
   # City-specific routes
   get  '/vouch_lists/new/:city/' => 'vouch_lists#new_by_city', as: 'new_vouch_list_city'
 
-  # Internal API
+  # Get more info about a model
   post '/businesses/:city/:name/details' => 'businesses#details', as: 'get_business_details'
   get  '/vouch_list_details/:id' => 'vouch_lists#details', as: 'get_vouch_list'
 
+  # Shared friends
   post   '/vouch_lists/:id/add_shared_friend'    => 'vouch_lists#add_shared_friend'
   delete '/shared_friends/id' => 'shared_friends#destroy'
 
