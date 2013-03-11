@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   # Make it omniauthable for Facebook
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
+  has_many :vouch_lists, foreign_key: "owner_id"
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
                   :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image

@@ -33,20 +33,16 @@ class VouchListsController < ApplicationController
                        }
   end
 
-  # Default new now set to SF. Can deprecate later or change
-  # to all citities (slow load time?)
-  def new
-    city = City.find_by_name("San Francisco")
-    restaurants = Business.find_all_by_city(city.name)
-    render 'new', locals: {
-                            vouch_list:  nil,
-                            city: city,
-                            restaurants: restaurants
-                          }
-  end
-
   def new_by_city
     city = City.find_by_name(params[:city])
+
+    # Before making a new one, see if one with the same city already exists
+    list_for_city = current_user.vouch_lists.find_by_city_id(city.id)
+    if list_for_city.present?
+      redirect_to edit_vouch_list_path(list_for_city)
+      return
+    end
+
     restaurants = Business.find_all_by_city(city.name)
     render 'new', locals: {
                             vouch_list:  nil,

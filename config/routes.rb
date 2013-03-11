@@ -5,7 +5,7 @@ Vouch::Application.routes.draw do
   devise_for :users
   # devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
-  resources :vouch_lists
+  resources :vouch_lists, except: [:new]
   resources :vouch_items, only: [:create, :update, :destroy]
 
   # City-specific routes

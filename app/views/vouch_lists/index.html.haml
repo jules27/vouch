@@ -18,7 +18,7 @@
         - @vouch_lists.each do |list|
           %tr
             %td
-              = link_to list.title.capitalize, vouch_list_path(list)
+              = link_to capitalize_title(list.title), vouch_list_path(list)
               = link_to "Edit", edit_vouch_list_path(list), class: "btn btn-mini pull-right"
           %tr
             %td

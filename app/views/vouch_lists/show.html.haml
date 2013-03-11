@@ -13,8 +13,9 @@
     %button{ :type => "button", :class => "close", 'data-dismiss' => "alert" } x
     = params[:notice]
 
-%h4
-  Awesome! Now share your vouches with your friends!
+- if has_ownership?(@vouch_list)
+  %h4
+    Awesome! Share your vouches with your friends!
 
 %h2.list-title #{capitalize_title(@vouch_list.title)}
 
