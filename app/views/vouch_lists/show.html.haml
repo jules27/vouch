@@ -18,7 +18,7 @@
 
 %h2.list-title #{capitalize_title(@vouch_list.title)}
 
-.span6
+%div{ class: show_list_div_class(@vouch_list) }
   %table.table.table-striped
     %thead
       %tr
@@ -37,51 +37,53 @@
           %td
             = b.neighborhood
 
-  .edit
-    = link_to "Edit List", edit_vouch_list_path(@vouch_list), class: "btn btn-small"
+  - if has_ownership?(@vouch_list)
+    .edit
+      = link_to "Edit List", edit_vouch_list_path(@vouch_list), class: "btn btn-small"
 
-.span5
-  %h4
-    Add Friends
-  .alert.alert-error.friend-list-error
-  .alert.alert-block.friend-list-notice
-  .alert.alert-success.friend-list-success
+- if has_ownership?(@vouch_list)
+  .span5
+    %h4
+      Add Friends
+    .alert.alert-error.friend-list-error
+    .alert.alert-block.friend-list-notice
+    .alert.alert-success.friend-list-success
 
-  %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
-    = text_field_tag 'friend_name', nil, :placeholder => "Add name or email...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
+    %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
+      = text_field_tag 'friend_name', nil, :placeholder => "Add name or email...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
 
-    %button{ type: "submit", class: "btn" } Add
-    .btn-group
-      %button{ class: "btn btn-info import-friends" } Import
-      %button{ :class => "btn btn-info dropdown-toggle", 'data-toggle' => "dropdown" }
-        %span.caret
-      %ul.dropdown-menu
-        %li
-          = link_to "Facebook Friends", "#", id: "facebook_log_in"
-        %li
-          = link_to "Gmail Contacts", google_login_link(@vouch_list.id)
+      %button{ type: "submit", class: "btn" } Add
+      .btn-group
+        %button{ class: "btn btn-info import-friends" } Import
+        %button{ :class => "btn btn-info dropdown-toggle", 'data-toggle' => "dropdown" }
+          %span.caret
+        %ul.dropdown-menu
+          %li
+            = link_to "Facebook Friends", "#", id: "facebook_log_in"
+          %li
+            = link_to "Gmail Contacts", google_login_link(@vouch_list.id)
 
-  = hidden_field_tag "selected_friend_id", nil
-  = hidden_field_tag "selected_contact_email", nil
+    = hidden_field_tag "selected_friend_id", nil
+    = hidden_field_tag "selected_contact_email", nil
 
-  %table.table
-    %thead
-      %tr
-        %th
-          Friends
-    %tbody{ 'data-bind' => 'foreach: friends' }
-      %tr
-        %td{ 'data-bind' => "text: name" }
-        %td
-          = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
-        %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
+    %table.table
+      %thead
+        %tr
+          %th
+            Friends
+      %tbody{ 'data-bind' => 'foreach: friends' }
+        %tr
+          %td{ 'data-bind' => "text: name" }
+          %td
+            = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
+          %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
 
-  %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
-    Share My List!
-  .loading-image
+    %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
+      Share My List!
+    .loading-image
 
-:javascript
-  var VOUCH_LIST = #{@vouch_list.id};
-  var FB_APP_ID  = #{Settings.facebook_app_id};
+  :javascript
+    var VOUCH_LIST = #{@vouch_list.id};
+    var FB_APP_ID  = #{Settings.facebook_app_id};
 
-= javascript_include_tag "share_vouch_list"
+  = javascript_include_tag "share_vouch_list"

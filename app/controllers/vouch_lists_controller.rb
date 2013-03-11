@@ -1,5 +1,6 @@
 class VouchListsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_permissions, only: [:edit]
 
   def index
     @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
@@ -163,4 +164,17 @@ class VouchListsController < ApplicationController
 
   def delete_shared_friend
   end
+
+  private
+
+  def check_permissions
+    vouch_list = VouchList.find(params[:id])
+    unless current_user.id == vouch_list.owner.id
+      redirect_to vouch_list,
+                  flash: {
+                           error: "You do not have the permission to do this."
+                         }
+    end
+  end
+
 end

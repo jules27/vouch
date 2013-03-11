@@ -21,7 +21,7 @@ namespace :yelp do
         puts "Restaurant exists in database: #{restaurant[:name]}"
         existing_restaurant.update_attributes(restaurant.except(:distance, :yelp_url))
       else
-        puts "Creating a new restaurant: #{restaurant[:name]}"
+        puts "Creating a new restaurant..."
         restaurant[:business_type_id] = restaurant_type.id
         b = Business.create!(restaurant.except(:distance, :yelp_url))
         puts "     ...added restaurant! #{b.name} in #{b.city}"

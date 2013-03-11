@@ -12,4 +12,16 @@ module VouchListsHelper
   def capitalize_title(title)
     title.slice(0,1).capitalize + title.slice(1..-1)
   end
+
+  def has_ownership?(vouch_list)
+    current_user.id == vouch_list.owner.id
+  end
+
+  def show_list_div_class(vouch_list)
+    if has_ownership?(@vouch_list)
+      "span6"
+    else
+      "span9"
+    end
+  end
 end
