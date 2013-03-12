@@ -62,7 +62,7 @@ class VouchListsController < ApplicationController
     end
 
     # List was created, let's create items under this list
-    params[:vouch_items].each do |item|
+    params[:vouch_items].each_with_index do |item, index|
       vouch_item = @vouch_list.vouch_items.build(item.second)
 
       unless vouch_item.save
@@ -73,6 +73,9 @@ class VouchListsController < ApplicationController
                      }
         return
       end
+
+      # Save the tags as well
+      vouch_item.tag_list = params[:item_tags]["#{index}"]
     end
 
     render json: {

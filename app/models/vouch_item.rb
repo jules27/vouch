@@ -9,12 +9,12 @@ class VouchItem < ActiveRecord::Base
   validates_presence_of :vouch_list_id, :business_id
 
   def tag_list
-    tags.map(&:name).join(", ")
+    "#" + tags.map(&:name).join(" #")
   end
 
   def tag_list=(names)
-    self.tags = names.split(",").map do |n|
-      Tag.where(name: n.strip).first_or_create!
+    self.tags = names.map do |n|
+      Tag.where(name: n).first_or_create!
     end
   end
 end

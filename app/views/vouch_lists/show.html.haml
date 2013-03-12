@@ -29,7 +29,7 @@
       - @vouch_list.vouch_items.each do |item|
         - b = Business.find(item.business_id)
         %tr
-          %td{ colspan: "3" }
+          %td{ colspan: "4" }
             = b.name
         %tr
           %td
@@ -37,6 +37,8 @@
             = b.categories_formatted
           %td
             = b.neighborhood
+          %td
+            = item.tag_list
 
   - if has_ownership?(@vouch_list)
     .edit

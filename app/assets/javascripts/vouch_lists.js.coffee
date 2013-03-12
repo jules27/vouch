@@ -126,6 +126,21 @@ $ ->
               if (data.success)
                 $(".list-success").html("Item has been added to the list.")
                 $(".list-success").fadeIn("fast")
+          else
+            #julie
+            # Make a new tag input for this item
+            row_number = $(".items").length - 1
+
+            $.each $(".items"), (index, value) ->
+              if (index == row_number)
+                $(value).find(".item-tags").tagit({
+                  allowDuplicates: false
+                  singleField: true
+                  # singleFieldNode: $("#mySingleField#{row_number}")
+                  singleFieldDelimiter: "|"
+                  autocomplete: { disabled: true }
+                })
+                return
 
           return
         error: (xhr, status, error) ->
@@ -149,12 +164,20 @@ $ ->
         return
 
       if (VOUCH_LIST == 0)
+        #julie
+        allTags = []
+        $.each $("input[name=tags]"), (index, value) ->
+          tags = $(this).val().split("|")
+          allTags.push tags
+          return
+
         # Create the list with items!
         $.ajax '/vouch_lists/',
           type: 'post'
           dataType: 'json'
           data: {
             vouch_items: dataToSave,
+            item_tags: allTags,
             vouch_list: {
               owner_id: $('#owner_id').val(),
               city_id:  $('#city_id').val(),
@@ -267,7 +290,7 @@ $ ->
                 }
                 success: (data, status, xhr) ->
                   console.log "Tag has been removed: " + tag_name
-              })
+      })
 
   # Adding a delay so that items can be read from database first
   setTimeout setTag, 500
