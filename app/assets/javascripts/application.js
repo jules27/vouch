@@ -13,8 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require jquery.ui.all
+//= require jquery.ui.autocomplete
+//= require jquery.ui.effect-blind
 //= require knockout
 //= require knockout.mapping
 //= require ./active_admin
 //= require ./bootstrap
+//= require ./tag-it

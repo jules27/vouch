@@ -16,7 +16,7 @@ Vouch::Application.routes.draw do
   get  '/vouch_list_details/:id' => 'vouch_lists#details', as: 'get_vouch_list'
 
   # Shared friends
-  post   '/vouch_lists/:id/add_shared_friend'    => 'vouch_lists#add_shared_friend'
+  post   '/vouch_lists/:id/add_shared_friend' => 'vouch_lists#add_shared_friend'
   delete '/shared_friends/id' => 'shared_friends#destroy'
 
   # After google oauth
@@ -25,4 +25,9 @@ Vouch::Application.routes.draw do
 
   # For mailer to share vouch lists
   post '/vouch_lists/share_email/:id' => "vouch_lists#share_email", as: 'share_vouch_list'
+
+  # Item tags
+  get    '/vouch_items/:id/get_tagging'    => "vouch_items#get_tagging"
+  post   '/vouch_items/:id/add_tagging'    => "vouch_items#add_tagging"
+  delete '/vouch_items/:id/delete_tagging' => "vouch_items#delete_tagging"
 end

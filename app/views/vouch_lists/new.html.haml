@@ -58,16 +58,16 @@
         %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
-        %td
-          %input{ 'data-bind' => "value: tags", :class => "input-large", :type => "text", :placeholder => "Add new tags" }
+        %td.tagging
+          %span{ 'data-bind' => "text: item_id", :class => "item_id", :style => "display:none;" }
+          %ul.item-tags
+          -# { 'data-bind' => 'foreach: tags' }
+
+          %input{ name: "tags", id: "mySingleField" }
         %td
           = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }
         %input{ 'data-bind' => "text: item_id", :type => "hidden" }
-
-      -# %tr.restaurants-list
-      -#   %td.restaurant-placeholder{ colspan: "5" }
-      -#     Your list of favorite restaurants will appear here!
 
 .list-creation-third
   %br

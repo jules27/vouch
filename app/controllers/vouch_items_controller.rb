@@ -17,4 +17,33 @@ class VouchItemsController < ApplicationController
     vouch_item.destroy
     render json: { success: true }
   end
+
+  def get_tagging
+    vouch_item = VouchItem.find(params[:id])
+    render json: {
+                   tags: vouch_item.tags
+                 }
+  end
+
+  def add_tagging
+    vouch_item = VouchItem.find(params[:id])
+    tag        = Tag.find_or_create_by_name(params[:name])
+
+    # Create entry in tagging join table
+    tagging    = Tagging.new(vouch_item_id: vouch_item.id,
+                             tag_id: tag.id)
+
+    if tagging.save
+      render json: { success: true }
+    else
+      render json: {
+                     status: 422,
+                     errors: "The tag was unable to be saved."
+                   }
+    end
+  end
+
+  def delete_tagging
+
+  end
 end

@@ -61,6 +61,7 @@ Vouch::Application.configure do
                                   vouch_lists.js vouch_lists.css
                                   facebook.js
                                   google_api.js
+                                  tag-it.js jquery.tagit.css
                                 )
 
   # Disable delivery errors, bad email addresses will be ignored

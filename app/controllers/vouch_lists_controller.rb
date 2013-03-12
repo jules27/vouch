@@ -105,6 +105,7 @@ class VouchListsController < ApplicationController
 
     render 'new', locals: {
                             vouch_list:  @vouch_list,
+                            vouch_items: @vouch_list.vouch_items,
                             city: city,
                             restaurants: restaurants
                           }
@@ -159,6 +160,7 @@ class VouchListsController < ApplicationController
   end
 
   def delete_shared_friend
+    #TODO
   end
 
   private

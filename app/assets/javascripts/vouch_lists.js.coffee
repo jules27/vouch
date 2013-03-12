@@ -1,4 +1,5 @@
 $ ->
+  # Knockout bindings
   VouchItem = (data) ->
     this.id   = ko.observable(data.id)
     this.name = ko.observable(data.name)
@@ -7,6 +8,7 @@ $ ->
     this.yelp_rating  = ko.observable(data.yelp_rating)
     this.yelp_reviews = ko.observable(data.yelp_reviews)
     this.item_id = ko.observable(data.item_id)
+    this.tags    = ko.observable(data.tags)
     return
 
   VouchList = (initialize, listTitle, listItems) ->
@@ -210,5 +212,61 @@ $ ->
     $.get '/vouch_list_details/' + VOUCH_LIST,
       (data) ->
         ko.applyBindings(new VouchList(true, data.title, data.items))
+
+  # Make tagging items easier using tag-it widget
+  setTag = () ->
+    $.each $(".tagging"), (index, value) ->
+      item_id = parseInt($(value).find(".item_id").html())
+
+      # Get tags for this vouch item
+      existing_tags = []
+      $.ajax '/vouch_items/' + item_id + '/get_tagging',
+        type:     'get'
+        async:    false
+        dataType: 'json'
+        success: (data, status, xhr) ->
+          $.each data.tags, (tagIndex, tagValue) ->
+            existing_tags.push tagValue.name
+
+      # Add existing tags
+      $(this).find('span').after("<input type=\"hidden\" id=\"mySingleField#{item_id}\" value=\"#{existing_tags.join('|')}\" />")
+
+      $(value).find(".item-tags").tagit({
+        allowDuplicates: false
+        singleField: true
+        singleFieldNode: $("#mySingleField#{item_id}")
+        singleFieldDelimiter: "|"
+
+        # TODO: disabled autocomplete because hovering over it will set the tag.
+        # Can enable autocomplete if that can be fixed.
+        autocomplete: { disabled: true }
+        availableTags: existing_tags
+
+        beforeTagAdded: (e, ui) ->
+          if (!ui.duringInitialization)
+            tag_name = ui.tagLabel
+            if (VOUCH_LIST > 0)
+              # Save the tag via ajax call
+              $.post '/vouch_items/' + item_id + '/add_tagging',
+              {
+                name: tag_name
+              },
+              (data) ->
+                if (data.success)
+                  console.log "Tag has been added!"
+        onTagRemoved: (e, ui) ->
+          if (!ui.duringInitialization)
+            tag_name = ui.tagLabel
+            if (VOUCH_LIST > 0)
+              # Remove the tag via ajax call
+              $.ajax '/vouch_items/' + item_id + '/delete_tagging',
+                type: 'delete'
+                dataType: 'json'
+                success: (data, status, xhr) ->
+                  console.log "Tag has been removed: " + ui.tagLabel
+              })
+
+  # Adding a delay so that items can be read from database first
+  setTimeout setTag, 500
 
   return
