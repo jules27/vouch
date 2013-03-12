@@ -44,6 +44,10 @@ class VouchItemsController < ApplicationController
   end
 
   def delete_tagging
-
+    vouch_item = VouchItem.find(params[:id])
+    tag        = Tag.find_by_name(params[:name])
+    tagging    = Tagging.find_by_vouch_item_id_and_tag_id(vouch_item.id, tag.id)
+    tagging.destroy
+    render json: { success: true }
   end
 end

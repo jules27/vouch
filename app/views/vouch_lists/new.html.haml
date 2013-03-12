@@ -61,9 +61,6 @@
         %td.tagging
           %span{ 'data-bind' => "text: item_id", :class => "item_id", :style => "display:none;" }
           %ul.item-tags
-          -# { 'data-bind' => 'foreach: tags' }
-
-          %input{ name: "tags", id: "mySingleField" }
         %td
           = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }

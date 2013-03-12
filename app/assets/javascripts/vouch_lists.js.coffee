@@ -204,10 +204,10 @@ $ ->
     return
 
   if (VOUCH_LIST == 0)
-    console.log "create a new list"
+    # console.log "create a new list"
     ko.applyBindings(new VouchList(false))
   else
-    console.log "existing list"
+    # console.log "existing list"
     # Initialize data from server
     $.get '/vouch_list_details/' + VOUCH_LIST,
       (data) ->
@@ -253,8 +253,8 @@ $ ->
               },
               (data) ->
                 if (data.success)
-                  console.log "Tag has been added!"
-        onTagRemoved: (e, ui) ->
+                  console.log "Tag has been added: " + tag_name
+        beforeTagRemoved: (e, ui) ->
           if (!ui.duringInitialization)
             tag_name = ui.tagLabel
             if (VOUCH_LIST > 0)
@@ -262,8 +262,11 @@ $ ->
               $.ajax '/vouch_items/' + item_id + '/delete_tagging',
                 type: 'delete'
                 dataType: 'json'
+                data: {
+                  name: tag_name
+                }
                 success: (data, status, xhr) ->
-                  console.log "Tag has been removed: " + ui.tagLabel
+                  console.log "Tag has been removed: " + tag_name
               })
 
   # Adding a delay so that items can be read from database first
