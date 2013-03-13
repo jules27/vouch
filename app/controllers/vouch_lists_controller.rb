@@ -1,5 +1,6 @@
 class VouchListsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_permissions, only: [:edit]
 
   def index
     @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
@@ -32,20 +33,16 @@ class VouchListsController < ApplicationController
                        }
   end
 
-  # Default new now set to SF. Can deprecate later or change
-  # to all citities (slow load time?)
-  def new
-    city = City.find_by_name("San Francisco")
-    restaurants = Business.find_all_by_city(city.name)
-    render 'new', locals: {
-                            vouch_list:  nil,
-                            city: city,
-                            restaurants: restaurants
-                          }
-  end
-
   def new_by_city
     city = City.find_by_name(params[:city])
+
+    # Before making a new one, see if one with the same city already exists
+    list_for_city = current_user.vouch_lists.find_by_city_id(city.id)
+    if list_for_city.present?
+      redirect_to edit_vouch_list_path(list_for_city)
+      return
+    end
+
     restaurants = Business.find_all_by_city(city.name)
     render 'new', locals: {
                             vouch_list:  nil,
@@ -65,7 +62,7 @@ class VouchListsController < ApplicationController
     end
 
     # List was created, let's create items under this list
-    params[:vouch_items].each do |item|
+    params[:vouch_items].each_with_index do |item, index|
       vouch_item = @vouch_list.vouch_items.build(item.second)
 
       unless vouch_item.save
@@ -76,6 +73,9 @@ class VouchListsController < ApplicationController
                      }
         return
       end
+
+      # Save the tags as well
+      vouch_item.tag_list = params[:item_tags]["#{index}"]
     end
 
     render json: {
@@ -108,6 +108,7 @@ class VouchListsController < ApplicationController
 
     render 'new', locals: {
                             vouch_list:  @vouch_list,
+                            vouch_items: @vouch_list.vouch_items,
                             city: city,
                             restaurants: restaurants
                           }
@@ -162,5 +163,19 @@ class VouchListsController < ApplicationController
   end
 
   def delete_shared_friend
+    #TODO
   end
+
+  private
+
+  def check_permissions
+    vouch_list = VouchList.find(params[:id])
+    unless current_user.id == vouch_list.owner.id
+      redirect_to vouch_list,
+                  flash: {
+                           error: "You do not have the permission to do this."
+                         }
+    end
+  end
+
 end
