@@ -33,4 +33,7 @@ Vouch::Application.routes.draw do
   delete '/vouch_items/:id/delete_tagging' => "vouch_items#delete_tagging"
 
   resources :friendships, only: [:index, :create, :update, :destroy]
+
+  # Friends
+  get '/friends' => "friends#index", as: 'friends'
 end

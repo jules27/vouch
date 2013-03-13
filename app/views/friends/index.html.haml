@@ -1,0 +1,43 @@
+- if @friends.count == 0
+  You don't have any friends.
+  = link_to "Please add some!", vouch_lists_path
+- else
+  %div
+    Search form here...
+
+  - @friends.each do |friend|
+    - friend.restaurant_lists_by_city("San Francisco").each do |list|
+      %h3
+        = capitalize_title(list.title)
+
+      %div
+        %table.table.table-striped
+          %thead
+            %tr
+              %th
+                Restaurants
+              %th
+                Neighborhoods
+              %th
+                Yelp Rating
+              %th
+                Yelp Reviews
+              %th
+                Tags
+              %th
+          %tbody
+            - list.vouch_items.each do |item|
+              - b = Business.find(item.business_id)
+              %tr
+                %td
+                  = b.name
+                %td
+                  = b.neighborhood
+                %td
+                  = b.yelp_rating
+                %td
+                  = b.yelp_review_count
+                %td
+                  = item.tag_list
+                %td
+                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"

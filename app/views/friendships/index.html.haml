@@ -1,4 +1,4 @@
-%h2 My Friends
+%h2 Following
 
 - if @friends.count == 0
   You don't have any friends.
@@ -13,7 +13,7 @@
 - if @inverse_friends.count > 0
   %br
   %br
-  %h3 People Who Have Befriended You
+  %h3 Followers
 
   %ul
     - @inverse_friends.each do |inverse_friend|

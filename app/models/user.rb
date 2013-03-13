@@ -39,6 +39,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def restaurant_lists_by_city(city_name)
+    city = City.find_by_name(city_name)
+    vouch_lists.select { |list| list.city_id == city.id }
+  end
+
   def admin?
     admin == true
   end
