@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     admin == true
   end
 
+  def has_lists?
+    vouch_lists.count > 0
+  end
+
   private
 
   def check_current_shared_lists

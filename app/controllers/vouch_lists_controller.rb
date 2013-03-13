@@ -208,6 +208,13 @@ class VouchListsController < ApplicationController
                              error: "You do not have the permission to view this list."
                            }
       end
+      # If current user doesn't have any lists, no permission to view.
+      unless current_user.has_lists?
+        redirect_to root_path,
+                    flash: {
+                             error: "To view this list, please first create a list."
+                           }
+      end
     end
   end
 
