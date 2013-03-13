@@ -1,6 +1,7 @@
 class VouchListsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_permissions, only: [:edit]
+  before_filter :check_owner_permissions, only: [:edit]
+  before_filter :check_view_permissions, only: [:show]
 
   def index
     @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
@@ -182,13 +183,31 @@ class VouchListsController < ApplicationController
 
   private
 
-  def check_permissions
+  def check_owner_permissions
     vouch_list = VouchList.find(params[:id])
     unless current_user.id == vouch_list.owner.id or current_user.admin?
       redirect_to vouch_list,
                   flash: {
                            error: "You do not have the permission to do this."
                          }
+    end
+  end
+
+  def check_view_permissions
+    # Can the current user view this list?
+    # Yes only if the list's owner is friends with the current user.
+    vouch_list = VouchList.find(params[:id])
+    if vouch_list.owner.id != current_user.id
+      has_match = false
+      current_user.friends.each do |friend|
+        has_match = true if friend.id == vouch_list.owner.id
+      end
+      if has_match == false
+        redirect_to root_path,
+                    flash: {
+                             error: "You do not have the permission to view this list."
+                           }
+      end
     end
   end
 
