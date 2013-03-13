@@ -5,7 +5,9 @@
   %h4
     You have no lists yet. Please create one!
   %br
-  = link_to "Create Vouches", new_vouch_list_path, class: "btn btn-success btn-large"
+  - City.all.each do |city|
+    = link_to "Create Vouches in #{city.name}", new_vouch_list_city_path(city.name), class: "btn btn-success btn-large"
+    &nbsp;
 
 - else
   .span6
@@ -18,7 +20,7 @@
         - @vouch_lists.each do |list|
           %tr
             %td
-              = link_to list.title.capitalize, vouch_list_path(list)
+              = link_to capitalize_title(list.title), vouch_list_path(list)
               = link_to "Edit", edit_vouch_list_path(list), class: "btn btn-mini pull-right"
           %tr
             %td

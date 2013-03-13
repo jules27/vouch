@@ -4,18 +4,22 @@
 
   - if vouch_list.present?
     %h3
-      Vouch list for...
+      = capitalize_title(vouch_list.title)
+      -# Vouch list for...
   - else
     %h3
-      Tell us your favorite five restaurants for a sunny company outing!
+      Tell Us Your Favorite Restaurants in #{city.name}!
+      -# Tell us your favorite five restaurants for a sunny company outing!
 
   .control-group
-    - unless vouch_list.present?
-      = label_tag "title", "Or, alternatively, give your list a different title! Tell us your..."
-    .controls
-      = text_field_tag "title", nil, :placeholder => "Favorite date night restaurants", :class => "input-xxlarge", 'data-bind' => "value: title"
-      = hidden_field_tag 'owner_id', current_user.id
-      = hidden_field_tag 'city_id', city.id
+    - if false
+      - unless vouch_list.present?
+        = label_tag "title", "Or, alternatively, give your list a different title! Tell us your..."
+      .controls
+        = text_field_tag "title", nil, :placeholder => "Favorite date night restaurants", :class => "input-xxlarge", 'data-bind' => "value: title"
+
+    = hidden_field_tag 'owner_id', current_user.id
+    = hidden_field_tag 'city_id', city.id
 
     -# .control-group
     -#   = f.label :description, "Optionally, add some fancy descriptions here!"
@@ -45,21 +49,22 @@
           Yelp Rating
         %th
           Yelp Reviews
+        %th
+          Tags
     %tbody{ 'data-bind' => 'foreach: items' }
-      %tr
+      %tr.items
         %td{ 'data-bind' => "text: name" }
         %td{ 'data-bind' => "text: neighborhood" }
         %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
+        %td.tagging
+          %span{ 'data-bind' => "text: item_id", :class => "item_id", :style => "display:none;" }
+          %ul.item-tags
         %td
           = link_to "Delete", "#", 'data-bind' => "click: $root.removeItem"
         %input{ 'data-bind' => "text: id", :type => "hidden" }
         %input{ 'data-bind' => "text: item_id", :type => "hidden" }
-
-      -# %tr.restaurants-list
-      -#   %td.restaurant-placeholder{ colspan: "5" }
-      -#     Your list of favorite restaurants will appear here!
 
 .list-creation-third
   %br

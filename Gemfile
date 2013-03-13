@@ -40,6 +40,7 @@ gem 'coffee-script-source', '~> 1.4.0'
 gem 'devise'
 gem 'haml', '3.1.7'
 gem 'jquery-rails'
+gem "jquery-ui-rails", "~> 3.0.1"
 gem 'knockoutjs-rails'
 gem 'koala' # Facebook API
 gem 'oauth'

@@ -11,12 +11,8 @@ class VouchList < ActiveRecord::Base
 
   validates_presence_of :owner_id, :title, :city_id
 
-  before_create :set_defaults
-
-  def set_defaults
-    self.status  = "pending"
-    self.title ||= "Favorite restaurants for a sunny company outing"
-  end
+  before_validation :set_default_title
+  before_create     :set_defaults
 
   # Return a list of items with certain attributes selected
   def items_formatted
@@ -35,5 +31,16 @@ class VouchList < ActiveRecord::Base
       items << new_item
     end
     items
+  end
+
+  private
+
+  def set_default_title
+    self.title = "#{self.owner.first_name}'s Favorite Restaurants in #{self.city.name}"
+  end
+
+  def set_defaults
+    self.status = "pending"
+    self.title ||= "Favorite restaurants for a sunny company outing"
   end
 end
