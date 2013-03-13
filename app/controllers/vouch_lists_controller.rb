@@ -149,9 +149,10 @@ class VouchListsController < ApplicationController
   def add_shared_friend
     vouch_list = VouchList.find(params[:id])
     user       = User.find_by_email(params[:name], params[:email])
+    user_id = user.present? ? user.id : ""
 
     shared_friend = vouch_list.shared_friends.build(
-                                                    user_id: user.id,
+                                                    user_id: user_id,
                                                     email: params[:email],
                                                     name:  params[:name],
                                                     facebook_id: params[:facebook_id]
