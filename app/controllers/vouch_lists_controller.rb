@@ -139,19 +139,27 @@ class VouchListsController < ApplicationController
                  }
   end
 
+  def get_shared_friends
+    vouch_list = VouchList.find(params[:id])
+    render json: {
+                   friends: vouch_list.shared_friends
+                 }
+  end
+
   def add_shared_friend
     vouch_list = VouchList.find(params[:id])
-    user_id    = User.find_by_email(params[:name], params[:email])
+    user       = User.find_by_email(params[:name], params[:email])
 
     shared_friend = vouch_list.shared_friends.build(
-                                                    user_id: user_id,
+                                                    user_id: user.id,
                                                     email: params[:email],
                                                     name:  params[:name],
                                                     facebook_id: params[:facebook_id]
                                                    )
     if shared_friend.save
       render json: {
-                     success: true
+                     success: true,
+                     id:      shared_friend.id
                    }
     else
       render json: {

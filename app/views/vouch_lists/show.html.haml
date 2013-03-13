@@ -80,6 +80,7 @@
           %td
             = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
           %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
+          %input{ 'data-bind' => "text: id", :type => "hidden" }
 
     %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
       Share My List!

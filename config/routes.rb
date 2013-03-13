@@ -16,8 +16,9 @@ Vouch::Application.routes.draw do
   get  '/vouch_list_details/:id' => 'vouch_lists#details', as: 'get_vouch_list'
 
   # Shared friends
-  post   '/vouch_lists/:id/add_shared_friend' => 'vouch_lists#add_shared_friend'
-  delete '/shared_friends/id' => 'shared_friends#destroy'
+  get    '/vouch_lists/:id/get_shared_friends' => 'vouch_lists#get_shared_friends'
+  post   '/vouch_lists/:id/add_shared_friend'  => 'vouch_lists#add_shared_friend'
+  delete '/shared_friends/:id' => 'shared_friends#destroy'
 
   # After google oauth
   get  '/oauth2callback'   => "landing#oauth2callback"

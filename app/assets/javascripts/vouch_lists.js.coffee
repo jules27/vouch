@@ -135,7 +135,6 @@ $ ->
                 $(value).find(".item-tags").tagit({
                   allowDuplicates: false
                   singleField: true
-                  # singleFieldNode: $("#mySingleField#{row_number}")
                   singleFieldDelimiter: "|"
                   autocomplete: { disabled: true }
                 })
