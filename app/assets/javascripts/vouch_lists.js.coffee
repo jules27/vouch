@@ -127,7 +127,6 @@ $ ->
                 $(".list-success").html("Item has been added to the list.")
                 $(".list-success").fadeIn("fast")
           else
-            #julie
             # Make a new tag input for this item
             row_number = $(".items").length - 1
 
@@ -163,8 +162,11 @@ $ ->
         $(".restaurant-input-error").fadeIn("fast")
         return
 
+      # Disable button to prevent duplicate submissions
+      $(".save-list-submit").attr('disabled','disabled')
+      $(".loading-image").show()
+
       if (VOUCH_LIST == 0)
-        #julie
         allTags = []
         $.each $("input[name=tags]"), (index, value) ->
           tags = $(this).val().split("|")
@@ -196,6 +198,9 @@ $ ->
           error: (xhr, status, error) ->
             $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
             $(".list-errors").fadeIn("fast")
+          complete: (xhr, status) ->
+            $(".save-list-submit").removeAttr('disabled')
+            $(".loading-image").hide()
       else
         # Update an existing list
         $.ajax '/vouch_lists/' + VOUCH_LIST,
@@ -221,6 +226,9 @@ $ ->
           error: (xhr, status, error) ->
             $(".list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
             $(".list-errors").fadeIn("fast")
+          complete: (xhr, status) ->
+            $(".save-list-submit").removeAttr('disabled')
+            $(".loading-image").hide()
 
     # This is needed to prevent coffeescript from adding "return self.addItem",
     # which throws off knockout's js parser.

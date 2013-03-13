@@ -34,8 +34,6 @@
       %button.btn{ :type => "submit" }
         Add to list
 
-  .loading-image
-
   %table.table.restaurants-table
     %thead
       %tr
@@ -50,7 +48,7 @@
         %th
           Yelp Reviews
         %th
-          Tags
+          Tags (no special symbols required)
     %tbody{ 'data-bind' => 'foreach: items' }
       %tr.items
         %td{ 'data-bind' => "text: name" }
@@ -69,14 +67,16 @@
 .list-creation-third
   %br
   .control-group
-    %button{ 'data-bind' => 'click: save', :class => "btn btn-primary btn-large" }
-      Save My List
+    .row-fluid
+      .loading-image
+      %button{ 'data-bind' => 'click: save', :class => "btn btn-primary btn-large save-list-submit" }
+        Save My List
 
-    - if vouch_list.present?
-      &nbsp;
-      = link_to "Share with Friends!", vouch_list_path(vouch_list), class: "btn btn-success btn-large"
+      - if vouch_list.present?
+        &nbsp;
+        = link_to "Share with Friends!", vouch_list_path(vouch_list), class: "btn btn-success btn-large"
 
-      = link_to "Delete List", vouch_list_path(vouch_list), :method => :delete, 'data-confirm' => "Are you sure you want to delete this list?", :class => "btn btn-danger pull-right"
+        = link_to "Delete List", vouch_list_path(vouch_list), :method => :delete, 'data-confirm' => "Are you sure you want to delete this list?", :class => "btn btn-danger pull-right"
 
 - vouch_list_id = vouch_list.present? ? vouch_list.id : 0
 :javascript
