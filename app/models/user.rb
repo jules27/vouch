@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   validates_presence_of   :email
   validates_uniqueness_of :email
 
+  after_create :check_current_shared_lists
+
   def name
     "#{first_name} #{last_name}"
   end
@@ -31,6 +33,16 @@ class User < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def admin?
+    admin == true
+  end
+
+  private
+
+  def check_current_shared_lists
+    
   end
 
   # def facebook

@@ -40,7 +40,7 @@
           %td
             = item.tag_list
 
-  - if has_ownership?(@vouch_list)
+  - if has_ownership?(@vouch_list) or current_user.admin?
     .edit
       = link_to "Edit List", edit_vouch_list_path(@vouch_list), class: "btn btn-small"
 

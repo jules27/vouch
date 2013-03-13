@@ -179,7 +179,7 @@ class VouchListsController < ApplicationController
 
   def check_permissions
     vouch_list = VouchList.find(params[:id])
-    unless current_user.id == vouch_list.owner.id
+    unless current_user.id == vouch_list.owner.id or current_user.admin?
       redirect_to vouch_list,
                   flash: {
                            error: "You do not have the permission to do this."
