@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :vouch_lists, foreign_key: "owner_id"
   has_many :friendships
   has_many :friends, through: :friendships
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
