@@ -151,6 +151,15 @@ class VouchListsController < ApplicationController
     user       = User.find_by_email(params[:name], params[:email])
     user_id = user.present? ? user.id : ""
 
+    if user.present?
+      friendship = current_user.friendships.build(friend_id: user.id)
+      if friendship.save
+        puts "Friendship creation successful."
+      else
+        puts "Friendship creation failed."
+      end
+    end
+
     shared_friend = vouch_list.shared_friends.build(
                                                     user_id: user_id,
                                                     email: params[:email],
@@ -169,10 +178,6 @@ class VouchListsController < ApplicationController
                    }
       return
     end
-  end
-
-  def delete_shared_friend
-    #TODO
   end
 
   private

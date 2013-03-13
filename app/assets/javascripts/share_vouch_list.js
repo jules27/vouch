@@ -23,8 +23,8 @@ $(function() {
                          fb_id: value.facebook_id,
                          email: value.email
                       });
+        self.friends.push(f);
       });
-      self.friends.push(f);
     }
 
     self.removeFriend = function(friend) {

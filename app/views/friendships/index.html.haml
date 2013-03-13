@@ -1,0 +1,11 @@
+%h2 My Friends
+
+- if @friends.count == 0
+  You don't have any friends.
+  = link_to "Please add some!", vouch_lists_path
+- else
+  %ul
+    - @friends.each do |friend|
+      %li.friendship-listing-item
+        = friend.name
+        = link_to "Remove", friendship_path(friend), method: :delete, class: "btn btn-danger btn-mini", 'data-confirm' => "Are you sure you want to remove this friend?"

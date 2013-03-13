@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :vouch_lists, foreign_key: "owner_id"
+  has_many :friendships
+  has_many :friends, through: :friendships
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
@@ -42,7 +44,18 @@ class User < ActiveRecord::Base
   private
 
   def check_current_shared_lists
-    
+    # After a user has signed up, check to see if their name/email belong to
+    # any other person's lists. If so, add this user to the other person's
+    # friend list.
+    VouchList.all.each do |list|
+      next if list.owner.id == self.id
+      list.shared_friends.each do |shared_friend|
+        if shared_friend.email == self.email
+          friendship = list.owner.friendships.build(friend_id: self.id)
+          friendship.save
+        end
+      end
+    end
   end
 
   # def facebook

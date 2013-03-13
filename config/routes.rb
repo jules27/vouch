@@ -31,4 +31,6 @@ Vouch::Application.routes.draw do
   get    '/vouch_items/:id/get_tagging'    => "vouch_items#get_tagging"
   post   '/vouch_items/:id/add_tagging'    => "vouch_items#add_tagging"
   delete '/vouch_items/:id/delete_tagging' => "vouch_items#delete_tagging"
+
+  resources :friendships, only: [:index, :create, :update, :destroy]
 end
