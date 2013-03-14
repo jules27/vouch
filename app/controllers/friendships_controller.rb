@@ -18,7 +18,15 @@ class FriendshipsController < ApplicationController
 
   def destroy
     @friendship = current_user.friendships.find_by_friend_id(params[:id])
+
+    # Go through all vouch lists and find this friend in shared friends,
+    # and remove each entry.
+    SharedFriend.find_all_by_user_id(params[:id]).each do |shared_friend|
+      shared_friend.destroy
+    end
+
     @friendship.destroy
+
     flash[:notice] = "Removed friendship."
     redirect_to friendships_path
   end

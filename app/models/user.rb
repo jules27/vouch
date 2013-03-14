@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
     vouch_lists.count > 0
   end
 
+  def friends_with?(friend)
+    friendships.where(friend_id: friend.id).present?
+  end
+
   private
 
   def check_current_shared_lists

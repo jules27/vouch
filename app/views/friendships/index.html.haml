@@ -8,7 +8,7 @@
     - @friends.each do |friend|
       %li.friendship-listing-item
         = friend.name
-        = link_to "Remove", friendship_path(friend), method: :delete, class: "btn btn-danger btn-mini", 'data-confirm' => "Are you sure you want to remove this friend?"
+        = link_to "(x)", friendship_path(friend), method: :delete, 'data-confirm' => "Are you sure you want to remove this friend?"
 
 - if @inverse_friends.count > 0
   %br

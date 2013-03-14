@@ -152,10 +152,13 @@ class VouchListsController < ApplicationController
     user       = User.find_by_email(params[:name], params[:email])
     user_id = user.present? ? user.id : ""
 
-    if user.present?
+    added_friend = ""
+    if user.present? and !current_user.friends_with?(user)
+      puts "User is present: #{user.name}, building friendship..."
       friendship = current_user.friendships.build(friend_id: user.id)
       if friendship.save
         puts "Friendship creation successful."
+        added_friend = user.name
       else
         puts "Friendship creation failed."
       end
@@ -170,7 +173,8 @@ class VouchListsController < ApplicationController
     if shared_friend.save
       render json: {
                      success: true,
-                     id:      shared_friend.id
+                     id:      shared_friend.id,
+                     friend_name: added_friend
                    }
     else
       render json: {

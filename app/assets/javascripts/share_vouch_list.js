@@ -89,6 +89,10 @@ $(function() {
               },
         success: function(data) {
           id_to_save = data.id;
+          if (data.friend_name != "") {
+            $(".friend-list-success").html("You are now friends with " + data.friend_name + '!<a class="close" data-dismiss="alert">&#215;</a>');
+            $(".friend-list-success").fadeIn("fast");
+          }
           console.log("Added friend " + friend_name + " with id: " + id_to_save);
         }
       });
