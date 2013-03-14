@@ -44,6 +44,9 @@ class VouchListsController < ApplicationController
       return
     end
 
+    # See if we need to set the user's default city
+    current_user.set_default_city(city) unless current_user.has_city?
+
     restaurants = Business.find_all_by_city(city.name)
     render 'new', locals: {
                             vouch_list:  nil,

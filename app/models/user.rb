@@ -46,12 +46,22 @@ class User < ActiveRecord::Base
     vouch_lists.select { |list| list.city_id == city.id }
   end
 
+  def set_default_city(city)
+    return if city_id.present?
+    self.city_id = city.id
+    self.save
+  end
+
   def admin?
     admin == true
   end
 
   def has_lists?
     vouch_lists.count > 0
+  end
+
+  def has_city?
+    city_id.present?
   end
 
   def friends_with?(friend)
