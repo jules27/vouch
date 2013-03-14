@@ -5,5 +5,6 @@ FactoryGirl.define do
     email    { |u| "#{u.first_name}.#{u.last_name}@example.com" }
     password "password"
     password_confirmation { |u| u.password }
+    city_id  { City.all.sample(1).id }
   end
 end

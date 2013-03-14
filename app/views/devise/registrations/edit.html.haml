@@ -1,11 +1,10 @@
-%h2
-  My Account
+%h2 My Account
 
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
 
   .control-group
-    = f.label :email
+    = f.label :email, class: "required"
     .controls
       = f.email_field :email, autofocus: true
 
@@ -15,10 +14,9 @@
       = resource.unconfirmed_email
 
   .control-group
-    = f.label :city, "Primary Destination"
+    = f.label :city, "Primary Destination", class: "required"
     .controls
-      = f.select :city_id,
-                 options_from_collection_for_select(City.all, "id", "name")
+      = f.select :city_id, options_from_collection_for_select(City.all, "id", "name", @city.id)
 
   .control-group
     = f.label :password
@@ -31,8 +29,8 @@
     .controls
       = f.password_field :password_confirmation
 
-    .control-group
-      = f.submit "Update", class: "btn"
+  .control-group
+    = f.submit "Update", class: "btn btn-success btn-large"
 
 .hidden
   %h3 Cancel my account
@@ -40,4 +38,4 @@
     Unhappy?
     = button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn"
 
-= link_to "Back", :back
+-# = link_to "Back", :back

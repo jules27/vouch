@@ -1,4 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
+  def edit
+    @city = current_user.city
+  end
+
   def update
     @user = User.find(current_user.id)
 
@@ -19,6 +23,7 @@ class RegistrationsController < Devise::RegistrationsController
       sign_in @user, :bypass => true
       redirect_to after_update_path_for(@user)
     else
+      clean_up_passwords @user
       render "edit"
     end
   end
