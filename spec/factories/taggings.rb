@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :tagging do
-    tag nil
-    vouch_item nil
+    tag_id nil
+    vouch_item_id nil
   end
 end

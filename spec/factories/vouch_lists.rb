@@ -19,5 +19,14 @@ FactoryGirl.define do
   factory :vouch_item do
     vouch_list_id 1 # This should be passed in
     business_id   1 # This should be passed in
+
+    # Add some tags to this item
+    after(:create) do |item|
+      3.times do
+        FactoryGirl.create(:tagging,
+                           tag_id: Tag.all.sample(1).first,
+                           vouch_item_id: item.id)
+      end
+    end
   end
 end
