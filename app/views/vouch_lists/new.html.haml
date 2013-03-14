@@ -31,7 +31,7 @@
   .input-append
     %form{ 'data-bind' => "submit: addItem", :autocomplete => "off" }
       = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName', :id => "typed_restaurant_name"
-      %button.btn{ :type => "submit" }
+      %button.btn.btn-info{ :type => "submit" }
         Vouch
 
   %table.table.restaurants-table
@@ -41,8 +41,6 @@
           Restaurant
         %th
           Neighborhoods
-        -# %th
-        -#   City
         %th
           Yelp Rating
         %th
@@ -53,7 +51,6 @@
       %tr.items
         %td{ 'data-bind' => "text: name" }
         %td{ 'data-bind' => "text: neighborhood" }
-        -# %td{ 'data-bind' => "text: city" }
         %td{ 'data-bind' => "text: yelp_rating" }
         %td{ 'data-bind' => "text: yelp_reviews" }
         %td.tagging

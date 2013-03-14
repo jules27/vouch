@@ -23,4 +23,8 @@ module VouchListsHelper
       "span9"
     end
   end
+
+  def rating_class(rating)
+    (rating * 10).to_i
+  end
 end

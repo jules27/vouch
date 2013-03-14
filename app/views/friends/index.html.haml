@@ -21,7 +21,7 @@
               %th
                 Yelp Rating
               %th
-                Yelp Reviews
+                Reviews
               %th
                 Tags
               %th
@@ -34,7 +34,7 @@
                 %td
                   = b.neighborhood
                 %td
-                  = b.yelp_rating
+                  %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
                 %td
                   = b.yelp_review_count
                 %td
