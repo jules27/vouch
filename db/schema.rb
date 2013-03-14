@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314181639) do
+ActiveRecord::Schema.define(:version => 20130314221843) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20130314181639) do
     t.string   "neighborhood"
     t.text     "categories"
     t.string   "yelp_id"
-    t.integer  "yelp_rating"
+    t.float    "yelp_rating"
     t.integer  "yelp_review_count"
     t.string   "image_url"
     t.float    "latitude"
