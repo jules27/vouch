@@ -6,7 +6,7 @@
     Search form here...
 
   - @friends.each do |friend|
-    - friend.restaurant_lists_by_city("San Francisco").each do |list|
+    - friend.restaurant_lists_by_city(@city.name).each do |list|
       %h3
         = capitalize_title(list.title)
 
