@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
                   :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image
 
-  validates_presence_of   :email
+  validates_presence_of   :email, :first_name, :last_name, :password, :password_confirmation
   validates_uniqueness_of :email
 
   after_create :check_current_shared_lists
