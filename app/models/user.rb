@@ -13,12 +13,14 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  belongs_to :city
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-                  :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image
+                  :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image,
+                  :city_id
 
-  validates_presence_of   :email, :first_name, :last_name, :password, :password_confirmation
+  validates_presence_of   :email, :first_name, :last_name
   validates_uniqueness_of :email
 
   after_create :check_current_shared_lists
@@ -27,17 +29,17 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def password_required?
-    super && provider.blank?
-  end
+  # def password_required?
+  #   super && provider.blank?
+  # end
 
-  def update_with_password(params, *options)
-    if encrypted_password.blank?
-      update_attributes(params, *options)
-    else
-      super
-    end
-  end
+  # def update_with_password(params, *options)
+  #   if encrypted_password.blank?
+  #     update_attributes(params, *options)
+  #   else
+  #     super
+  #   end
+  # end
 
   def restaurant_lists_by_city(city_name)
     city = City.find_by_name(city_name)
