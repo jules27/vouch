@@ -300,6 +300,6 @@ $ ->
       })
 
   # Adding a delay so that items can be read from database first
-  setTimeout setTag, 500
+  setTimeout setTag, 100
 
   return
