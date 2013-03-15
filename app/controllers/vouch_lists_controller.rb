@@ -4,7 +4,9 @@ class VouchListsController < ApplicationController
   before_filter :check_view_permissions, only: [:show]
 
   def index
-    @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
+    # @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
+    city = current_user.default_city
+    redirect_to new_vouch_list_city_path(city.name)
   end
 
   def show

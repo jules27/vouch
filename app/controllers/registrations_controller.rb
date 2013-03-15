@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   def edit
-    @city = current_user.city || City.first
+    @city = current_user.default_city
   end
 
   def update

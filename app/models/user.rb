@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def default_city
+    self.city || City.first
+  end
+
   def admin?
     admin == true
   end
