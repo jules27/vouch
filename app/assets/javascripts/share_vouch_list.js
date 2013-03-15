@@ -132,16 +132,19 @@ $(function() {
 
       // Create a list of fb id's or contact emails
       var dataToSave = [];
+      var friendEmails = [];
       $.each(self.friends(), function(index, value) {
-        if (value.fb_id() != null) {
+        if ((value.fb_id() != null) && (value.fb_id() != "")) {
           // This is an fb friend
           dataToSave.push(value.fb_id());
         } else if (value.email() != null) {
           // This is a google contact
           dataToSave.push(value.email());
+          friendEmails.push(value.email());
         } else {
           // This should be a manually entered email
           dataToSave.push(value.name());
+          friendEmails.push(value.name());
         }
       });
 
@@ -151,9 +154,13 @@ $(function() {
         return;
       }
 
-      //julie
       // Have the server check each friend in the list and make sure
       // they're friends with each other
+      $.post('/friendships/add',
+        {
+          friends: friendEmails
+        }
+      );
 
       // Send a message/email to each friend in the list
       $.each(dataToSave, function(index, value) {

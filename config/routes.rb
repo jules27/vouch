@@ -34,6 +34,7 @@ Vouch::Application.routes.draw do
 
   resources :friendships, only: [:index, :create, :update, :destroy]
 
-  # Friends
-  get '/friends' => "friends#index", as: 'friends'
+  # Friends/ friendships
+  get  '/friends' => "friends#index", as: 'friends'
+  post '/friendships/add' => "friendships#add"
 end
