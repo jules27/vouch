@@ -126,6 +126,43 @@ $ ->
               if (data.success)
                 $(".list-success").html("Item has been added to the list.")
                 $(".list-success").fadeIn("fast")
+
+                # Make a new tag input for this item
+                vouch_item_id = data.vouch_item_id
+                $(".items").last().find(".item-tags").tagit({
+                  allowDuplicates: false
+                  singleField: true
+                  singleFieldDelimiter: "|"
+
+                  # TODO: disabled autocomplete because hovering over it will set the tag.
+                  # Can enable autocomplete if that can be fixed.
+                  autocomplete: { disabled: true }
+
+                  beforeTagAdded: (e, ui) ->
+                    if (!ui.duringInitialization)
+                      tag_name = ui.tagLabel
+                      # Save the tag via ajax call
+                      $.post '/vouch_items/' + vouch_item_id + '/add_tagging',
+                      {
+                        name: tag_name
+                      },
+                      (tagData) ->
+                        if (tagData.success)
+                          console.log "Tag has been added: " + tag_name
+                  beforeTagRemoved: (e, ui) ->
+                    if (!ui.duringInitialization)
+                      tag_name = ui.tagLabel
+                      # Remove the tag via ajax call
+                      $.ajax '/vouch_items/' + vouch_item_id + '/delete_tagging',
+                        type: 'delete'
+                        dataType: 'json'
+                        data: {
+                          name: tag_name
+                        }
+                        success: (tagData, status, xhr) ->
+                          console.log "Tag has been removed: " + tag_name
+                })
+                return
           else
             # Make a new tag input for this item
             row_number = $(".items").length - 1
@@ -300,6 +337,8 @@ $ ->
       })
 
   # Adding a delay so that items can be read from database first
+  # Note: this needs to be at least 500 for the tags to load properly
+  # when deployed to Heroku.
   setTimeout setTag, 500
 
   return

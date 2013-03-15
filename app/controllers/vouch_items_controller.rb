@@ -3,7 +3,10 @@ class VouchItemsController < ApplicationController
     vouch_list = VouchList.find(params[:id])
     vouch_item = vouch_list.vouch_items.build(params[:vouch_item])
     if vouch_item.save
-      render json: { success: true }
+      render json: {
+                     success: true,
+                     vouch_item_id: vouch_item.id
+                   }
     else
       render json: {
                      status: 422,
