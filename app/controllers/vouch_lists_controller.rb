@@ -206,7 +206,7 @@ class VouchListsController < ApplicationController
     # Can the current user view this list?
     # Yes only if the list's owner is friends with the current user.
     vouch_list = VouchList.find(params[:id])
-    if vouch_list.owner.id != current_user.id
+    if (!current_user.admin?) and (vouch_list.owner.id != current_user.id)
       has_match = false
       current_user.friends.each do |friend|
         has_match = true if friend.id == vouch_list.owner.id
