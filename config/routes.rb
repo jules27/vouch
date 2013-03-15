@@ -2,7 +2,7 @@ Vouch::Application.routes.draw do
   ActiveAdmin.routes(self)
   root to: 'landing#index'
 
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "registrations"}
   # devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   resources :vouch_lists, except: [:new]
@@ -16,8 +16,9 @@ Vouch::Application.routes.draw do
   get  '/vouch_list_details/:id' => 'vouch_lists#details', as: 'get_vouch_list'
 
   # Shared friends
-  post   '/vouch_lists/:id/add_shared_friend' => 'vouch_lists#add_shared_friend'
-  delete '/shared_friends/id' => 'shared_friends#destroy'
+  get    '/vouch_lists/:id/get_shared_friends' => 'vouch_lists#get_shared_friends'
+  post   '/vouch_lists/:id/add_shared_friend'  => 'vouch_lists#add_shared_friend'
+  delete '/shared_friends/:id' => 'shared_friends#destroy'
 
   # After google oauth
   get  '/oauth2callback'   => "landing#oauth2callback"
@@ -30,4 +31,10 @@ Vouch::Application.routes.draw do
   get    '/vouch_items/:id/get_tagging'    => "vouch_items#get_tagging"
   post   '/vouch_items/:id/add_tagging'    => "vouch_items#add_tagging"
   delete '/vouch_items/:id/delete_tagging' => "vouch_items#delete_tagging"
+
+  resources :friendships, only: [:index, :create, :update, :destroy]
+
+  # Friends/ friendships
+  get  '/friends' => "friends#index", as: 'friends'
+  post '/friendships/add' => "friendships#add"
 end

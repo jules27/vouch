@@ -1,5 +1,4 @@
 module VouchListsHelper
-  # TODO: localhost:3000 needs to be changed for production
   def google_login_link(list_id)
     'https://accounts.google.com/o/oauth2/auth'\
     '?scope=https%3A%2F%2Fwww.google.com%2Fm8%2Ffeeds'\
@@ -23,5 +22,9 @@ module VouchListsHelper
     else
       "span9"
     end
+  end
+
+  def rating_class(rating)
+    (rating * 10).to_i
   end
 end

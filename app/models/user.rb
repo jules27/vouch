@@ -9,27 +9,87 @@ class User < ActiveRecord::Base
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :vouch_lists, foreign_key: "owner_id"
+  has_many :friendships
+  has_many :friends, through: :friendships
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  belongs_to :city
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-                  :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image
+                  :remember_me, :admin, :provider, :uid, :gender, :location, :token, :image,
+                  :city_id
 
-  validates_presence_of   :email
+  validates_presence_of   :email, :first_name, :last_name
   validates_uniqueness_of :email
+
+  after_create :check_current_shared_lists
 
   def name
     "#{first_name} #{last_name}"
   end
 
-  def password_required?
-    super && provider.blank?
+  # def password_required?
+  #   super && provider.blank?
+  # end
+
+  # def update_with_password(params, *options)
+  #   if encrypted_password.blank?
+  #     update_attributes(params, *options)
+  #   else
+  #     super
+  #   end
+  # end
+
+  def restaurant_lists_by_city(city_name)
+    city = City.find_by_name(city_name)
+    vouch_lists.select { |list| list.city_id == city.id }
   end
 
-  def update_with_password(params, *options)
-    if encrypted_password.blank?
-      update_attributes(params, *options)
-    else
-      super
+  def set_default_city(city)
+    return if city_id.present?
+    self.city_id = city.id
+    self.save
+  end
+
+  def default_city
+    self.city || City.first
+  end
+
+  def admin?
+    admin == true
+  end
+
+  def has_lists?
+    vouch_lists.count > 0
+  end
+
+  def has_city?
+    city_id.present?
+  end
+
+  def friends_with?(friend)
+    friendships.where(friend_id: friend.id).present?
+  end
+
+  private
+
+  def check_current_shared_lists
+    # After a user has signed up, check to see if their name/email belong to
+    # any other person's lists. If so, add this user to the other person's
+    # friend list, and vice versa.
+    VouchList.all.each do |list|
+      next if list.owner.id == self.id
+      list.shared_friends.each do |shared_friend|
+        if shared_friend.email == self.email
+          friendship = list.owner.friendships.build(friend_id: self.id)
+          friendship.save
+
+          # Do the same for the inverse friendship
+          inverse_friendship = self.friendships.build(friend_id: list.owner.id)
+          inverse_friendship.save
+        end
+      end
     end
   end
 

@@ -7,7 +7,8 @@ module ApplicationHelper
     link_to "Sign In with Facebook", user_omniauth_authorize_path(:facebook), class: "btn-auth btn-facebook large"
   end
 
-  # Supposed to come with twitter bootstrap
+  # Supposed to come with twitter bootstrap, but is throwing an error
+  # when deployed to Heroku
   ALERT_TYPES = [:error, :info, :success, :warning]
   def bootstrap_flash
     flash_messages = []
@@ -27,5 +28,16 @@ module ApplicationHelper
       end
     end
     flash_messages.join("\n").html_safe
+  end
+
+  def nav_link(text, path)
+    class_name = current_page?(path) ? "active" : ""
+    content_tag(:li, class: class_name) do
+      link_to text, path
+    end
+  end
+
+  def add_friend_link
+    link_to "Please add some by sharing a list!", vouch_lists_path
   end
 end

@@ -33,6 +33,10 @@ class VouchList < ActiveRecord::Base
     items
   end
 
+  def my_list?(user)
+    user.id == self.owner.id
+  end
+
   private
 
   def set_default_title

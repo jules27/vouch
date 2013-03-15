@@ -2,31 +2,31 @@
   = devise_error_messages!
 
   .control-group
-    = f.label :email
+    = f.label :email, class: "required"
     .controls
       = f.email_field :email, autofocus: true
 
   .control-group
-    = f.label :first_name
+    = f.label :first_name, class: "required"
     .controls
       = f.text_field :first_name
 
   .control-group
-    = f.label :last_name
+    = f.label :last_name, class: "required"
     .controls
       = f.text_field :last_name
 
   .control-group
-    = f.label :password
+    = f.label :password, class: "required"
     .controls
       = f.password_field :password
 
   .control-group
-    = f.label :password_confirmation
+    = f.label :password_confirmation, class: "required"
     .controls
       = f.password_field :password_confirmation
 
   .control-group
-    = f.submit "Sign up", class: "btn"
+    = f.submit "Sign up", class: "btn btn-success btn-large"
 
 = render "devise/shared/links"

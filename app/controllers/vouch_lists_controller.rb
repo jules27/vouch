@@ -1,9 +1,12 @@
 class VouchListsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_permissions, only: [:edit]
+  before_filter :check_owner_permissions, only: [:edit]
+  before_filter :check_view_permissions, only: [:show]
 
   def index
-    @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
+    # @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
+    city = current_user.default_city
+    redirect_to new_vouch_list_city_path(city.name)
   end
 
   def show
@@ -42,6 +45,9 @@ class VouchListsController < ApplicationController
       redirect_to edit_vouch_list_path(list_for_city)
       return
     end
+
+    # See if we need to set the user's default city
+    current_user.set_default_city(city) unless current_user.has_city?
 
     restaurants = Business.find_all_by_city(city.name)
     render 'new', locals: {
@@ -139,9 +145,29 @@ class VouchListsController < ApplicationController
                  }
   end
 
+  def get_shared_friends
+    vouch_list = VouchList.find(params[:id])
+    render json: {
+                   friends: vouch_list.shared_friends
+                 }
+  end
+
   def add_shared_friend
     vouch_list = VouchList.find(params[:id])
-    user_id    = User.find_by_email(params[:name], params[:email])
+    user       = User.find_by_email(params[:name], params[:email])
+    user_id = user.present? ? user.id : ""
+
+    added_friend = ""
+    if user.present? and !current_user.friends_with?(user)
+      puts "User is present: #{user.name}, building friendship..."
+      friendship = current_user.friendships.build(friend_id: user.id)
+      if friendship.save
+        puts "Friendship creation successful."
+        added_friend = user.name
+      else
+        puts "Friendship creation failed."
+      end
+    end
 
     shared_friend = vouch_list.shared_friends.build(
                                                     user_id: user_id,
@@ -151,7 +177,9 @@ class VouchListsController < ApplicationController
                                                    )
     if shared_friend.save
       render json: {
-                     success: true
+                     success: true,
+                     id:      shared_friend.id,
+                     friend_name: added_friend
                    }
     else
       render json: {
@@ -162,19 +190,40 @@ class VouchListsController < ApplicationController
     end
   end
 
-  def delete_shared_friend
-    #TODO
-  end
-
   private
 
-  def check_permissions
+  def check_owner_permissions
     vouch_list = VouchList.find(params[:id])
-    unless current_user.id == vouch_list.owner.id
+    unless current_user.id == vouch_list.owner.id or current_user.admin?
       redirect_to vouch_list,
                   flash: {
                            error: "You do not have the permission to do this."
                          }
+    end
+  end
+
+  def check_view_permissions
+    # Can the current user view this list?
+    # Yes only if the list's owner is friends with the current user.
+    vouch_list = VouchList.find(params[:id])
+    if (!current_user.admin?) and (vouch_list.owner.id != current_user.id)
+      has_match = false
+      current_user.friends.each do |friend|
+        has_match = true if friend.id == vouch_list.owner.id
+      end
+      if has_match == false
+        redirect_to root_path,
+                    flash: {
+                             error: "You do not have the permission to view this list."
+                           }
+      end
+      # If current user doesn't have any lists, no permission to view.
+      unless current_user.has_lists?
+        redirect_to root_path,
+                    flash: {
+                             error: "To view this list, please first create a list."
+                           }
+      end
     end
   end
 

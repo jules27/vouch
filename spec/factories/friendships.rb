@@ -1,8 +1,8 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :tagging do
-    tag_id nil
-    vouch_item_id nil
+  factory :friendship do
+    user_id 1
+    friend_id 1
   end
 end

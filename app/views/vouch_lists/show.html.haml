@@ -29,8 +29,12 @@
       - @vouch_list.vouch_items.each do |item|
         - b = Business.find(item.business_id)
         %tr
-          %td{ colspan: "4" }
+          %td{ colspan: "3" }
             = b.name
+          %td
+            %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
+          -# %td
+          -#   = b.yelp_review_count
         %tr
           %td
           %td
@@ -40,7 +44,7 @@
           %td
             = item.tag_list
 
-  - if has_ownership?(@vouch_list)
+  - if has_ownership?(@vouch_list) or current_user.admin?
     .edit
       = link_to "Edit List", edit_vouch_list_path(@vouch_list), class: "btn btn-small"
 
@@ -55,7 +59,7 @@
     %form{ 'data-bind' => "submit: addFriend", :autocomplete => "off" }
       = text_field_tag 'friend_name', nil, :placeholder => "Add name or email...", :class => "input-large search-query", :autocomplete => "off", 'data-bind' => 'value: newFriendName', :id => "typed_friend_name"
 
-      %button{ type: "submit", class: "btn" } Add
+      %button{ type: "submit", class: "btn btn" } Add
       .btn-group
         %button{ class: "btn btn-info import-friends" } Import
         %button{ :class => "btn btn-info dropdown-toggle", 'data-toggle' => "dropdown" }
@@ -80,6 +84,7 @@
           %td
             = link_to "x", "#", 'data-bind' => "click: $root.removeFriend"
           %input{ 'data-bind' => "text: fb_id", :type => "hidden" }
+          %input{ 'data-bind' => "text: id", :type => "hidden" }
 
     %button{ 'data-bind' => 'click: save', :class => "btn btn-success btn-large" }
       Share My List!

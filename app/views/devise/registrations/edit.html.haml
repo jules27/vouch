@@ -1,12 +1,10 @@
-%h2
-  Edit
-  = resource_name.to_s.humanize
+%h2 My Account
 
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
 
   .control-group
-    = f.label :email
+    = f.label :email, class: "required"
     .controls
       = f.email_field :email, autofocus: true
 
@@ -14,6 +12,11 @@
     %div
       Currently waiting confirmation for:
       = resource.unconfirmed_email
+
+  .control-group
+    = f.label :city, "Primary Destination", class: "required"
+    .controls
+      = f.select :city_id, options_from_collection_for_select(City.all, "id", "name", @city.id)
 
   .control-group
     = f.label :password
@@ -26,20 +29,13 @@
     .controls
       = f.password_field :password_confirmation
 
-  - if f.object.encrypted_password.present?
-    .control-group
-      = f.label :current_password
-      %i (we need your current password to confirm your changes)
-      .controls
-        = f.password_field :current_password
+  .control-group
+    = f.submit "Update", class: "btn btn-success btn-large"
 
-    .control-group
-      = f.submit "Update", class: "btn"
+.hidden
+  %h3 Cancel my account
+  %p
+    Unhappy?
+    = button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn"
 
-%h3 Cancel my account
-
-%p
-  Unhappy?
-    = button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete
-
-= link_to "Back", :back
+-# = link_to "Back", :back

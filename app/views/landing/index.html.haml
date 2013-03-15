@@ -1,6 +1,6 @@
 .jumbotron
   - if user_signed_in?
-    %h2 Welcome back, #{current_user.first_name} #{current_user.last_name}!
+    %h2 Hello #{current_user.first_name} #{current_user.last_name}!
 
     %h3 Here's how Vouch works:
 
@@ -14,8 +14,12 @@
 
     %br
 
-    %h4
-      Let's get started with restaurants in...
+    - if current_user.has_lists?
+      %h4
+        Let's get started with restaurants in...
+    - else
+      %h4
+        Pick your destination!
 
     %br
 
