@@ -80,6 +80,10 @@ class User < ActiveRecord::Base
         if shared_friend.email == self.email
           friendship = list.owner.friendships.build(friend_id: self.id)
           friendship.save
+
+          # Do the same for the inverse friendship
+          inverse_friendship = self.friendships.build(friend_id: list.owner.id)
+          inverse_friendship.save
         end
       end
     end
