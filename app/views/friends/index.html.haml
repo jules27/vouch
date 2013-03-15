@@ -7,11 +7,11 @@
 
   - @friends.each do |friend|
     - friend.restaurant_lists_by_city(@city.name).each do |list|
-      %h3
+      %h4
         = capitalize_title(list.title)
 
       %div
-        %table.table.table-striped
+        %table.table.table-striped.table-condensed
           %thead
             %tr
               %th
@@ -40,4 +40,4 @@
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
+                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary btn-small"
