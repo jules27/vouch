@@ -36,4 +36,8 @@ module ApplicationHelper
       link_to text, path
     end
   end
+
+  def add_friend_link
+    link_to "Please add some by sharing a list!", vouch_lists_path
+  end
 end
