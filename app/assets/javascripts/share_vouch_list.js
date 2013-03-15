@@ -151,6 +151,11 @@ $(function() {
         return;
       }
 
+      //julie
+      // Have the server check each friend in the list and make sure
+      // they're friends with each other
+
+      // Send a message/email to each friend in the list
       $.each(dataToSave, function(index, value) {
         // If this friend is a fb id...
         var title = $(".list-title").html();

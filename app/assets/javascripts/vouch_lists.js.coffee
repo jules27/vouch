@@ -133,6 +133,7 @@ $ ->
                   allowDuplicates: false
                   singleField: true
                   singleFieldDelimiter: "|"
+                  allowSpaces: true
 
                   # TODO: disabled autocomplete because hovering over it will set the tag.
                   # Can enable autocomplete if that can be fixed.
@@ -173,6 +174,7 @@ $ ->
                   allowDuplicates: false
                   singleField: true
                   singleFieldDelimiter: "|"
+                  allowSpaces: true
                   autocomplete: { disabled: true }
                 })
                 return
@@ -303,6 +305,7 @@ $ ->
         singleField: true
         singleFieldNode: $("#mySingleField#{item_id}")
         singleFieldDelimiter: "|"
+        allowSpaces: true
 
         # TODO: disabled autocomplete because hovering over it will set the tag.
         # Can enable autocomplete if that can be fixed.

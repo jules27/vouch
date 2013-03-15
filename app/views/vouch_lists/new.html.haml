@@ -47,6 +47,10 @@
           Yelp Reviews
         %th
           Tags (No special symbols required)
+          -# TODO: tooltip now working
+          -# %a{ href: '#', class: "tag-help" }
+          -#   %i{ class: "icon-question-sign" }
+
     %tbody{ 'data-bind' => 'foreach: items' }
       %tr.items
         %td{ 'data-bind' => "text: name" }

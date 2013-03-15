@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   def check_current_shared_lists
     # After a user has signed up, check to see if their name/email belong to
     # any other person's lists. If so, add this user to the other person's
-    # friend list.
+    # friend list, and vice versa.
     VouchList.all.each do |list|
       next if list.owner.id == self.id
       list.shared_friends.each do |shared_friend|
