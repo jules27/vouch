@@ -13,6 +13,9 @@ class VouchItem < ActiveRecord::Base
   end
 
   def tag_list=(names)
+    # Don't process if a restaurant doesn't have a tag, ie. [""]
+    return unless names.pop.present?
+
     self.tags = names.map do |n|
       Tag.where(name: n).first_or_create!
     end

@@ -1,0 +1,21 @@
+%h2 Following
+
+- if @friends.count == 0
+  You don't have any friends.
+  = add_friend_link
+- else
+  %ul
+    - @friends.each do |friend|
+      %li.friendship-listing-item
+        = friend.name
+        = link_to "(x)", friendship_path(friend), method: :delete, 'data-confirm' => "Are you sure you want to remove this friend?"
+
+- if @inverse_friends.count > 0
+  %br
+  %br
+  %h3 Followers
+
+  %ul
+    - @inverse_friends.each do |inverse_friend|
+      %li.friendship-listing-item
+        = inverse_friend.name
