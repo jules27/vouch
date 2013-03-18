@@ -2,11 +2,21 @@
   You don't have any friends.
   = add_friend_link
 - else
-  %div
-    Search form here...
+  %p.text-info
+    Search for restaurants or tags
+  .input-append
+    = form_tag friends_path, method: :get do
+      = text_field_tag :query, params[:query]
+      = submit_tag "Search", name: nil, class: "btn"
+      = link_to "Clear Keywords", friends_path, class: "btn"
 
   - @friends.each do |friend|
-    - friend.restaurant_lists_by_city(@city.name).each do |list|
+    - if params[:query].present?
+      - lists = User.vouch_lists_by_keyword(friend, params[:query])
+    - else
+      - lists = friend.vouch_lists_by_city(@city.name)
+
+    - lists.each do |list|
       %h4
         = capitalize_title(list.title)
 
