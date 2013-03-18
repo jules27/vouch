@@ -2,16 +2,32 @@
   You don't have any friends.
   = add_friend_link
 - else
-  %div
-    Search form here...
+  %p.text-info
+    Search for Restaurants or Tags
+  .input-append
+    = form_tag friends_path, method: :get, class: "name-search" do
+      = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"
+      = submit_tag "Search", name: nil, class: "btn"
+      = link_to "Clear", friends_path, class: "btn"
 
+  - if params[:query].present?
+    %h3
+      Friends' Lists that Include '#{params[:query]}'
+
+  - not_found = true
   - @friends.each do |friend|
-    - friend.restaurant_lists_by_city(@city.name).each do |list|
+    - if params[:query].present?
+      - lists = User.vouch_lists_by_keyword(friend, params[:query])
+    - else
+      - lists = friend.vouch_lists_by_city(@city.name)
+
+    - lists.each do |list|
+      - not_found = false
       %h4
         = capitalize_title(list.title)
 
       %div
-        %table.table.table-striped.table-condensed
+        %table.table.table-striped.table-condensed.restaurants-listing
           %thead
             %tr
               %th
@@ -30,6 +46,11 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
+                  - if b.yelp_id.present?
+                    = link_to image_tag(b.image_url), "http://www.yelp.com/biz/#{b.yelp_id}", target: "_blank"
+                  - else
+                    = image_tag b.image_url
+                %td
                   = b.name
                 %td
                   = b.neighborhood
@@ -40,4 +61,7 @@
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary btn-small"
+                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
+
+  - if not_found == true
+    No records found.

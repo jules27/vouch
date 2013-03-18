@@ -1,5 +1,6 @@
 class Business < ActiveRecord::Base
   belongs_to :business_type
+  has_many   :vouch_items
 
   attr_accessible :business_type_id, :name, :phone, :address_line_1, :address_line_2,
                   :city, :state, :zip, :neighborhood, :categories,

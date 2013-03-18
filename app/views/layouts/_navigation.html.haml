@@ -21,8 +21,8 @@
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  - City.all.each do |city|
-                    = link_to city.name, new_vouch_list_city_path(city.name)
+                  - City.alphabetical.each do |city|
+                    = link_to city.my_name, new_vouch_list_city_path(city.name)
             %li.dropdown
               %a{ :href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown" }
                 #{current_user.first_name} #{current_user.last_name}
