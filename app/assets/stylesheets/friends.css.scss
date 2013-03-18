@@ -1,3 +1,13 @@
-// Place all the styles related to the friends controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+form.name-search {
+  margin-bottom: 0;
+}
+
+table.restaurants-listing {
+  td {
+    vertical-align: middle;
+  }
+  img {
+    border: 1px solid #666666;
+    padding: 4px;
+  }
+}

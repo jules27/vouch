@@ -1,6 +1,6 @@
 class VouchItem < ActiveRecord::Base
   belongs_to :vouch_list
-  has_one    :business
+  belongs_to :business
   has_many   :taggings
   has_many   :tags, through: :taggings
 
@@ -9,6 +9,8 @@ class VouchItem < ActiveRecord::Base
   validates_presence_of :vouch_list_id, :business_id
 
   def tag_list
+    return if tags.empty?
+
     "#" + tags.map(&:name).join(" #")
   end
 

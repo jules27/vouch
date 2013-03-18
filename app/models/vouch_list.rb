@@ -1,7 +1,11 @@
 class VouchList < ActiveRecord::Base
+  include PgSearch
+
   belongs_to :owner, class_name: "User"
   belongs_to :city
   has_many   :vouch_items
+  has_many   :businesses, through: :vouch_items
+  has_many   :tags, through: :vouch_items
   has_many   :shared_friends
 
   attr_accessible :owner_id, :title, :description, :status, :city_id
@@ -13,6 +17,12 @@ class VouchList < ActiveRecord::Base
 
   before_validation :set_default_title
   before_create     :set_defaults
+
+  # Search through associations
+  pg_search_scope :name_search, associated_against: {
+    businesses: :name,
+    tags:       :name
+  }
 
   # Return a list of items with certain attributes selected
   def items_formatted

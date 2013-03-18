@@ -46,6 +46,7 @@ gem 'koala' # Facebook API
 gem 'oauth'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'pg_search'
 gem 'rails_config'
 gem 'slim'
 gem 'thin'

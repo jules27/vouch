@@ -5,8 +5,8 @@
   %h4
     You have no lists yet. Please create one!
   %br
-  - City.all.each do |city|
-    = link_to "Create Vouches in #{city.name}", new_vouch_list_city_path(city.name), class: "btn btn-success btn-large"
+  - City.alphabetical.each do |city|
+    = link_to "Create Vouches in #{city.my_name}", new_vouch_list_city_path(city.name), class: "btn btn-success btn-large"
     &nbsp;
 
 - else
