@@ -16,7 +16,7 @@
   .control-group
     = f.label :city, "Primary Destination", class: "required"
     .controls
-      = f.select :city_id, options_from_collection_for_select(City.all, "id", "name", @city.id)
+      = f.select :city_id, options_from_collection_for_select(City.alphabetical, "id", "name", @city.id)
 
   .control-group
     = f.label :password
