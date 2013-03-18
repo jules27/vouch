@@ -46,7 +46,10 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
-                  = image_tag b.image_url
+                  - if b.yelp_id.present?
+                    = link_to image_tag(b.image_url), "http://www.yelp.com/biz/#{b.yelp_id}", target: "_blank"
+                  - else
+                    = image_tag b.image_url
                 %td
                   = b.name
                 %td
@@ -54,10 +57,7 @@
                 %td
                   %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
                 %td
-                  - if b.yelp_id.present?
-                    = link_to b.yelp_review_count, "http://www.yelp.com/biz/#{b.yelp_id}", target: "_blank"
-                  - else
-                    = b.yelp_review_count
+                  = b.yelp_review_count
                 %td
                   = item.tag_list
                 %td
