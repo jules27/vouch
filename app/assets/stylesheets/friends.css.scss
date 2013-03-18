@@ -1,3 +1,13 @@
 form.name-search {
   margin-bottom: 0;
 }
+
+table.restaurants-listing {
+  td {
+    vertical-align: middle;
+  }
+  img {
+    border: 1px solid #666666;
+    padding: 4px;
+  }
+}

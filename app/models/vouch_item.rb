@@ -9,6 +9,8 @@ class VouchItem < ActiveRecord::Base
   validates_presence_of :vouch_list_id, :business_id
 
   def tag_list
+    return if tags.empty?
+
     "#" + tags.map(&:name).join(" #")
   end
 

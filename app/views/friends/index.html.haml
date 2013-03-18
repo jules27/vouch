@@ -27,7 +27,7 @@
         = capitalize_title(list.title)
 
       %div
-        %table.table.table-striped.table-condensed
+        %table.table.table-striped.table-condensed.restaurants-listing
           %thead
             %tr
               %th
@@ -46,17 +46,22 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
+                  = image_tag b.image_url
+                %td
                   = b.name
                 %td
                   = b.neighborhood
                 %td
                   %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
                 %td
-                  = b.yelp_review_count
+                  - if b.yelp_id.present?
+                    = link_to b.yelp_review_count, "http://www.yelp.com/biz/#{b.yelp_id}", target: "_blank"
+                  - else
+                    = b.yelp_review_count
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary btn-small"
+                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
 
   - if not_found == true
     No records found.
