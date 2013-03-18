@@ -22,12 +22,65 @@ module YelpHelper
     "#{api_search_path}?term=restaurant&ll=#{location}&radius_filter=3000"
   end
 
+  def self.search_by_name(business_type, business_name, city, state)
+    "#{api_search_path}?term=#{business_type}+#{CGI::escape(business_name)}&location=#{CGI::escape(city)}+#{state}"
+  end
+
   def self.query(location)
     access_token.get(path(location)).body
   end
 
   def self.businesses(location)
     JSON.parse(query(location))["businesses"] || []
+  end
+
+  def self.search_businesses(business_type, business_name, city, state)
+    JSON.parse(access_token.get(search_by_name(business_type, business_name, city, state)).body)["businesses"] || []
+  end
+
+  def self.search_for_business(business_type, business_name, city, state)
+    search_businesses(business_type, business_name, city, state).collect do |business|
+      if business['location']['neighborhoods'].present?
+      {
+        name:     business['name'],
+        phone:    business['phone'],
+        address_line_1: business['location']['address'].first,
+        address_line_2: business['location']['address'].second,
+        city:     business['location']['city'],
+        state:    business['location']['state_code'],
+        zip:      business['location']['postal_code'],
+        neighborhood: business['location']['neighborhoods'].join(", "),
+        categories:   business['categories'].flatten,
+        yelp_id:      business['id'],
+        yelp_rating:  business['rating'],
+        yelp_review_count: business['review_count'],
+        yelp_url:   business['url'], # not currently used in model
+        image_url:  business['image_url'],
+        distance:   business['distance'], # not currently used in model
+        latitude:   business['location']['coordinate']['latitude'],
+        longitude:  business['location']['coordinate']['longitude'],
+      }
+      else
+      {
+        name:     business['name'],
+        phone:    business['phone'],
+        address_line_1: business['location']['address'].first,
+        address_line_2: business['location']['address'].second,
+        city:     business['location']['city'],
+        state:    business['location']['state_code'],
+        zip:      business['location']['postal_code'],
+        categories:   business['categories'].flatten,
+        yelp_id:      business['id'],
+        yelp_rating:  business['rating'],
+        yelp_review_count: business['review_count'],
+        yelp_url:   business['url'], # not currently used in model
+        image_url:  business['image_url'],
+        distance:   business['distance'], # not currently used in model
+        latitude:   business['location']['coordinate']['latitude'],
+        longitude:  business['location']['coordinate']['longitude'],
+      }
+      end
+    end
   end
 
   def self.get_businesses(location)
