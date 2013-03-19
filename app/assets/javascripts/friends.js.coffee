@@ -1,9 +1,11 @@
 $ ->
   $(".add-to-wish-list").on "click", (e) ->
     e.preventDefault()
+    $(".friend-list-errors").hide()
+    $(".friend-list-success").hide()
 
-    item_id = $(this).attr('id')
-    loading_class = ".loading-image#loading_#{item_id}"
+    business_id = $(this).attr('id')
+    loading_class = ".loading-image#loading_#{business_id}"
     friend_id = parseInt($(this).next().val())
 
     $(this).addClass("disabled")
@@ -17,7 +19,7 @@ $ ->
       data: {
           city_id: CITY_ID,
           wish_item: {
-            business_id: item_id,
+            business_id: business_id,
             user_id: friend_id
           }
         }
@@ -27,7 +29,7 @@ $ ->
           $(".friend-list-errors").fadeIn("fast")
           return
 
-        $(".friend-list-success").html('The item has been successfully added!<a class="close" data-dismiss="alert">&#215;</a>')
+        $(".friend-list-success").html('The item has been successfully added to your wish list!<a class="close" data-dismiss="alert">&#215;</a>')
         $(".friend-list-success").fadeIn("fast")
         return
       error: (xhr, status, error) ->

@@ -45,5 +45,6 @@ Vouch::Application.routes.draw do
   # Wish lists and items
   resources :wish_lists, only: [:index, :create]
   resources :wish_items, only: [:create, :update, :destroy]
-  post '/wish_items/add'  => "wish_items#create"
+  post '/wish_items/add'     => "wish_items#create"
+  post '/wish_items/visited' => "wish_items#visited"
 end

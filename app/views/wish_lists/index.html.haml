@@ -1,4 +1,4 @@
-- if @wish_list.empty?
+- if @wish_list.nil? or @wish_list.empty?
   %h4 Places I Want To Go
   %p
     You don't have any places you want to go. Please
@@ -85,6 +85,4 @@
             %td
               = inspired_by(item)
             %td
-              = link_to "Mark As Visited", "#", class: "btn btn-primary"
-              &nbsp;
-              = link_to "Remove", "#", class: "btn btn-danger btn-small"
+              = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
