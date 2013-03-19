@@ -15,7 +15,7 @@ class WishItem < ActiveRecord::Base
   def no_duplicate_items_in_list
     if wish_list.wish_items.find_by_business_id(self.business_id).present?
       result = wish_list.wish_items.find_by_business_id(self.business_id)
-      errors.add(:wish_list_id, "cannot contain duplicate items (#{self.business_id}).")
+      errors.add(:wish_list_id, "already contains item \"#{self.business.name}\".")
     end
   end
 end

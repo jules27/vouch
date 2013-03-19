@@ -85,4 +85,4 @@
             %td
               = inspired_by(item)
             %td
-              = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
+              = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: @wish_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}), class: "btn btn-primary", method: :post

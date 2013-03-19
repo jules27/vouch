@@ -5,15 +5,33 @@ class WishItemsController < ApplicationController
     puts "add item for business #{wish_item.business_id}"
 
     if wish_item.save
-      render json: {
-                     success: true,
-                     wish_item_id: wish_item.id
-                   }
+      respond_to do |format|
+        format.html {
+                      flash[:notice] = "The item has been successfully added to your wish list!"
+                      redirect_to wish_lists_path
+                    }
+        format.json {
+                      render json:
+                        {
+                          success: true,
+                          wish_item_id: wish_item.id
+                        }
+                    }
+      end
     else
-      render json: {
-                     status: 422,
-                     errors: wish_item.errors.full_messages.join(",")
-                   }
+      respond_to do |format|
+        format.html {
+                      flash[:alert] = wish_item.errors.full_messages
+                      redirect_to wish_lists_path
+                    }
+        format.json {
+                      render json:
+                        {
+                          status: 422,
+                          errors: wish_item.errors.full_messages.join(",")
+                        }
+                    }
+      end
     end
   end
 
