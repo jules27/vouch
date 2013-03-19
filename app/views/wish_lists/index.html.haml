@@ -4,6 +4,9 @@
     You don't have any places you want to go. Please
     = link_to "add one!", friends_path
 - else
+  .alert.alert-error.wish-list-errors
+  .alert.alert-success.wish-list-success
+
   %h3 Places I Want To Go In #{@wish_list.city.name}
 
   .search-form
@@ -45,7 +48,7 @@
             %td
               = link_to "Mark As Visited", "#", class: "btn btn-primary"
               &nbsp;
-              = link_to "Remove", "#", class: "btn btn-danger btn-small"
+              = link_to "Remove", "#", class: "btn btn-danger btn-small remove-wish-item", id: "#{item.id}"
 
 .friends-lists
   - current_user.friends.each do |friend|
