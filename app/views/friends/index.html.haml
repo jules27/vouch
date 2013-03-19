@@ -2,6 +2,9 @@
   You don't have any friends.
   = add_friend_link
 - else
+  .alert.alert-error.friend-list-errors
+  .alert.alert-success.friend-list-success
+
   %p.text-info
     Search for Restaurants or Tags
   .input-append
@@ -61,7 +64,12 @@
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
+                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary add-to-wish-list", id: "#{item.id}"
+                  = hidden_field_tag 'friend_id', friend.id
+                  .loading-image{ id: "loading_#{item.id}" }
 
   - if not_found == true
     No records found.
+
+  :javascript
+    var CITY_ID = "#{@city.id}";

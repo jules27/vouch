@@ -20,3 +20,4 @@
 //= require ./active_admin
 //= require ./bootstrap
 //= require ./tag-it
+//= require ./friends

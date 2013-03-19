@@ -5,7 +5,7 @@ class WishItem < ActiveRecord::Base
 
   # TODO: add taggings
 
-  attr_accessible :list_id, :business_id, :user_id
+  attr_accessible :wish_list_id, :business_id, :user_id
 
-  validates_presence_of :list_id, :business_id, :user_id
+  validates_presence_of :wish_list_id, :business_id, :user_id
 end

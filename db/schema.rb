@@ -150,11 +150,11 @@ ActiveRecord::Schema.define(:version => 20130319173446) do
   end
 
   create_table "wish_items", :force => true do |t|
-    t.integer  "list_id",     :null => false
-    t.integer  "business_id", :null => false
-    t.integer  "user_id",     :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "wish_list_id", :null => false
+    t.integer  "business_id",  :null => false
+    t.integer  "user_id",      :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "wish_lists", :force => true do |t|

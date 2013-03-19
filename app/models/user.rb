@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :vouch_lists, foreign_key: "owner_id"
+  has_many :wish_lists
   has_many :friendships
   has_many :friends, through: :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
