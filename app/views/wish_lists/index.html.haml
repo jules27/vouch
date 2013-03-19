@@ -1,5 +1,5 @@
 - if @wish_list.empty?
-  %h3 Places I Want To Go
+  %h4 Places I Want To Go
   %p
     You don't have any places you want to go. Please
     = link_to "add one!", friends_path
@@ -47,44 +47,44 @@
               &nbsp;
               = link_to "Remove", "#", class: "btn btn-danger btn-small"
 
-  .friends-lists
-    - current_user.friends.each do |friend|
-      - list = friend.wish_list_in_city(current_user.default_city)
-      - next if list.nil? or list.empty?
+.friends-lists
+  - current_user.friends.each do |friend|
+    - list = friend.wish_list_in_city(current_user.default_city)
+    - next if list.nil? or list.empty?
 
-      %h4 Places #{friend.name} Wants To Go In #{@wish_list.city.name}
-      %table.table.table-striped.table-condensed
-        %thead
+    %h4 Places #{friend.name} Wants To Go In #{@wish_list.city.name}
+    %table.table.table-striped.table-condensed
+      %thead
+        %tr
+          %th{ colspan: "2" }
+            Restaurant
+          %th
+            Neighborhoods
+          %th
+            Yelp Rating
+          %th
+            Reviews
+          %th
+            Friend Who Inspired
+          %th
+      %tbody
+        - list.wish_items.each do |item|
+          - b = item.business
+          - next unless b.present?
           %tr
-            %th{ colspan: "2" }
-              Restaurant
-            %th
-              Neighborhoods
-            %th
-              Yelp Rating
-            %th
-              Reviews
-            %th
-              Friend Who Inspired
-            %th
-        %tbody
-          - list.wish_items.each do |item|
-            - b = item.business
-            - next unless b.present?
-            %tr
-              %td
-                = business_image(b)
-              %td
-                = b.name
-              %td
-                = b.neighborhood
-              %td
-                = business_rating(b)
-              %td
-                = business_review_count(b)
-              %td
-                = inspired_by(item)
-              %td
-                = link_to "Mark As Visited", "#", class: "btn btn-primary"
-                &nbsp;
-                = link_to "Remove", "#", class: "btn btn-danger btn-small"
+            %td
+              = business_image(b)
+            %td
+              = b.name
+            %td
+              = b.neighborhood
+            %td
+              = business_rating(b)
+            %td
+              = business_review_count(b)
+            %td
+              = inspired_by(item)
+            %td
+              = link_to "Mark As Visited", "#", class: "btn btn-primary"
+              &nbsp;
+              = link_to "Remove", "#", class: "btn btn-danger btn-small"

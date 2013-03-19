@@ -23,6 +23,7 @@
       - lists = User.vouch_lists_by_keyword(friend, params[:query])
     - else
       - lists = friend.vouch_lists_by_city(@city.name)
+    - next if lists.first.empty?
 
     - lists.each do |list|
       - not_found = false
