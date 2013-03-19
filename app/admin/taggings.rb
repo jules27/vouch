@@ -1,4 +1,6 @@
 ActiveAdmin.register Tagging do
+  menu parent: "Tags"
+
   index do
     selectable_column
     column :id, sortable: :id do |tagging|

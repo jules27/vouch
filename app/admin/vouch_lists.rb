@@ -1,4 +1,6 @@
 ActiveAdmin.register VouchList do
+  menu parent: "Vouch"
+
   filter :id
   filter :owner_id, as: :numeric
   filter :city_id,   as: :numeric
