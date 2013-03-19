@@ -7,7 +7,7 @@
   .input-append
     = form_tag friends_path, method: :get, class: "name-search" do
       = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"
-      = submit_tag "Search", name: nil, class: "btn"
+      = submit_tag "Search", name: nil, class: "btn btn-info"
       = link_to "Clear", friends_path, class: "btn"
 
   - if params[:query].present?
