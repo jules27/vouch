@@ -8,6 +8,10 @@ Vouch::Application.routes.draw do
   resources :vouch_lists, except: [:new]
   resources :vouch_items, only: [:create, :update, :destroy]
 
+  # Business related
+  resources :businesses, only: [:create]
+  get  '/businesses/new/:type' => 'businesses#new_by_type', as: 'new_business_by_type'
+
   # City-specific routes
   get  '/vouch_lists/new/:city/' => 'vouch_lists#new_by_city', as: 'new_vouch_list_city'
 

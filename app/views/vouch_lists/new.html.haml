@@ -33,6 +33,8 @@
       = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-large", 'data-provide' => "typeahead", 'data-source' => '["' + restaurants.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off", 'data-bind' => 'value: newItemName', :id => "typed_restaurant_name"
       %button.btn.btn-info{ :type => "submit" }
         Vouch
+  .add-restaurant
+    = link_to "Don't see your restaurant? Help us to add one.", new_business_by_type_path("restaurant")
 
   %table.table.restaurants-table
     %thead

@@ -6,6 +6,8 @@ class VouchListsController < ApplicationController
   def index
     # @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)
     city = current_user.default_city
+
+    flash[:notice] = flash[:notice] if flash[:notice]
     redirect_to new_vouch_list_city_path(city.name)
   end
 
@@ -42,6 +44,7 @@ class VouchListsController < ApplicationController
     # Before making a new one, see if one with the same city already exists
     list_for_city = current_user.vouch_lists.find_by_city_id(city.id)
     if list_for_city.present?
+      flash[:notice] = flash[:notice] if flash[:notice]
       redirect_to edit_vouch_list_path(list_for_city)
       return
     end

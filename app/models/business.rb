@@ -11,7 +11,7 @@ class Business < ActiveRecord::Base
   attr_accessible :categories_raw
 
   validates_presence_of :business_type_id, :name
-  validates :name, uniqueness: { scope: [:latitude, :longitude],
+  validates :name, uniqueness: { scope: [:latitude, :longitude, :city],
                                  message: "A business with the same name and coordinates already exists." }
 
   # For editing in active admin
