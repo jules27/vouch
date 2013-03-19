@@ -63,7 +63,6 @@ module YelpHelper
   end
 
   def self.get_businesses(location)
-    # TODO: better way to separate these?
     businesses(location).collect do |business|
       {
         name:     business['name'],
