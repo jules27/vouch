@@ -33,9 +33,9 @@ module VouchListsHelper
       link_to image_tag(business.image_url, class: "img-polaroid"), "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
     else
       if business.image_url.present?
-        image_tag b.image_url, class: "img-polaroid", width: "100px", height: "100px"
+        image_tag b.image_url, class: "img-polaroid"
       else
-        image_tag "default_business_image.gif", class: "img-polaroid", width: "100px", height: "100px"
+        image_tag "default_business_image.gif", class: "img-polaroid"
       end
     end
   end

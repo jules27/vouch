@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
     wish_lists.where(city_id: default_city.id).first
   end
 
+  def wish_list_in_city(city)
+    wish_lists.where(city_id: city.id).first
+  end
+
   def admin?
     admin == true
   end
