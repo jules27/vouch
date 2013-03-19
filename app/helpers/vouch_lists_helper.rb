@@ -27,4 +27,33 @@ module VouchListsHelper
   def rating_class(rating)
     (rating * 10).to_i
   end
+
+  def business_image(business)
+    if business.yelp_id.present?
+      link_to image_tag(business.image_url, class: "img-polaroid"), "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
+    else
+      if business.image_url.present?
+        image_tag b.image_url, class: "img-polaroid", width: "100px", height: "100px"
+      else
+        image_tag "default_business_image.gif", class: "img-polaroid", width: "100px", height: "100px"
+      end
+    end
+  end
+
+  def business_rating(business)
+    if business.yelp_rating.present?
+      content_tag(:span, class: "rating-static rating-#{rating_class(business.yelp_rating)}") do
+      end
+    else
+      "Not Available"
+    end
+  end
+
+  def business_review_count(business)
+    if business.yelp_review_count.present?
+      business.yelp_review_count
+    else
+      "0"
+    end
+  end
 end

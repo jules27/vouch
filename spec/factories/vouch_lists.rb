@@ -24,7 +24,7 @@ FactoryGirl.define do
     after(:create) do |item|
       3.times do
         FactoryGirl.create(:tagging,
-                           tag_id: Tag.all.sample(1).first,
+                           tag_id: Tag.all.sample(1).first.id,
                            vouch_item_id: item.id)
       end
     end

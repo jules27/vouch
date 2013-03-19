@@ -1,5 +1,49 @@
-- if @wish_lists.empty?
-  %h2 Places I Want To Go
+- if @wish_list.empty?
+  %h3 Places I Want To Go
   %p
     You don't have any places you want to go. Please
     = link_to "add one!", friends_path
+- else
+  %h3 Places I Want To Go In #{@wish_list.city.name}
+
+  .search-form
+    Search form here...
+  %br
+
+  %div
+    %table.table.table-striped.table-condensed.restaurants-listing
+      %thead
+        %tr
+          %th{ colspan: "2" }
+            Restaurant
+          %th
+            Neighborhoods
+          %th
+            Yelp Rating
+          %th
+            Reviews
+          %th
+            Friend Who Inspired
+          %th
+      %tbody
+        - @wish_list.wish_items.each do |item|
+          - b = item.business
+          - next unless b.present?
+          %tr
+            %td
+              = business_image(b)
+            %td
+              = item.id
+              = b.name
+            %td
+              = b.neighborhood
+            %td
+              = business_rating(b)
+            %td
+              = business_review_count(b)
+            %td
+              = inspired_by(item)
+            %td
+              = link_to "Mark As Visited", "#", class: "btn btn-primary"
+              &nbsp;
+              = link_to "Remove", "#", class: "btn btn-danger btn-small"

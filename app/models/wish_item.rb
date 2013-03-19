@@ -7,5 +7,5 @@ class WishItem < ActiveRecord::Base
 
   attr_accessible :wish_list_id, :business_id, :user_id
 
-  validates_presence_of :wish_list_id, :business_id, :user_id
+  validates_presence_of :wish_list_id, :business_id
 end

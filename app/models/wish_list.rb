@@ -7,4 +7,8 @@ class WishList < ActiveRecord::Base
   attr_accessible :user_id, :city_id
 
   validates_presence_of :user_id, :city_id
+
+  def empty?
+    wish_items.empty?
+  end
 end
