@@ -42,8 +42,14 @@ class User < ActiveRecord::Base
   #   end
   # end
 
+  # Search for business names and tags in vouch lists
   def self.vouch_lists_by_keyword(user, keyword)
     VouchList.name_search(keyword).where(owner_id: user.id)
+  end
+
+  # Search for business names and tags in wish lists
+  def self.wish_lists_by_keyword(user, keyword)
+    WishList.name_search(keyword).where(user_id: user.id)
   end
 
   def vouch_lists_by_city(city_name)
