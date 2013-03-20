@@ -55,7 +55,7 @@
     - list = friend.wish_list_in_city(current_user.default_city)
     - next if list.nil? or list.empty?
 
-    %h4 Places #{friend.name} Wants To Go In #{@wish_list.city.name}
+    %h4 Places #{friend.name} Wants To Go In #{current_user.default_city.name}
     %table.table.table-striped.table-condensed
       %thead
         %tr
