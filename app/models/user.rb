@@ -93,6 +93,10 @@ class User < ActiveRecord::Base
     wish_list_primary.has_item?(vouch_item)
   end
 
+  def has_vouch_item?(vouch_item)
+    vouch_list_primary.has_item?(vouch_item)
+  end
+
   private
 
   def check_current_shared_lists
