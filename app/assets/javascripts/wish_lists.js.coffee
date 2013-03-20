@@ -2,6 +2,9 @@ $ ->
   $(".remove-wish-item").on "click", (e) ->
     e.preventDefault()
 
+    if (!confirm("Are you sure you want to delete this item?"))
+      return
+
     $(".wish-list-errors").hide()
     $(".wish-list-success").hide()
 
