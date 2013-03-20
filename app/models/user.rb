@@ -89,6 +89,10 @@ class User < ActiveRecord::Base
     friendships.where(friend_id: friend.id).present?
   end
 
+  def has_wish_item?(vouch_item)
+    wish_list_primary.has_item?(vouch_item)
+  end
+
   private
 
   def check_current_shared_lists

@@ -11,4 +11,8 @@ class WishList < ActiveRecord::Base
   def empty?
     wish_items.empty?
   end
+
+  def has_item?(item)
+    wish_items.where(business_id: item.business.id).count > 0
+  end
 end

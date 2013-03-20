@@ -62,7 +62,10 @@
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
+                  - if current_user.has_wish_item?(item)
+                    %button{ class: "btn btn-primary disabled" } Already in your wish list!
+                  - else
+                    = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
                   = hidden_field_tag 'friend_id', friend.id
                   .loading-image{ id: "loading_#{item.id}" }
 

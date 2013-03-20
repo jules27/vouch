@@ -10,6 +10,7 @@ $ ->
 
     $(this).addClass("disabled")
     $(loading_class).show()
+    success = false
 
     # Add this item to user's wish list
     $.ajax '/wish_items/add',
@@ -31,13 +32,19 @@ $ ->
 
         $(".friend-list-success").html('The item has been successfully added to your wish list!<a class="close" data-dismiss="alert">&#215;</a>')
         $(".friend-list-success").fadeIn("fast")
+        success = true
+
         return
       error: (xhr, status, error) ->
         $(".friend-list-errors").html("Errors: " + error + '<a class="close" data-dismiss="alert">&#215;</a>')
         $(".friend-list-errors").fadeIn("fast")
         return
 
-    if $(this).hasClass("disabled")
+    if (success == true)
+      $(loading_class).hide()
+      # Keep the disabled class, but change the text of the link
+      $(this).text("Added to your wish list!")
+    else if ($(this).hasClass("disabled"))
       $(this).removeClass("disabled")
       $(loading_class).hide()
     return
