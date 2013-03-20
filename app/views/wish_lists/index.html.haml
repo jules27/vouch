@@ -9,6 +9,9 @@
   - else
     %h3 Places I Want To Go In #{@wish_list.city.name}
 
+  .alert.alert-error.wish-list-errors
+  .alert.alert-success.wish-list-success
+
   .search-form
     %p.text-info
       Search for Restaurants or Tags
@@ -17,9 +20,12 @@
         = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"
         = submit_tag "Search", name: nil, class: "btn btn-info"
         = link_to "Clear", wish_lists_path, class: "btn"
+    %br
 
-  .alert.alert-error.wish-list-errors
-  .alert.alert-success.wish-list-success
+  .add-new
+    = link_to "Add a New Place to Your Wish List", new_wish_item_by_type_and_list_path(@type.id, @wish_list.id)
+
+  %br
 
   %div
     - if params[:query].present?

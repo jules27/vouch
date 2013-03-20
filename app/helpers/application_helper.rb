@@ -40,4 +40,8 @@ module ApplicationHelper
   def add_friend_link
     link_to "Please add some by sharing a list!", vouch_lists_path
   end
+
+  def add_new_business_link(type_name = "restaurant")
+    link_to "Don't see your restaurant? Help us to add one.", new_business_by_type_path("restaurant")
+  end
 end

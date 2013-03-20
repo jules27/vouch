@@ -22,3 +22,4 @@
 //= require ./tag-it
 //= require ./friends
 //= require ./wish_lists
+//= require ./wish_items
