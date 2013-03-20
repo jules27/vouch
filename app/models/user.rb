@@ -90,10 +90,12 @@ class User < ActiveRecord::Base
   end
 
   def has_wish_item?(vouch_item)
+    return false if wish_lists.nil? or wish_lists.empty?
     wish_list_primary.has_item?(vouch_item)
   end
 
   def has_vouch_item?(vouch_item)
+    return false if vouch_lists.nil? or vouch_lists.empty?
     vouch_list_primary.has_item?(vouch_item)
   end
 
