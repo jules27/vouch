@@ -42,9 +42,20 @@ class WishItemsController < ApplicationController
   end
 
   def visited
-    wish_item = WishItem.find(params[:id])
+    wish_item  = WishItem.find(params[:id])
+    vouch_list = current_user.vouch_list_primary
 
     # Add this item to vouch list and remove it from this wish list
+    vouch_item = vouch_list.vouch_items.build(business_id: wish_item.business_id)
+    unless vouch_item.save
+      render json: {
+                     status: 422,
+                     errors: "The list with item \"#{vouch_item.business.name}\" was unable to be saved."
+                   }
+      return
+    end
+
+    wish_item.destroy
 
     render json: { success: true }
   end

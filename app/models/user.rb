@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     vouch_lists.select { |list| list.city_id == city.id }
   end
 
+  def vouch_list_primary
+    vouch_lists.where(city_id: default_city.id).first
+  end
+
   def set_default_city(city)
     return if city_id.present?
     self.city_id = city.id

@@ -46,7 +46,7 @@
             %td
               = inspired_by(item)
             %td
-              = link_to "Mark As Visited", "#", class: "btn btn-primary"
+              = link_to "Mark As Visited", "#", class: "btn btn-primary mark-item-visited", id: "#{item.id}"
               &nbsp;
               = link_to "Remove", "#", class: "btn btn-danger btn-small remove-wish-item", id: "#{item.id}"
 
