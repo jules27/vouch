@@ -4,10 +4,10 @@
     You don't have any places you want to go. Please
     = link_to "add one!", friends_path
 - else
+  %h3 Places I Want To Go In #{@wish_list.city.name}
+
   .alert.alert-error.wish-list-errors
   .alert.alert-success.wish-list-success
-
-  %h3 Places I Want To Go In #{@wish_list.city.name}
 
   .search-form
     Search form here...
