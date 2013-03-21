@@ -18,8 +18,14 @@ class WishItemsController < ApplicationController
     wish_item = wish_list.wish_items.build(params[:wish_item])
     puts "add item for business #{wish_item.business_id}"
 
+    # This method is called from a link as well as a javascript click.
+    # html link: called from "Places I Want To Go", friends list, wish item
+    # javascript click: from "My Friend's Vouches", vouch item
     if wish_item.save
       respond_to do |format|
+        # Add taggings from original item to new one
+
+
         format.html {
                       flash[:notice] = "The item has been successfully added to your wish list!"
                       redirect_to wish_lists_path

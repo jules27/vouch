@@ -71,6 +71,7 @@
                   - else
                     = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
                   = hidden_field_tag 'friend_id', friend.id
+                  = hidden_field_tag 'vouch_item_id', item.id
                   .loading-image{ id: "loading_#{item.id}" }
 
   - if not_found == true
