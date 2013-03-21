@@ -33,7 +33,9 @@
     - else
       - my_wish_lists = [@wish_list]
 
+    - not_found = true
     - my_wish_lists.each do |list|
+      - not_found = false
       %table.table.table-striped.table-condensed.restaurants-listing
         %thead
           %tr
@@ -85,6 +87,7 @@
     - if friend_wish_lists.present?
       - friend_wish_lists.each do |friend_list|
         - next if friend_list.nil? or friend_list.empty?
+        - not_found = false
 
         - if params[:query].present?
           %h4 Places #{friend.name} Wants To Go In #{friend_list.city.name} that Include '#{params[:query]}'
@@ -132,6 +135,9 @@
                     %button{ class: "btn btn-success disabled" } Already vouched!
                   - else
                     = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}, original_wish_item_id: item.id), class: "btn btn-primary", method: :post
+
+  - if not_found == true
+    No records found.
 
 = javascript_include_tag "jquery"
 = javascript_include_tag "wish_list_tagging"

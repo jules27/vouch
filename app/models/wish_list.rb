@@ -3,7 +3,7 @@ class WishList < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :city
-  has_many   :wish_items
+  has_many   :wish_items, dependent: :destroy
   has_many   :businesses, through: :wish_items
   has_many   :tags, through: :wish_items
 

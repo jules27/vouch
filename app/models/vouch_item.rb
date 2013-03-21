@@ -1,7 +1,7 @@
 class VouchItem < ActiveRecord::Base
   belongs_to :vouch_list
   belongs_to :business
-  has_many   :taggings
+  has_many   :taggings, dependent: :destroy
   has_many   :tags, through: :taggings
 
   attr_accessible :vouch_list_id, :business_id, :description

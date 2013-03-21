@@ -2,7 +2,7 @@ class WishItem < ActiveRecord::Base
   belongs_to :wish_list
   belongs_to :business
   belongs_to :user # Friend who inspired
-  has_many   :wish_taggings
+  has_many   :wish_taggings, dependent: :destroy
   has_many   :tags, through: :wish_taggings
 
   attr_accessible :wish_list_id, :business_id, :user_id
