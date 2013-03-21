@@ -1,4 +1,5 @@
-%h2 Add A New #{business_type.name.capitalize}
+%h3 Add A New #{business_type.name.capitalize}
+
 %p
   Thanks for helping us out! Please fill in the following info and we'll take care of the rest.
 
@@ -25,6 +26,17 @@
     = f.label :state, class: "required"
     .controls
       = f.select :state, us_states
+
+  .control-group
+    Also add it to my:
+    %i (optional)
+    .controls
+      %label.radio
+        = radio_button_tag :add_to_list, 'vouch_list'
+        %strong Vouch List
+      %label.radio
+        = radio_button_tag :add_to_list, 'wish_list'
+        %strong Places I Want To Go
 
   %br
   .control-group

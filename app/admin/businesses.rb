@@ -1,4 +1,6 @@
 ActiveAdmin.register Business do
+  menu parent: "Business"
+
   filter :id
   filter :business_type
   filter :name

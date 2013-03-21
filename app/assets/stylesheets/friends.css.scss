@@ -6,8 +6,27 @@ table.restaurants-listing {
   td {
     vertical-align: middle;
   }
+  /*
   img {
     border: 1px solid #666666;
     padding: 4px;
   }
+  */
+}
+
+.restaurants-listing {
+  .loading-image {
+    width: 16px;
+    height: 16px;
+    background: url(image_path("loading.gif")) no-repeat;
+    padding-bottom: 10px;
+    display: none;
+    margin-top: -26px;
+    margin-left: -22px;
+  }
+}
+
+.friend-list-errors,
+.friend-list-success {
+  display: none;
 }

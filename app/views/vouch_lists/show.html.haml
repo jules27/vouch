@@ -30,7 +30,7 @@
         - b = Business.find(item.business_id)
         %tr
           %td{ colspan: "3" }
-            = b.name
+            = share_business_name(b)
           %td
             %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
           -# %td

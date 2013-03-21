@@ -1,0 +1,31 @@
+%h3 Add An Existing #{@business_type.name.capitalize} to Places I Want to Go
+
+.alert.alert-error.wish-item-errors
+.alert.alert-success.wish-item-success
+
+= form_for @wish_item, url: wish_items_path(@wish_item), method: :post do |f|
+  - if flash[:errors].present?
+    .alert.alert-error
+      %a{ class: 'close', 'data-dismiss' => 'alert' } &#215;
+      %strong Error:
+      - flash[:errors].each do |message|
+        #{message}.
+
+  = f.hidden_field :wish_list_id, value: @business_type.id
+  = f.hidden_field :city_id, value: @city.id
+
+  .control-group
+    = f.label :business_name, "#{@business_type.name.capitalize} in #{@city.name}"
+    .controls
+      = text_field_tag 'business_name', nil, :placeholder => "Start typing...", :class => "input-xlarge", 'data-provide' => "typeahead", 'data-source' => '["' + @businesses.map { |r| r.name }.join("\",\"") + '"]', :autocomplete => "off"
+  = f.hidden_field :business_id
+
+  .add-restaurant
+    = add_new_business_link
+  %br
+
+  .control-group
+    = f.submit "Add #{@business_type.name.capitalize}!", class: "btn btn-large btn-primary", id: "add_business_to_wish_list"
+
+:javascript
+  var CITY = "#{@city.name}";
