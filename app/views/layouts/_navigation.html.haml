@@ -11,8 +11,7 @@
           - if user_signed_in?
             = nav_link "My Vouches", vouch_lists_path
             = nav_link "My Friend's Vouches", friends_path
-            %li
-              = link_to "Places I Want To Go", "#"
+            = nav_link "Places I Want To Go", wish_lists_path
         %ul.nav.pull-right
           - if user_signed_in?
             %li.dropdown

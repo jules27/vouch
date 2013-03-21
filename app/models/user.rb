@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :vouch_lists, foreign_key: "owner_id"
+  has_many :wish_lists
   has_many :friendships
   has_many :friends, through: :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
@@ -41,13 +42,23 @@ class User < ActiveRecord::Base
   #   end
   # end
 
+  # Search for business names and tags in vouch lists
   def self.vouch_lists_by_keyword(user, keyword)
     VouchList.name_search(keyword).where(owner_id: user.id)
+  end
+
+  # Search for business names and tags in wish lists
+  def self.wish_lists_by_keyword(user, keyword)
+    WishList.name_search(keyword).where(user_id: user.id)
   end
 
   def vouch_lists_by_city(city_name)
     city = City.find_by_name(city_name)
     vouch_lists.select { |list| list.city_id == city.id }
+  end
+
+  def vouch_list_primary
+    vouch_lists.where(city_id: default_city.id).first
   end
 
   def set_default_city(city)
@@ -58,6 +69,14 @@ class User < ActiveRecord::Base
 
   def default_city
     self.city || City.first
+  end
+
+  def wish_list_primary
+    wish_lists.where(city_id: default_city.id).first
+  end
+
+  def wish_list_in_city(city)
+    wish_lists.where(city_id: city.id).first
   end
 
   def admin?
@@ -74,6 +93,16 @@ class User < ActiveRecord::Base
 
   def friends_with?(friend)
     friendships.where(friend_id: friend.id).present?
+  end
+
+  def has_wish_item?(vouch_item)
+    return false if wish_lists.nil? or wish_lists.empty? or wish_list_primary.nil?
+    wish_list_primary.has_item?(vouch_item)
+  end
+
+  def has_vouch_item?(vouch_item)
+    return false if vouch_lists.nil? or vouch_lists.empty? or vouch_list_primary.nil?
+    vouch_list_primary.has_item?(vouch_item)
   end
 
   private

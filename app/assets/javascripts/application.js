@@ -20,3 +20,6 @@
 //= require ./active_admin
 //= require ./bootstrap
 //= require ./tag-it
+//= require ./friends
+//= require ./wish_lists
+//= require ./wish_items

@@ -1,4 +1,6 @@
 ActiveAdmin.register VouchItem do
+  menu parent: "Vouch"
+
   filter :id
   filter :vouch_list_id, as: :numeric
   filter :business_id,   as: :numeric

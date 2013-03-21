@@ -1,7 +1,12 @@
+%h3 My Friends' Vouches
+
 - if @friends.count == 0
   You don't have any friends.
   = add_friend_link
 - else
+  .alert.alert-error.friend-list-errors
+  .alert.alert-success.friend-list-success
+
   %p.text-info
     Search for Restaurants or Tags
   .input-append
@@ -20,6 +25,7 @@
       - lists = User.vouch_lists_by_keyword(friend, params[:query])
     - else
       - lists = friend.vouch_lists_by_city(@city.name)
+    - next if lists.first.nil? or lists.first.empty?
 
     - lists.each do |list|
       - not_found = false
@@ -30,8 +36,8 @@
         %table.table.table-striped.table-condensed.restaurants-listing
           %thead
             %tr
-              %th
-                Restaurants
+              %th{ colspan: "2" }
+                Restaurant
               %th
                 Neighborhoods
               %th
@@ -46,22 +52,29 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
-                  - if b.yelp_id.present?
-                    = link_to image_tag(b.image_url), "http://www.yelp.com/biz/#{b.yelp_id}", target: "_blank"
-                  - else
-                    = image_tag b.image_url
+                  = business_image(b)
                 %td
                   = b.name
                 %td
                   = b.neighborhood
                 %td
-                  %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
+                  = business_rating(b)
                 %td
-                  = b.yelp_review_count
+                  = business_review_count(b)
                 %td
                   = item.tag_list
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary"
+                  - if current_user.has_wish_item?(item)
+                    %button{ class: "btn btn-primary disabled" } Already in your wish list!
+                  - elsif current_user.has_vouch_item?(item)
+                    %button{ class: "btn btn-success disabled" } Already vouched!
+                  - else
+                    = link_to "Add to \"Places I Want to Go\"", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
+                  = hidden_field_tag 'friend_id', friend.id
+                  .loading-image{ id: "loading_#{item.id}" }
 
   - if not_found == true
     No records found.
+
+  :javascript
+    var CITY_ID = "#{@city.id}";

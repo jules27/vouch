@@ -16,9 +16,12 @@ namespace :db do
     # Make some lists for each user for each city
     [user_a, user_b, user_c, user_d].each do |u|
       City.all.each do |city|
-        list = FactoryGirl.create(:vouch_list,
+        vouch_list = FactoryGirl.create(:vouch_list,
                                   owner_id: u.id,
                                   title: "#{u.name}'s List in #{city.name}",
+                                  city_id: city.id)
+        wish_list  = FactoryGirl.create(:wish_list,
+                                  user_id: u.id,
                                   city_id: city.id)
       end
     end
