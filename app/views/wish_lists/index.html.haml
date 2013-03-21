@@ -126,7 +126,12 @@
                 %td
                   = inspired_by(item)
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}), class: "btn btn-primary", method: :post
+                  - if current_user.has_wish_item?(item)
+                    %button{ class: "btn btn-primary disabled" } Already in your wish list!
+                  - elsif current_user.has_vouch_item?(item)
+                    %button{ class: "btn btn-success disabled" } Already vouched!
+                  - else
+                    = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}, original_wish_item_id: item.id), class: "btn btn-primary", method: :post
 
 = javascript_include_tag "jquery"
 = javascript_include_tag "wish_list_tagging"

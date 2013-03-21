@@ -10,8 +10,10 @@ class WishItemsController < ApplicationController
 
   def create
     city_id = params[:city_id] || params[:wish_item][:city_id]
-    if params[:wish_item][:city_id].present?
-      params[:wish_item].delete(:city_id)
+    params[:wish_item].delete(:city_id) if params[:wish_item][:city_id].present?
+
+    if params[:original_wish_item_id].present?
+      original_wish_item = WishItem.find(params[:original_wish_item_id])
     end
 
     wish_list = WishList.find_or_create_by_user_id_and_city_id(current_user.id, city_id)
@@ -23,8 +25,12 @@ class WishItemsController < ApplicationController
     # javascript click: from "My Friend's Vouches", vouch item
     if wish_item.save
       respond_to do |format|
-        # Add taggings from original item to new one
-
+        # Add taggings from original wish item to new wish item
+        if original_wish_item.present?
+          original_wish_item.wish_taggings.each do |tagging|
+            add_tagging_with_params(id: wish_item.id, name: tagging.tag.name)
+          end
+        end
 
         format.html {
                       flash[:notice] = "The item has been successfully added to your wish list!"
@@ -88,26 +94,80 @@ class WishItemsController < ApplicationController
   end
 
   def add_tagging
-    wish_item  = WishItem.find(params[:id])
-    tag        = Tag.find_or_create_by_name(params[:name])
+    result = add_tagging_with_params(params)
+
+    if result == true
+      respond_to do |format|
+        format.html {
+          # Tell the engine to not render any pages. Otherwise, the
+          # javascript caller will get a 500 error saying add_tagging.html
+          # cannot be rendered.
+          render nothing: true
+        }
+        format.json {
+          render json: { success: true }
+        }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          render nothing: true
+        }
+        format.json {
+          render json: {
+                       status: 422,
+                       errors: "The tag was unable to be saved."
+                     }
+        }
+      end
+    end
+  end
+
+  # This actual tag-adding method can be called by two places:
+  # 1. From add_tagging, which is called when the user adds tags to
+  #    a wish item, on the user's Places I Want To Go page.
+  # 2. From create, which is called when a new wish item is added.
+  def add_tagging_with_params(p = {})
+    wish_item  = WishItem.find(p[:id])
+    tag        = Tag.find_or_create_by_name(p[:name])
 
     # Create entry in tagging join table
     tagging    = WishTagging.new(wish_item_id: wish_item.id,
                                  tag_id: tag.id)
 
     if tagging.save
-      render json: { success: true }
+      respond_to do |format|
+        format.html {
+          return true
+        }
+        format.json {
+          render json: { success: true }
+        }
+      end
     else
-      render json: {
+      respond_to do |format|
+        format.html {
+          return false
+        }
+        format.json {
+          render json: {
                      status: 422,
                      errors: "The tag was unable to be saved."
                    }
+        }
+      end
     end
   end
 
   def delete_tagging
     wish_item  = WishItem.find(params[:id])
     tag        = Tag.find_by_name(params[:name])
+
+    if wish_item.nil? or tag.nil?
+      render json: { status: 422 }
+      return
+    end
+
     tagging    = WishTagging.find_by_wish_item_id_and_tag_id(wish_item.id, tag.id)
     tagging.destroy
     render json: { success: true }
