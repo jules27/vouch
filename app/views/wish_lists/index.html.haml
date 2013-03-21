@@ -46,6 +46,8 @@
             %th
               Reviews
             %th
+              Tags
+            %th
               Friend Who Inspired
             %th
         %tbody
@@ -63,12 +65,15 @@
                 = business_rating(b)
               %td
                 = business_review_count(b)
+              %td.tagging
+                = hidden_field_tag 'item_id', item.id, class: 'item-id'
+                %ul.item-tags
               %td
                 = inspired_by(item)
               %td
                 = link_to "Mark As Visited", "#", class: "btn btn-primary mark-item-visited", id: "#{item.id}"
                 &nbsp;
-                = link_to "Remove", "#", class: "btn btn-danger btn-small remove-wish-item", id: "#{item.id}"
+                = link_to "x", "#", class: "remove-wish-item", id: "#{item.id}"
 
 .friends-lists
   - current_user.friends.each do |friend|
@@ -97,6 +102,8 @@
               %th
                 Reviews
               %th
+                Tags
+              %th
                 Friend Who Inspired
               %th
           %tbody
@@ -115,6 +122,11 @@
                 %td
                   = business_review_count(b)
                 %td
+                  = item.tag_list
+                %td
                   = inspired_by(item)
                 %td
                   = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}), class: "btn btn-primary", method: :post
+
+= javascript_include_tag "jquery"
+= javascript_include_tag "wish_list_tagging"

@@ -73,4 +73,37 @@ class WishItemsController < ApplicationController
 
     render json: { success: true }
   end
+
+  def get_tagging
+    wish_item = WishItem.find(params[:id])
+    render json: {
+                   tags: wish_item.tags
+                 }
+  end
+
+  def add_tagging
+    wish_item  = WishItem.find(params[:id])
+    tag        = Tag.find_or_create_by_name(params[:name])
+
+    # Create entry in tagging join table
+    tagging    = WishTagging.new(wish_item_id: wish_item.id,
+                                 tag_id: tag.id)
+
+    if tagging.save
+      render json: { success: true }
+    else
+      render json: {
+                     status: 422,
+                     errors: "The tag was unable to be saved."
+                   }
+    end
+  end
+
+  def delete_tagging
+    wish_item  = WishItem.find(params[:id])
+    tag        = Tag.find_by_name(params[:name])
+    tagging    = WishTagging.find_by_wish_item_id_and_tag_id(wish_item.id, tag.id)
+    tagging.destroy
+    render json: { success: true }
+  end
 end

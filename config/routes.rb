@@ -31,7 +31,7 @@ Vouch::Application.routes.draw do
   # For mailer to share vouch lists
   post '/vouch_lists/share_email/:id' => "vouch_lists#share_email", as: 'share_vouch_list'
 
-  # Item tags
+  # Vouch item tags
   get    '/vouch_items/:id/get_tagging'    => "vouch_items#get_tagging"
   post   '/vouch_items/:id/add_tagging'    => "vouch_items#add_tagging"
   delete '/vouch_items/:id/delete_tagging' => "vouch_items#delete_tagging"
@@ -48,4 +48,10 @@ Vouch::Application.routes.draw do
   get  '/wish_items/:type_id/new/:wish_list_id' => "wish_items#new_by_type", as: 'new_wish_item_by_type'
   post '/wish_items/add'     => "wish_items#create"
   post '/wish_items/visited' => "wish_items#visited"
+
+  # Wish item tags
+  get    '/wish_items/:id/get_tagging'    => "wish_items#get_tagging"
+  post   '/wish_items/:id/add_tagging'    => "wish_items#add_tagging"
+  delete '/wish_items/:id/delete_tagging' => "wish_items#delete_tagging"
+
 end

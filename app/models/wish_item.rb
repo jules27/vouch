@@ -2,6 +2,8 @@ class WishItem < ActiveRecord::Base
   belongs_to :wish_list
   belongs_to :business
   belongs_to :user # Friend who inspired
+  has_many   :wish_taggings
+  has_many   :tags, through: :wish_taggings
 
   # TODO: add taggings
 
@@ -9,6 +11,21 @@ class WishItem < ActiveRecord::Base
 
   validates_presence_of :wish_list_id, :business_id
   validate :no_duplicate_items_in_list
+
+  def tag_list
+    return if tags.empty?
+
+    "#" + tags.map(&:name).join(" #")
+  end
+
+  def tag_list=(names)
+    # Don't process if a restaurant doesn't have a tag, ie. [""]
+    return unless names.pop.present?
+
+    self.tags = names.map do |n|
+      Tag.where(name: n).first_or_create!
+    end
+  end
 
   private
 

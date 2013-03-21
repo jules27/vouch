@@ -64,6 +64,7 @@ Vouch::Application.configure do
                                   tag-it.js jquery.tagit.css
                                   wish_lists.js wish_lists.css
                                   wish_items.js wish_items.css
+                                  wish_list_tagging.js
                                 )
 
   # Disable delivery errors, bad email addresses will be ignored
