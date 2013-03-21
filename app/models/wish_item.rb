@@ -38,6 +38,8 @@ class WishItem < ActiveRecord::Base
   # duplicates in the user's primary vouch list.
   def no_duplicate_items_in_vouch_list
     vouch_list = wish_list.user.vouch_list_primary
+    return if vouch_list.nil?
+
     if vouch_list.vouch_items.find_by_business_id(self.business_id).present?
       errors.add(:vouch_list, "already contains item \"#{self.business.name}\".")
     end

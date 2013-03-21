@@ -22,12 +22,12 @@ FactoryGirl.define do
     business_id  1 # This should be passed in
 
     # Add some tags to this item
-    # after(:create) do |item|
-    #   3.times do
-    #     FactoryGirl.create(:tagging,
-    #                        tag_id: Tag.all.sample(1).first,
-    #                        wish_item_id: item.id)
-    #   end
-    # end
+    after(:create) do |item|
+      3.times do
+        FactoryGirl.create(:wish_tagging,
+                           tag_id: Tag.all.sample(1).first.id,
+                           wish_item_id: item.id)
+      end
+    end
   end
 end
