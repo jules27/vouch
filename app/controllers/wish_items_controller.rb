@@ -71,6 +71,11 @@ class WishItemsController < ApplicationController
     wish_item  = WishItem.find(params[:id])
     vouch_list = current_user.vouch_list_primary
 
+    tags = []
+    wish_item.tags.each do |tag|
+      tags.push(tag.name)
+    end
+
     # Add this item to vouch list and remove it from this wish list
     vouch_item = vouch_list.vouch_items.build(business_id: wish_item.business_id)
     unless vouch_item.save
@@ -83,7 +88,11 @@ class WishItemsController < ApplicationController
 
     wish_item.destroy
 
-    render json: { success: true }
+    render json: {
+                   success: true,
+                   vouch_item_id: vouch_item.id,
+                   tags: tags
+                 }
   end
 
   def get_tagging

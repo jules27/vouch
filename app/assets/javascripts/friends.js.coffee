@@ -32,10 +32,11 @@ $ ->
           $(".friend-list-errors").fadeIn("fast")
           return
 
-        $(".friend-list-success").html('The item has been successfully added to your wish list!<a class="close" data-dismiss="alert">&#215;</a>')
-        $(".friend-list-success").fadeIn("fast")
         success = true
         wish_item_id = data.wish_item_id
+
+        $(".friend-list-success").html('The item has been successfully added to your wish list!<a class="close" data-dismiss="alert">&#215;</a>')
+        $(".friend-list-success").fadeIn("fast")
 
         return
       error: (xhr, status, error) ->

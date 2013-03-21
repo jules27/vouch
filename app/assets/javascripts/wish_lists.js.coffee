@@ -48,8 +48,11 @@ $ ->
     $(".wish-list-errors").hide()
     $(".wish-list-success").hide()
 
-    wish_item_id = $(this).attr('id')
+    wish_item_id  = $(this).attr('id')
+    vouch_item_id = ""
+    tags = ""
     loading_class = ".loading-image#loading_#{wish_item_id}"
+    success = false
 
     $(this).addClass("disabled")
     $(loading_class).show()
@@ -64,6 +67,15 @@ $ ->
         id: wish_item_id
       }
       success: (data, status, xhr) ->
+        if (data.status == 422)
+          $(".wish-list-errors").html("Errors: " + data.errors + '<a class="close" data-dismiss="alert">&#215;</a>')
+          $(".wish-list-errors").fadeIn("fast")
+          return
+
+        success = true
+        vouch_item_id = data.vouch_item_id
+        tags = data.tags
+
         # Remove the whole row from current html
         current_element.parent().parent().remove()
 
@@ -75,7 +87,19 @@ $ ->
         $(".wish-list-errors").fadeIn("fast")
         return
 
-    if $(this).hasClass("disabled")
+    if (success == true)
+      # Add taggings that this vouch item has for the new wish item
+      $.each tags, (tagIndex, tagValue) ->
+        $.ajax "/vouch_items/#{vouch_item_id}/add_tagging",
+          type:     'post'
+          async:    false
+          dataType: 'json'
+          data: {
+            name: tagValue
+          }
+          success: (data, status, xhr) ->
+            # console.log "tag #{tagValue} added"
+    else if $(this).hasClass("disabled")
       $(this).removeClass("disabled")
       $(loading_class).hide()
     return
