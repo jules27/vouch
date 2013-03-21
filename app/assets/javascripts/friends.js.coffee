@@ -58,7 +58,7 @@ $ ->
             name: tagValue
           }
           success: (data, status, xhr) ->
-            console.log "tag #{tagValue} added"
+            # console.log "tag #{tagValue} added"
 
       $(loading_class).hide()
       # Keep the disabled class, but change the text of the link
