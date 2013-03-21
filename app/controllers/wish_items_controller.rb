@@ -1,4 +1,8 @@
 class WishItemsController < ApplicationController
+  before_filter :authenticate_user!
+  before_filter :check_list_owner_permissions, only: [:new_by_type]
+  before_filter :check_view_permissions, only: [:get_tagging]
+
   def new_by_type
     @city = current_user.default_city
     @business_type = BusinessType.find(params[:type_id])
@@ -188,5 +192,36 @@ class WishItemsController < ApplicationController
     tagging    = WishTagging.find_by_wish_item_id_and_tag_id(wish_item.id, tag.id)
     tagging.destroy
     render json: { success: true }
+  end
+
+  private
+
+  def check_list_owner_permissions
+    wish_list = WishList.find(params[:wish_list_id])
+    unless current_user.id == wish_list.user.id or current_user.admin?
+      redirect_to wish_lists_path,
+                  flash: {
+                           error: "You do not have the permission to do this."
+                         }
+    end
+  end
+
+  def check_view_permissions
+    # Can the current user view tags for this wish item?
+    # Yes only if the list's owner is friends with the current user.
+    wish_item = WishItem.find(params[:id])
+    wish_list = wish_item.wish_list
+    if (!current_user.admin?) and (wish_list.user.id != current_user.id)
+      has_match = false
+      current_user.friends.each do |friend|
+        has_match = true if friend.id == wish_list.user.id
+      end
+      if has_match == false
+        redirect_to root_path,
+                    flash: {
+                             error: "You do not have the permission to view this list."
+                           }
+      end
+    end
   end
 end
