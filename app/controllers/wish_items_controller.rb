@@ -8,21 +8,31 @@ class WishItemsController < ApplicationController
     @wish_item = WishItem.new
   end
 
+  # This method is called from a link as well as a javascript click.
+  # html link: called from "Places I Want To Go", friends list, wish item
+  # javascript click: from "My Friend's Vouches", vouch item
   def create
     city_id = params[:city_id] || params[:wish_item][:city_id]
     params[:wish_item].delete(:city_id) if params[:wish_item][:city_id].present?
 
+    # Used by html call
     if params[:original_wish_item_id].present?
       original_wish_item = WishItem.find(params[:original_wish_item_id])
+    end
+
+    # Used by javascript call
+    if params[:vouch_item_id].present?
+      tags = []
+      vouch_item = VouchItem.find(params[:vouch_item_id])
+      vouch_item.tags.each do |tag|
+        tags.push(tag.name)
+      end
     end
 
     wish_list = WishList.find_or_create_by_user_id_and_city_id(current_user.id, city_id)
     wish_item = wish_list.wish_items.build(params[:wish_item])
     puts "add item for business #{wish_item.business_id}"
 
-    # This method is called from a link as well as a javascript click.
-    # html link: called from "Places I Want To Go", friends list, wish item
-    # javascript click: from "My Friend's Vouches", vouch item
     if wish_item.save
       respond_to do |format|
         # Add taggings from original wish item to new wish item
@@ -40,7 +50,8 @@ class WishItemsController < ApplicationController
                       render json:
                         {
                           success: true,
-                          wish_item_id: wish_item.id
+                          wish_item_id: wish_item.id,
+                          tags: tags
                         }
                     }
       end
@@ -150,7 +161,7 @@ class WishItemsController < ApplicationController
           return true
         }
         format.json {
-          render json: { success: true }
+          return true
         }
       end
     else
@@ -159,10 +170,7 @@ class WishItemsController < ApplicationController
           return false
         }
         format.json {
-          render json: {
-                     status: 422,
-                     errors: "The tag was unable to be saved."
-                   }
+          return false
         }
       end
     end

@@ -13,6 +13,7 @@ $ ->
     $(this).addClass("disabled")
     $(loading_class).show()
     success = false
+    tags = ""
 
     # Add this item to user's wish list
     $.ajax '/wish_items/add',
@@ -21,6 +22,7 @@ $ ->
       dataType: 'json'
       data: {
           city_id: CITY_ID,
+          vouch_item_id: vouch_item_id,
           wish_item: {
             business_id: business_id,
             user_id: friend_id
@@ -34,6 +36,7 @@ $ ->
 
         success = true
         wish_item_id = data.wish_item_id
+        tags = data.tags
 
         $(".friend-list-success").html('The item has been successfully added to your wish list!<a class="close" data-dismiss="alert">&#215;</a>')
         $(".friend-list-success").fadeIn("fast")
@@ -46,16 +49,7 @@ $ ->
 
     if (success == true)
       # Add taggings that this vouch item has for the new wish item
-      vouch_item_tags = []
-      $.ajax "/vouch_items/#{vouch_item_id}/get_tagging/",
-        type:     'get'
-        async:    false
-        dataType: 'json'
-        success: (data, status, xhr) ->
-          $.each data.tags, (tagIndex, tagValue) ->
-            vouch_item_tags.push tagValue.name
-
-      $.each vouch_item_tags, (tagIndex, tagValue) ->
+      $.each tags, (tagIndex, tagValue) ->
         $.ajax "/wish_items/#{wish_item_id}/add_tagging",
           type:     'post'
           async:    false
@@ -64,7 +58,7 @@ $ ->
             name: tagValue
           }
           success: (data, status, xhr) ->
-            # console.log "tag #{tagValue} added"
+            console.log "tag #{tagValue} added"
 
       $(loading_class).hide()
       # Keep the disabled class, but change the text of the link
