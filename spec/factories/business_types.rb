@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :business_type do
+    name "restaurant"
   end
 end
