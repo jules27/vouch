@@ -1,6 +1,7 @@
 class WishItemsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_list_owner_permissions, only: [:new_by_type]
+  before_filter :check_list_owner_permissions,
+                only: [:new_by_type, :update, :destroy, :add_tagging, :delete_tagging]
   before_filter :check_view_permissions, only: [:get_tagging]
 
   def new_by_type
@@ -197,7 +198,8 @@ class WishItemsController < ApplicationController
   private
 
   def check_list_owner_permissions
-    wish_list = WishList.find(params[:wish_list_id])
+    wish_item = WishItem.find(params[:id]) if params[:id].present?
+    wish_list = wish_item.present? ? wish_item.wish_list : WishList.find(params[:wish_list_id])
     unless current_user.id == wish_list.user.id or current_user.admin?
       redirect_to wish_lists_path,
                   flash: {
