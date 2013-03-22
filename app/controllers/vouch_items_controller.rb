@@ -1,5 +1,7 @@
 class VouchItemsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_list_owner_permissions,
+                only: [:update, :destroy, :add_tagging, :delete_tagging]
   before_filter :check_view_permissions, only: [:get_tagging]
 
   def create
@@ -58,6 +60,17 @@ class VouchItemsController < ApplicationController
   end
 
   private
+
+  def check_list_owner_permissions
+    vouch_item = VouchItem.find(params[:id])
+    vouch_list = vouch_item.vouch_list
+    unless current_user.id == vouch_list.owner.id or current_user.admin?
+      redirect_to vouch_lists_path,
+                  flash: {
+                           error: "You do not have the permission to do this."
+                         }
+    end
+  end
 
   def check_view_permissions
     # Can the current user view tags for this vouch item?
