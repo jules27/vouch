@@ -6,7 +6,7 @@ describe User do
   end
 
   context "#check_current_shared_lists" do
-    it "Creates a friendship" do
+    it "Creates a friendship between user and shared friend" do
       # Create a vouch list under the admin user.
       # Share the list to email 'a@example.com'
       # Create a user under the same email and make sure these two become

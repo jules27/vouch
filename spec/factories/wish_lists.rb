@@ -17,6 +17,11 @@ FactoryGirl.define do
     end
   end
 
+  factory :wish_list_simple, class: WishList do
+    user_id  1 # This needs to be passed in
+    city_id  1 # This needs to be passed in
+  end
+
   factory :wish_item do
     wish_list_id 1 # This should be passed in
     business_id  1 # This should be passed in
