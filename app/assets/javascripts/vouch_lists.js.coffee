@@ -42,7 +42,7 @@ $ ->
 
       # Make another ajax call to remove the item if this is an existing list
       if (VOUCH_LIST > 0)
-        $.ajax '/vouch_items/' + item.item_id(),
+        $.ajax "/vouch_items/#{item.item_id()}",
         type: 'delete'
         dataType: 'json'
         success: (data, status, xhr) ->
