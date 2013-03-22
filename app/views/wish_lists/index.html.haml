@@ -27,7 +27,7 @@
 
   %br
 
-  %div
+  .my-list
     - if params[:query].present?
       - my_wish_lists = User.wish_lists_by_keyword(current_user, params[:query])
     - else
