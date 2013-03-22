@@ -1,7 +1,7 @@
 class WishItemsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_list_owner_permissions,
-                only: [:new_by_type, :update, :destroy, :add_tagging, :delete_tagging]
+                only: [:new_by_type, :destroy, :add_tagging, :delete_tagging]
   before_filter :check_view_permissions, only: [:get_tagging]
 
   def new_by_type
