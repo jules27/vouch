@@ -8,7 +8,7 @@
   .alert.alert-success.friend-list-success
 
   %p.text-info
-    Search for Restaurants or Tags
+    %i.icon-search &nbsp;Search for Restaurants or Tags
   .input-append
     = form_tag friends_path, method: :get, class: "name-search" do
       = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"

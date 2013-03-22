@@ -14,7 +14,7 @@
 
   .search-form
     %p.text-info
-      Search for Restaurants or Tags
+      %i.icon-search &nbsp;Search for Restaurants or Tags
     .input-append
       = form_tag wish_lists_path, method: :get, class: "name-search" do
         = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"
@@ -23,6 +23,7 @@
     %br
 
   .add-new
+    %i.icon-glass
     = link_to "Add a New Place to Your Wish List", new_wish_item_by_type_path(@type.id, @wish_list.id)
 
   %br
