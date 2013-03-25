@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe WishItem do
-  before :all do
+  before :each do
     basic_test_data
   end
 

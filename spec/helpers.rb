@@ -1,6 +1,6 @@
 module Helpers
-  def login
-    user = FactoryGirl.create(:user)
+  def login(city = City.first)
+    user = FactoryGirl.create(:user, city_id: city.id)
     login_as(user, scope: :user)
   end
 

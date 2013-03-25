@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_city(city)
-    return if city_id.present?
+    return unless city.id.present?
     self.city_id = city.id
     self.save
   end
