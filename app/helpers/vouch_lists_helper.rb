@@ -63,7 +63,7 @@ module VouchListsHelper
 
   def share_business_name(business)
     if business.yelp_id.present?
-      link_to business.name, "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
+      link_to business.name, business_path(business)
     else
       business.name
     end

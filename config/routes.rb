@@ -49,6 +49,7 @@ Vouch::Application.routes.draw do
   resources :wish_items, only: [:create, :destroy]
   get  '/wish_items/:type_id/new/:wish_list_id' => "wish_items#new_by_type", as: 'new_wish_item_by_type'
   post '/wish_items/add'     => "wish_items#create"
+  post '/wish_items/add_independent' => "wish_items#create_independent"
   post '/wish_items/visited' => "wish_items#visited"
 
   # Wish item tags

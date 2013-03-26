@@ -65,9 +65,9 @@
                   = item.tag_list
                 %td
                   - if current_user.has_wish_item?(item)
-                    %button{ class: "btn btn-primary disabled" } Already In Your Wish List!
+                    = already_in_wish_list_button
                   - elsif current_user.has_vouch_item?(item)
-                    %button{ class: "btn btn-success disabled" } Already Vouched!
+                    = already_vouched_button
                   - else
                     = link_to "I Want To Go!", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
                   = hidden_field_tag 'friend_id', friend.id

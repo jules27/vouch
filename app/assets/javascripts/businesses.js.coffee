@@ -1,22 +1,55 @@
-initialize = () ->
-  mapDiv  = document.getElementById('map-canvas')
+$ ->
+  $("#vouch_business_action").on "click", (e) ->
+    e.preventDefault()
+    currentElement = $(this)
+    success = false
 
-  latlong = new google.maps.LatLng(LAT, LONG)
-  options =
-    {
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: latlong,
-      zoom: 15
-    }
+    currentElement.addClass("disabled")
 
-  name = document.getElementById('business_title').innerHTML
+    $.ajax '/vouch_items/',
+      type:     'post'
+      async:    false
+      dataType: 'json'
+      data: {
+        id: $("#vouch_list_id").val(),
+        vouch_item: {
+          business_id: $("#business_id").val()
+        }
+      }
+      success: (data, status, xhr) ->
+        success = true
 
-  map = new google.maps.Map(mapDiv, options)
-  marker = new google.maps.Marker({
-              map: map,
-              position: latlong,
-              title: name
-            })
-  return
+    if (success == true)
+      # Disable this button
+      currentElement.addClass("disabled")
+      currentElement.html("Added To Vouch List!")
+    else
+      currentElement.removeClass("disabled")
 
-google.maps.event.addDomListener(window, 'load', initialize)
+  $("#wish_business_action").on "click", (e) ->
+    e.preventDefault()
+    currentElement = $(this)
+    success = false
+
+    currentElement.addClass("disabled")
+
+    $.ajax '/wish_items/add_independent',
+      type:     'post'
+      async:    false
+      dataType: 'json'
+      data: {
+        wish_list_id: $("#wish_list_id").val()
+        city_id: $("#city_id").val()
+        wish_item: {
+          business_id: $("#business_id").val()
+        }
+      }
+      success: (data, status, xhr) ->
+        success = true
+
+    if (success == true)
+      # Disable this button
+      currentElement.addClass("disabled")
+      currentElement.html("Added To Wish List!")
+    else
+      currentElement.removeClass("disabled")

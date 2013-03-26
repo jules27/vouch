@@ -1,8 +1,12 @@
 #map-canvas {
   height: 400px;
-  width: 600px;
+  width: 500px;
   border: 1px solid #333;
   img {
     max-width: none;
   }
+}
+
+.last {
+  padding-top: 14px;
 }
