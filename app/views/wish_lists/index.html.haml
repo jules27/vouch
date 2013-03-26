@@ -59,7 +59,7 @@
             - next unless b.present?
             %tr
               %td
-                = business_image(b)
+                = business_image(b, business_path(b))
               %td.business-name
                 = b.name
               %td
@@ -116,7 +116,7 @@
               - next unless b.present?
               %tr
                 %td
-                  = business_image(b)
+                  = business_image(b, business_path(b))
                 %td.business-name
                   = b.name
                 %td

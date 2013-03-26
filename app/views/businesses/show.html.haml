@@ -1,0 +1,47 @@
+= javascript_include_tag "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"
+
+%h2#business_title #{@business.name}
+
+%p.lead
+  - if @business.neighborhood.present?
+    #{@business.neighborhood}, #{@business.city}, #{@business.state}
+  - else
+    #{@business.city}, #{@business.state}
+
+.row-fluid
+  .span7
+    %dl.dl-horizontal
+      %dt Address
+      %dd #{@business.address_line_1}
+      %dd #{@business.address_line_2}
+      %dd #{@business.city}, #{@business.state}, #{@business.zip}
+
+      %dt Phone
+      %dd #{@business.phone}
+
+      - if @business.neighborhood.present?
+        %dt Neighborhood
+        %dd #{@business.neighborhood}
+
+      %dt Categories
+      %dd #{@business.categories_formatted}
+
+      %dt Yelp Rating
+      %dd #{business_rating(@business)} (#{@business.yelp_review_count})
+
+  .span3
+    = business_image(@business)
+
+#map-canvas
+%br
+
+= link_to 'Back', :back
+
+%br
+%br
+
+:javascript
+  var LONG = #{@business.longitude};
+  var LAT  = #{@business.latitude};
+
+= javascript_include_tag "businesses"

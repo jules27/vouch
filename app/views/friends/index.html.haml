@@ -52,7 +52,7 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
-                  = business_image(b)
+                  = business_image(b, business_path(b))
                 %td.business-name
                   = b.name
                 %td

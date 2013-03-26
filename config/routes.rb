@@ -11,6 +11,7 @@ Vouch::Application.routes.draw do
   # Business related
   resources :businesses, only: [:create]
   get  '/businesses/new/:type' => 'businesses#new_by_type', as: 'new_business_by_type'
+  get  '/businesses/:id' => 'businesses#show', as: 'business'
 
   # City-specific routes
   get  '/vouch_lists/new/:city/' => 'vouch_lists#new_by_city', as: 'new_vouch_list_city'
