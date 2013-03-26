@@ -60,7 +60,7 @@
             %tr
               %td
                 = business_image(b)
-              %td
+              %td.business-name
                 = b.name
               %td
                 = b.neighborhood
@@ -94,7 +94,7 @@
           %h4 Places #{friend.name} Wants To Go In #{friend_list.city.name} that Include '#{params[:query]}'
         - else
           %h4 Places #{friend.name} Wants To Go In #{friend_list.city.name}
-        %table.table.table-striped.table-condensed
+        %table.table.table-striped.table-condensed.restaurants-listing
           %thead
             %tr
               %th{ colspan: "2" }
@@ -117,7 +117,7 @@
               %tr
                 %td
                   = business_image(b)
-                %td
+                %td.business-name
                   = b.name
                 %td
                   = b.neighborhood
