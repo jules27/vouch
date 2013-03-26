@@ -21,5 +21,6 @@
 //= require ./bootstrap
 //= require ./tag-it
 //= require ./friends
+//= require ./friendships
 //= require ./wish_lists
 //= require ./wish_items
