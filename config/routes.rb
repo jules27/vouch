@@ -41,6 +41,7 @@ Vouch::Application.routes.draw do
   # Friends/ friendships
   get  '/friends' => "friends#index", as: 'friends'
   post '/friendships/add' => "friendships#add"
+  post '/users/lookup' => "users#lookup"
 
   # Wish lists and items
   resources :wish_lists, only: [:index, :create]
