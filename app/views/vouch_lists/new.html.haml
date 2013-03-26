@@ -34,6 +34,7 @@
       %button.btn.btn-info{ :type => "submit" }
         Vouch
   .add-restaurant
+    %i.icon-star-empty
     = add_new_business_link
 
   %table.table.restaurants-table
@@ -68,7 +69,6 @@
         %input{ 'data-bind' => "text: item_id", :type => "hidden" }
 
 .list-creation-third
-  %br
   .control-group
     .row-fluid
       .loading-image

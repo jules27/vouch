@@ -30,6 +30,9 @@
                 %li
                   = link_to current_user.email, "#", class: "navbar-email"
                 %li
+                  = link_to current_user.default_city.name, "#", class: "navbar-email city"
+                %li.divider
+                %li
                   = link_to "My Friends", friendships_path
                 %li
                   = link_to "My Account", edit_user_registration_path

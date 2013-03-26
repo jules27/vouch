@@ -3,8 +3,9 @@ class WishList < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :city
-  has_many   :wish_items
+  has_many   :wish_items, dependent: :destroy
   has_many   :businesses, through: :wish_items
+  has_many   :tags, through: :wish_items
 
   attr_accessible :user_id, :city_id
 
@@ -12,8 +13,8 @@ class WishList < ActiveRecord::Base
 
   # Search through associations
   pg_search_scope :name_search, associated_against: {
-    businesses: :name
-    #tags:       :name
+    businesses: :name,
+    tags:       :name
   }
 
   def empty?

@@ -30,3 +30,10 @@ table.restaurants-listing {
 .friend-list-success {
   display: none;
 }
+
+.restaurants-listing {
+  td.business-name {
+    font-weight: bold;
+    font-size:   15px;
+  }
+}

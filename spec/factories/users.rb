@@ -6,5 +6,6 @@ FactoryGirl.define do
     password "password"
     password_confirmation { |u| u.password }
     city_id  { City.all.sample(1).first.id }
+    admin false
   end
 end
