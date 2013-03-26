@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
   # Make it omniauthable for Facebook
   # devise :omniauthable, :omniauth_providers => [:facebook]
 
-  has_many :vouch_lists, foreign_key: "owner_id"
-  has_many :wish_lists
-  has_many :friendships
+  has_many :vouch_lists, foreign_key: "owner_id", dependent: :destroy
+  has_many :wish_lists, dependent: :destroy
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_city(city)
-    return if city_id.present?
+    return unless city.id.present?
     self.city_id = city.id
     self.save
   end
@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
     # any other person's lists. If so, add this user to the other person's
     # friend list, and vice versa.
     VouchList.all.each do |list|
-      next if list.owner.id == self.id
+      next if list.owner.nil? or list.owner.id == self.id
       list.shared_friends.each do |shared_friend|
         if shared_friend.email == self.email
           friendship = list.owner.friendships.build(friend_id: self.id)

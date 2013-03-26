@@ -1,7 +1,7 @@
 class VouchListsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_owner_permissions, only: [:edit]
-  before_filter :check_view_permissions, only: [:show]
+  before_filter :check_owner_permissions, only: [:edit, :update, :destroy]
+  before_filter :check_view_permissions, only: [:show, :get_shared_friends]
 
   def index
     # @vouch_lists = VouchList.find_all_by_owner_id(current_user.id)

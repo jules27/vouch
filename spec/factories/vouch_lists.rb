@@ -16,6 +16,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :vouch_list_simple, class: VouchList do
+    owner_id 1 # This needs to be passed in
+    title "Test User Title" # This should also be passed in
+    city_id  1 # This needs to be passed in
+  end
+
   factory :vouch_item do
     vouch_list_id 1 # This should be passed in
     business_id   1 # This should be passed in

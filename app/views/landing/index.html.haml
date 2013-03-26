@@ -1,25 +1,27 @@
 .jumbotron
   - if user_signed_in?
-    %h2 Hello #{current_user.first_name} #{current_user.last_name}!
+    %h2 Hi #{current_user.first_name.capitalize}, Welcome To Vouch!
 
     %h3 Here's how Vouch works:
+    %br
 
     .row-fluid
       .span4
-        %h4 1. Start a list of vouches
+        %h4 1. Create Vouches In Your Favorite City
       .span4
-        %h4 2. Name your favorite restaurants
+        %h4 2. Share Your Favorite Restaurants With Friends
       .span4
-        %h4 3. Share with friends!
+        %h4 3. View Their Vouches & Try New Places!
 
+    %br
     %br
 
     - if current_user.has_lists?
       %h4
-        Let's get started with restaurants in...
+        Let's Get Started With Restaurants In...
     - else
       %h4
-        Pick your destination!
+        Pick Your Destination!
 
     %br
 

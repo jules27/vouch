@@ -42,7 +42,7 @@ $ ->
 
       # Make another ajax call to remove the item if this is an existing list
       if (VOUCH_LIST > 0)
-        $.ajax '/vouch_items/' + item.item_id(),
+        $.ajax "/vouch_items/#{item.item_id()}",
         type: 'delete'
         dataType: 'json'
         success: (data, status, xhr) ->
@@ -322,8 +322,8 @@ $ ->
                 name: tag_name
               },
               (data) ->
-                if (data.success)
-                  console.log "Tag has been added: " + tag_name
+                # if (data.success)
+                #   console.log "Tag has been added: " + tag_name
         beforeTagRemoved: (e, ui) ->
           if (!ui.duringInitialization)
             tag_name = ui.tagLabel
@@ -336,7 +336,7 @@ $ ->
                   name: tag_name
                 }
                 success: (data, status, xhr) ->
-                  console.log "Tag has been removed: " + tag_name
+                  # console.log "Tag has been removed: " + tag_name
       })
 
   # Adding a delay so that items can be read from database first

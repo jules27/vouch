@@ -14,7 +14,7 @@
 
   .search-form
     %p.text-info
-      Search for Restaurants or Tags
+      %i.icon-search &nbsp;Search for Restaurants or Tags
     .input-append
       = form_tag wish_lists_path, method: :get, class: "name-search" do
         = text_field_tag :query, params[:query], placeholder: "Restaurant name or tag...", class: "input-xlarge"
@@ -23,17 +23,20 @@
     %br
 
   .add-new
+    %i.icon-glass
     = link_to "Add a New Place to Your Wish List", new_wish_item_by_type_path(@type.id, @wish_list.id)
 
   %br
 
-  %div
+  .my-list
     - if params[:query].present?
       - my_wish_lists = User.wish_lists_by_keyword(current_user, params[:query])
     - else
       - my_wish_lists = [@wish_list]
 
+    - not_found = true
     - my_wish_lists.each do |list|
+      - not_found = false
       %table.table.table-striped.table-condensed.restaurants-listing
         %thead
           %tr
@@ -46,6 +49,8 @@
             %th
               Reviews
             %th
+              Tags
+            %th
               Friend Who Inspired
             %th
         %tbody
@@ -55,7 +60,7 @@
             %tr
               %td
                 = business_image(b)
-              %td
+              %td.business-name
                 = b.name
               %td
                 = b.neighborhood
@@ -63,12 +68,15 @@
                 = business_rating(b)
               %td
                 = business_review_count(b)
+              %td.tagging
+                = hidden_field_tag 'item_id', item.id, class: 'item-id'
+                %ul.item-tags
               %td
                 = inspired_by(item)
               %td
                 = link_to "Mark As Visited", "#", class: "btn btn-primary mark-item-visited", id: "#{item.id}"
                 &nbsp;
-                = link_to "Remove", "#", class: "btn btn-danger btn-small remove-wish-item", id: "#{item.id}"
+                = link_to "x", "#", class: "remove-wish-item", id: "#{item.id}"
 
 .friends-lists
   - current_user.friends.each do |friend|
@@ -80,12 +88,13 @@
     - if friend_wish_lists.present?
       - friend_wish_lists.each do |friend_list|
         - next if friend_list.nil? or friend_list.empty?
+        - not_found = false
 
         - if params[:query].present?
           %h4 Places #{friend.name} Wants To Go In #{friend_list.city.name} that Include '#{params[:query]}'
         - else
           %h4 Places #{friend.name} Wants To Go In #{friend_list.city.name}
-        %table.table.table-striped.table-condensed
+        %table.table.table-striped.table-condensed.restaurants-listing
           %thead
             %tr
               %th{ colspan: "2" }
@@ -97,6 +106,8 @@
               %th
                 Reviews
               %th
+                Tags
+              %th
                 Friend Who Inspired
               %th
           %tbody
@@ -106,7 +117,7 @@
               %tr
                 %td
                   = business_image(b)
-                %td
+                %td.business-name
                   = b.name
                 %td
                   = b.neighborhood
@@ -115,6 +126,19 @@
                 %td
                   = business_review_count(b)
                 %td
+                  = item.tag_list
+                %td
                   = inspired_by(item)
                 %td
-                  = link_to "Add to \"Places I Want to Go\"", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}), class: "btn btn-primary", method: :post
+                  - if current_user.has_wish_item?(item)
+                    %button{ class: "btn btn-primary disabled" } Already In Your Wish List!
+                  - elsif current_user.has_vouch_item?(item)
+                    %button{ class: "btn btn-success disabled" } Already Vouched!
+                  - else
+                    = link_to "I Want to Go!", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}, original_wish_item_id: item.id), class: "btn btn-primary", method: :post
+
+  - if not_found == true
+    No records found.
+
+= javascript_include_tag "jquery"
+= javascript_include_tag "wish_list_tagging"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319173446) do
+ActiveRecord::Schema.define(:version => 20130321161405) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -163,5 +163,15 @@ ActiveRecord::Schema.define(:version => 20130319173446) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "wish_taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "wish_item_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "wish_taggings", ["tag_id"], :name => "index_wish_taggings_on_tag_id"
+  add_index "wish_taggings", ["wish_item_id"], :name => "index_wish_taggings_on_wish_item_id"
 
 end

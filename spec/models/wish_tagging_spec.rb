@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Tagging do
+describe WishTagging do
 end

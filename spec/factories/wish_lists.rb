@@ -17,17 +17,22 @@ FactoryGirl.define do
     end
   end
 
+  factory :wish_list_simple, class: WishList do
+    user_id  1 # This needs to be passed in
+    city_id  1 # This needs to be passed in
+  end
+
   factory :wish_item do
     wish_list_id 1 # This should be passed in
     business_id  1 # This should be passed in
 
     # Add some tags to this item
-    # after(:create) do |item|
-    #   3.times do
-    #     FactoryGirl.create(:tagging,
-    #                        tag_id: Tag.all.sample(1).first,
-    #                        wish_item_id: item.id)
-    #   end
-    # end
+    after(:create) do |item|
+      3.times do
+        FactoryGirl.create(:wish_tagging,
+                           tag_id: Tag.all.sample(1).first.id,
+                           wish_item_id: item.id)
+      end
+    end
   end
 end

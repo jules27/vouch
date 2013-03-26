@@ -3,7 +3,7 @@ class VouchList < ActiveRecord::Base
 
   belongs_to :owner, class_name: "User"
   belongs_to :city
-  has_many   :vouch_items
+  has_many   :vouch_items, dependent: :destroy
   has_many   :businesses, through: :vouch_items
   has_many   :tags, through: :vouch_items
   has_many   :shared_friends
