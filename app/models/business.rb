@@ -20,6 +20,11 @@ class Business < ActiveRecord::Base
   pg_search_scope :category_search, against: [:categories],
     using:{tsearch: {dictionary: "english"}}
 
+  # Make the URL more reader friendly
+  def to_param
+    [id, name.parameterize].join("-")
+  end
+
   # For editing in active admin
   def categories_raw
     self.categories.join("|") if categories.present?# and categories.class != String

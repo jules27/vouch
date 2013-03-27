@@ -49,7 +49,11 @@
 
     %p.last
       - city = City.find_by_name(@business.city)
-      - if current_user.vouch_lists_by_city(city.name).first.has_business?(@business)
+      - vouch_list = current_user.vouch_lists_by_city(city.name).first
+      - if vouch_list.nil?
+        You have not Vouched anything in #{city.name}.
+        = link_to "Let's Vouch!", new_vouch_list_city_path(city.name)
+      - elsif vouch_list.has_business?(@business)
         = already_vouched_button("primary")
       - elsif current_user.wish_list_in_city(city).has_business?(@business)
         = already_in_wish_list_button
