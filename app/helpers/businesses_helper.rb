@@ -3,6 +3,14 @@ module BusinessesHelper
     "#{business.yelp_rating} Stars, #{business.yelp_review_count} Reviews"
   end
 
+  def image(business)
+    if business.image_url.present?
+      image_tag business.image_url, class: "img-polaroid"
+    else
+      image_tag "default_business_image.gif", class: "img-polaroid"
+    end
+  end
+
   def us_states
     [
       ['AK', 'AK'],

@@ -5,7 +5,7 @@
     %li
       - neighborhood = b.neighborhood.present? ? b.neighborhood + ", " : ""
       %a{ href: business_path(b), 'data-largesrc' => b.image_url, 'data-title' => b.name, 'data-description' => "#{neighborhood}#{b.city}, #{b.state} | #{b.categories_formatted}<br />#{reviews_numerical(b)}" }
-        = image_tag(b.image_url, class: "img-polaroid")
+        = image(b)
       
       -# %span.business-name #{b.name}
       -# %br
