@@ -1,4 +1,6 @@
 class Business < ActiveRecord::Base
+  include PgSearch
+
   belongs_to :business_type
   has_many   :vouch_items
   has_many   :wish_items
@@ -14,6 +16,9 @@ class Business < ActiveRecord::Base
   validates_presence_of :business_type_id, :name
   validates :name, uniqueness: { scope: [:latitude, :longitude, :city],
                                  message: "A business with the same name and coordinates already exists." }
+
+  pg_search_scope :category_search, against: [:categories],
+    using:{tsearch: {dictionary: "english"}}
 
   # For editing in active admin
   def categories_raw
@@ -31,5 +36,9 @@ class Business < ActiveRecord::Base
       c << category if index % 2 == 0
     end
     c.join(", ")
+  end
+
+  def self.search_by_category(category, city)
+    category_search(category).where(city: city.name)
   end
 end

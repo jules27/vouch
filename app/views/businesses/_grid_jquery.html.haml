@@ -1,29 +1,25 @@
+
 %h2.center Restaurants In #{current_user.default_city.name}
+- if params[:category_name].present?
+  %h3.center Category "#{params[:category_name]}"
 
-%ul#og-grid.og-grid
-  - businesses.each_with_index do |b, index|
-    %li
-      - neighborhood = b.neighborhood.present? ? b.neighborhood + ", " : ""
-      %a{ href: business_path(b), 'data-largesrc' => b.image_url, 'data-title' => b.name, 'data-description' => "#{neighborhood}#{b.city}, #{b.state} | #{b.categories_formatted}<br />#{reviews_numerical(b)}" }
-        = image(b)
-      
-      -# %span.business-name #{b.name}
-      -# %br
-      -# = business_image(b, business_path(b))
-      -# %br
-      -# = business_rating(b)
-      -# = business_review_count(b)
-      -# %br
-      -# Tags:
-      -# = item.tag_list
+.category-search.pull-right
+  = form_tag businesses_path, method: :get, class: "form-inline" do
+    = select_tag "category_name", options_for_select(category_options, params[:category_name]), class: "input-large"
+    = submit_tag "View Category", name: nil, class: "btn btn-info"
+%br
+%br
 
-      -# %br
-      -# - if current_user.has_wish_item?(item)
-      -#   = already_in_wish_list_button
-      -# - elsif current_user.has_vouch_item?(item)
-      -#   = already_vouched_button
-      -# - else
-      -#   = link_to "I Want To Go!", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
-      -# = hidden_field_tag 'friend_id', friend.id
-      -# = hidden_field_tag 'vouch_item_id', item.id
-      -# .loading-image{ id: "loading_#{item.id}" }
+- if params[:category_name].present?
+  - businesses = Business.search_by_category(params[:category_name], current_user.default_city)
+- if businesses.count == 0
+  %p
+    No records found.
+- else
+  .grid-listing
+    %ul#og-grid.og-grid
+      - businesses.each_with_index do |b, index|
+        %li
+          - neighborhood = b.neighborhood.present? ? b.neighborhood + ", " : ""
+          %a{ href: business_path(b), 'data-largesrc' => b.image_url, 'data-title' => b.name, 'data-description' => "#{neighborhood}#{b.city}, #{b.state} | #{b.categories_formatted}<br />#{reviews_numerical(b)}" }
+            = image(b)
