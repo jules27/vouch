@@ -3,7 +3,7 @@
 %p
   Thanks for helping us out! Please fill in the following info and we'll take care of the rest.
 
-= form_for @business, url: businesses_path(@business), method: :post do |f|
+= form_for business, url: businesses_path(business), method: :post do |f|
   - if flash[:errors].present?
     .alert.alert-error
       %a{ class: 'close', 'data-dismiss' => 'alert' } &#215;

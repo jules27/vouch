@@ -32,6 +32,7 @@ class BusinessesController < ApplicationController
     @business_type = BusinessType.find_by_name(params[:type])
     render action: "new_by_type",
            locals: {
+                     business: @business,
                      business_type: @business_type
                    }
   end

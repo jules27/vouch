@@ -21,9 +21,10 @@ class Business < ActiveRecord::Base
     using:{tsearch: {dictionary: "english"}}
 
   # Make the URL more reader friendly
-  def to_param
-    [id, name.parameterize].join("-")
-  end
+  # TODO: why does this make creation fail?
+  # def to_param
+  #   [id, name.parameterize].join("-")
+  # end
 
   # For editing in active admin
   def categories_raw
