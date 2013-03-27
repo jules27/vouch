@@ -1,0 +1,27 @@
+%ul#og-grid.og-grid
+  - businesses.each_with_index do |b, index|
+    %li
+      - neighborhood = b.neighborhood.present? ? b.neighborhood + ", " : ""
+      %a{ href: business_path(b), 'data-largesrc' => b.image_url, 'data-title' => b.name, 'data-description' => "#{neighborhood}#{b.city}, #{b.state}" }
+        = image_tag(b.image_url, class: "img-polaroid")
+      
+      -# %span.business-name #{b.name}
+      -# %br
+      -# = business_image(b, business_path(b))
+      -# %br
+      -# = business_rating(b)
+      -# = business_review_count(b)
+      -# %br
+      -# Tags:
+      -# = item.tag_list
+
+      -# %br
+      -# - if current_user.has_wish_item?(item)
+      -#   = already_in_wish_list_button
+      -# - elsif current_user.has_vouch_item?(item)
+      -#   = already_vouched_button
+      -# - else
+      -#   = link_to "I Want To Go!", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
+      -# = hidden_field_tag 'friend_id', friend.id
+      -# = hidden_field_tag 'vouch_item_id', item.id
+      -# .loading-image{ id: "loading_#{item.id}" }

@@ -67,6 +67,8 @@ Vouch::Application.configure do
                                   wish_list_tagging.js
                                   friendships.js friendships.css
                                   business_map.js
+                                  grid.js grid.css
+                                  modernizr.custom.js
                                 )
 
   # Disable delivery errors, bad email addresses will be ignored

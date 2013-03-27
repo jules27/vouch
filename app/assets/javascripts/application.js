@@ -25,3 +25,5 @@
 //= require ./friendships
 //= require ./wish_lists
 //= require ./wish_items
+//= require ./modernizr.custom
+//= require ./grid
