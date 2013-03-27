@@ -18,7 +18,7 @@
       %dd #{@business.city}, #{@business.state}, #{@business.zip}
 
       %dt Phone
-      %dd #{@business.phone}
+      %dd #{display_phone(@business)}
 
       - if @business.neighborhood.present?
         %dt Neighborhood

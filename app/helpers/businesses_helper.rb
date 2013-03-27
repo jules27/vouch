@@ -11,6 +11,14 @@ module BusinessesHelper
     end
   end
 
+  def display_phone(business)
+    if business.phone.nil?
+      "N/A"
+    else
+      business.phone
+    end
+  end
+
   def category_options
     [
       "",

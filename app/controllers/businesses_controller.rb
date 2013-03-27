@@ -2,7 +2,7 @@ class BusinessesController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @businesses = Business.find_all_by_city(current_user.default_city.name)
+    @businesses = Business.order("lower(name) ASC").find_all_by_city(current_user.default_city.name)
   end
 
   def show
