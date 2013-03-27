@@ -28,9 +28,13 @@ module VouchListsHelper
     (rating * 10).to_i
   end
 
-  def business_image(business)
+  def business_image(business, link = nil)
     if business.yelp_id.present?
-      link_to image_tag(business.image_url, class: "img-polaroid"), "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
+      if link.present?
+        link_to image_tag(business.image_url, class: "img-polaroid"), link
+      else
+        link_to image_tag(business.image_url, class: "img-polaroid"), "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
+      end
     else
       if business.image_url.present?
         image_tag b.image_url, class: "img-polaroid"
@@ -59,7 +63,7 @@ module VouchListsHelper
 
   def share_business_name(business)
     if business.yelp_id.present?
-      link_to business.name, "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
+      link_to business.name, business_path(business)
     else
       business.name
     end

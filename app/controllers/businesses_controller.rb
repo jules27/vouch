@@ -1,6 +1,10 @@
 class BusinessesController < ApplicationController
   before_filter :authenticate_user!
 
+  def show
+    @business = Business.find(params[:id])
+  end
+
   def details
     @business = Business.find_by_name_and_city(params[:name], params[:city])
 

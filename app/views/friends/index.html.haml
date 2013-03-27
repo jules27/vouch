@@ -19,6 +19,11 @@
     %h3
       Friends' Lists that Include '#{params[:query]}'
 
+  -# TODO: Trying grid display. Remove if unused.
+  - if false #Rails.env.development?
+    .test
+      = render "grid", friends: @friends, city: @city
+
   - not_found = true
   - @friends.each do |friend|
     - if params[:query].present?
@@ -52,7 +57,7 @@
               - b = Business.find(item.business_id)
               %tr
                 %td
-                  = business_image(b)
+                  = business_image(b, business_path(b))
                 %td.business-name
                   = b.name
                 %td
@@ -65,9 +70,9 @@
                   = item.tag_list
                 %td
                   - if current_user.has_wish_item?(item)
-                    %button{ class: "btn btn-primary disabled" } Already In Your Wish List!
+                    = already_in_wish_list_button
                   - elsif current_user.has_vouch_item?(item)
-                    %button{ class: "btn btn-success disabled" } Already Vouched!
+                    = already_vouched_button
                   - else
                     = link_to "I Want To Go!", "#", class: "btn btn-primary add-to-wish-list", id: "#{b.id}"
                   = hidden_field_tag 'friend_id', friend.id

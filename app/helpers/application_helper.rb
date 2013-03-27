@@ -44,4 +44,16 @@ module ApplicationHelper
   def add_new_business_link(type_name = "restaurant")
     link_to "Don't see your restaurant? Help us to add one.", new_business_by_type_path("restaurant")
   end
+
+  def already_vouched_button(custom_class = "success")
+    content_tag(:button, class: "btn btn-#{custom_class} disabled") do
+      "Already Vouched!"
+    end
+  end
+
+  def already_in_wish_list_button(custom_class = "info")
+    content_tag(:button, class: "btn btn-#{custom_class} disabled") do
+      "Already In Your Wish List!"
+    end
+  end
 end

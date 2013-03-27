@@ -11,6 +11,7 @@ Vouch::Application.routes.draw do
   # Business related
   resources :businesses, only: [:create]
   get  '/businesses/new/:type' => 'businesses#new_by_type', as: 'new_business_by_type'
+  get  '/businesses/:id' => 'businesses#show', as: 'business'
 
   # City-specific routes
   get  '/vouch_lists/new/:city/' => 'vouch_lists#new_by_city', as: 'new_vouch_list_city'
@@ -48,6 +49,7 @@ Vouch::Application.routes.draw do
   resources :wish_items, only: [:create, :destroy]
   get  '/wish_items/:type_id/new/:wish_list_id' => "wish_items#new_by_type", as: 'new_wish_item_by_type'
   post '/wish_items/add'     => "wish_items#create"
+  post '/wish_items/add_independent' => "wish_items#create_independent"
   post '/wish_items/visited' => "wish_items#visited"
 
   # Wish item tags

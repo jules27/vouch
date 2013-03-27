@@ -55,6 +55,10 @@ class VouchList < ActiveRecord::Base
     vouch_items.where(business_id: item.business.id).count > 0
   end
 
+  def has_business?(business)
+    businesses.where(id: business.id).count > 0
+  end
+
   private
 
   def set_default_title
