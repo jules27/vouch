@@ -32,6 +32,7 @@ class Business < ActiveRecord::Base
 
   def categories_formatted
     c = Array.new
+    return "" if categories_raw.nil?
     categories.each_with_index do |category, index|
       c << category if index % 2 == 0
     end
