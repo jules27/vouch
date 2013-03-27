@@ -1,4 +1,8 @@
 module BusinessesHelper
+  def reviews_numerical(business)
+    "#{business.yelp_rating} Stars, #{business.yelp_review_count} Reviews"
+  end
+
   def us_states
     [
       ['AK', 'AK'],

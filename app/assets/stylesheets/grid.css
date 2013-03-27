@@ -1,6 +1,6 @@
 .og-grid {
   list-style: none;
-  padding: 20px 0;
+  padding: 10px 0;
   margin: 0 auto;
   text-align: center;
   width: 100%;
@@ -98,7 +98,7 @@
 }
 
 .og-details {
-  padding: 0 40px 0 20px;
+  padding: 0 40px 0 30px;
 }
 
 .og-fullimg {
