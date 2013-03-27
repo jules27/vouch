@@ -20,9 +20,10 @@ $ ->
         success = true
 
     if (success == true)
-      # Disable this button
+      # Disable this button as well as the wish button
       currentElement.addClass("disabled")
       currentElement.html("Added To Vouch List!")
+      $("#wish_business_action").addClass("disabled")
     else
       currentElement.removeClass("disabled")
 
@@ -48,8 +49,9 @@ $ ->
         success = true
 
     if (success == true)
-      # Disable this button
+      # Disable this button as well as the vouch button
       currentElement.addClass("disabled")
       currentElement.html("Added To Wish List!")
+      $("#vouch_business_action").addClass("disabled")
     else
       currentElement.removeClass("disabled")
