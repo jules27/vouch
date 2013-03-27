@@ -31,7 +31,11 @@ module VouchListsHelper
   def business_image(business, link = nil)
     if business.yelp_id.present?
       if link.present?
-        link_to image_tag(business.image_url, class: "img-polaroid"), link
+        if business.image_url.present?
+          link_to image_tag(business.image_url, class: "img-polaroid"), link
+        else
+          link_to image_tag("default_business_image.gif", class: "img-polaroid"), link
+        end
       else
         link_to image_tag(business.image_url, class: "img-polaroid"), "http://www.yelp.com/biz/#{business.yelp_id}", target: "_blank"
       end
