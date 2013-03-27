@@ -13,6 +13,24 @@ class WishItemsController < ApplicationController
     @wish_item = WishItem.new
   end
 
+  # Add a wish item from browsing the business#show page.
+  # This is called by javascript.
+  def create_independent
+    if params[:wish_list_id].present?
+      wish_list = WishList.find(params[:wish_list_id])
+    else
+      city_id = params[:city_id]
+      wish_list = WishList.find_or_create_by_user_id_and_city_id(current_user.id, city_id)
+    end
+
+    wish_item = wish_list.wish_items.build(params[:wish_item])
+    if wish_item.save
+      render json: { success: true }
+    else
+      render json: { errors: "Wish item was unable to be created." }
+    end
+  end
+
   # This method is called from a link as well as a javascript click.
   # html link: called from "Places I Want To Go", friends list, wish item
   # javascript click: from "My Friend's Vouches", vouch item

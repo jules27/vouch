@@ -19,6 +19,7 @@
 //= require knockout.mapping
 //= require ./active_admin
 //= require ./bootstrap
+//= require ./businesses
 //= require ./tag-it
 //= require ./friends
 //= require ./friendships

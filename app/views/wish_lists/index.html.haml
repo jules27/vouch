@@ -59,7 +59,7 @@
             - next unless b.present?
             %tr
               %td
-                = business_image(b)
+                = business_image(b, business_path(b))
               %td.business-name
                 = b.name
               %td
@@ -116,7 +116,7 @@
               - next unless b.present?
               %tr
                 %td
-                  = business_image(b)
+                  = business_image(b, business_path(b))
                 %td.business-name
                   = b.name
                 %td
@@ -131,9 +131,9 @@
                   = inspired_by(item)
                 %td
                   - if current_user.has_wish_item?(item)
-                    %button{ class: "btn btn-primary disabled" } Already In Your Wish List!
+                    = already_in_wish_list_button
                   - elsif current_user.has_vouch_item?(item)
-                    %button{ class: "btn btn-success disabled" } Already Vouched!
+                    = already_vouched_button
                   - else
                     = link_to "I Want To Go!", wish_items_path(city_id: friend_list.city.id, wish_item: { business_id: b.id, user_id: friend.id}, original_wish_item_id: item.id), class: "btn btn-primary", method: :post
 
