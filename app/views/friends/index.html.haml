@@ -19,6 +19,11 @@
     %h3
       Friends' Lists that Include '#{params[:query]}'
 
+  -# TODO: Trying grid display. Remove if unused.
+  - if false #Rails.env.development?
+    .test
+      = render "grid", friends: @friends, city: @city
+
   - not_found = true
   - @friends.each do |friend|
     - if params[:query].present?
