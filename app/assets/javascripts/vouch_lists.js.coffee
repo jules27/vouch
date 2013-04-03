@@ -1,7 +1,7 @@
 $ ->
   # Knockout bindings
   VouchItem = (data) ->
-    this.id   = ko.observable(data.id)
+    this.id   = ko.observable(data.id) # Business ID
     this.name = ko.observable(data.name)
     this.neighborhood = ko.observable(data.neighborhood)
     this.city = ko.observable(data.city)
@@ -84,6 +84,7 @@ $ ->
           item_name = data['business']['name']
           item_neighborhood = data['business']['neighborhood']
           item_city = data['business']['city']
+          item_categories = data['business']['categories']
           item_yelp_rating  = data['business']['yelp_rating']
           item_yelp_reviews = data['business']['yelp_review_count']
 
@@ -102,17 +103,8 @@ $ ->
           if should_quit == true
             return
 
-          self.items.push(new VouchItem({
-                            id:   item_id,
-                            name: item_name,
-                            neighborhood: item_neighborhood,
-                            city: item_city,
-                            yelp_rating:  item_yelp_rating,
-                            yelp_reviews: item_yelp_reviews,
-                          }))
-          self.newItemName("") # Clear the text box
-
           # Make another ajax call to create item if this is an existing list
+          vouch_item_id = ""
           if (VOUCH_LIST > 0)
             $.post '/vouch_items/',
             {
@@ -127,9 +119,21 @@ $ ->
                 $(".list-success").html("Item has been added to the list.")
                 $(".list-success").fadeIn("fast")
 
-                # Make a new tag input for this item
                 vouch_item_id = data.vouch_item_id
-                $(".items").last().find(".item-tags").tagit({
+                self.items.push(new VouchItem({
+                            id:   item_id,
+                            item_id: vouch_item_id,
+                            name: item_name,
+                            neighborhood: item_neighborhood,
+                            city: item_city,
+                            yelp_rating:  item_yelp_rating,
+                            yelp_reviews: item_yelp_reviews,
+                          }))
+                self.newItemName("") # Clear the text box
+
+                # Make a new tag input for this item
+                tag_element = $(".items").last().find(".item-tags")
+                tag_element.tagit({
                   allowDuplicates: false
                   singleField: true
                   singleFieldDelimiter: "|"
@@ -163,6 +167,14 @@ $ ->
                         success: (tagData, status, xhr) ->
                           console.log "Tag has been removed: " + tag_name
                 })
+
+                # Manually add tags
+                tag_element.tagit("createTag", item_city.toLowerCase())
+                tag_element.tagit("createTag", item_neighborhood.toLowerCase())
+                $.each item_categories, (index, category) ->
+                  if index % 2 != 1
+                    tag_element.tagit("createTag", category.toLowerCase())
+
                 return
           else
             # Make a new tag input for this item
@@ -178,6 +190,17 @@ $ ->
                   autocomplete: { disabled: true }
                 })
                 return
+
+            self.items.push(new VouchItem({
+                              id:   item_id,
+                              name: item_name,
+                              neighborhood: item_neighborhood,
+                              city: item_city,
+                              yelp_rating:  item_yelp_rating,
+                              yelp_reviews: item_yelp_reviews,
+                            }))
+            self.newItemName("") # Clear the text box
+            return
 
           return
         error: (xhr, status, error) ->

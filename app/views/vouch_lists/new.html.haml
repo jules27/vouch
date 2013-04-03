@@ -5,11 +5,9 @@
   - if vouch_list.present?
     %h3
       = capitalize_title(vouch_list.title)
-      -# Vouch list for...
   - else
     %h3
       Tell Us Your Favorite Restaurants in #{city.name}!
-      -# Tell us your favorite five restaurants for a sunny company outing!
 
   .control-group
     - if false
@@ -50,9 +48,6 @@
           Yelp Reviews
         %th
           Tags (No special symbols required)
-          -# TODO: tooltip now working
-          -# %a{ href: '#', class: "tag-help" }
-          -#   %i{ class: "icon-question-sign" }
 
     %tbody{ 'data-bind' => 'foreach: items' }
       %tr.items
