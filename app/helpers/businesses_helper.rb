@@ -1,4 +1,69 @@
 module BusinessesHelper
+  def reviews_numerical(business)
+    "#{business.yelp_rating} Stars, #{business.yelp_review_count} Reviews"
+  end
+
+  def image(business)
+    if business.image_url.present?
+      image_tag business.image_url, class: "img-polaroid"
+    else
+      image_tag "default_business_image.gif", class: "img-polaroid"
+    end
+  end
+
+  def display_phone(business)
+    if business.phone.nil?
+      "N/A"
+    else
+      business.phone
+    end
+  end
+
+  def category_options
+    [
+      "",
+      "American",
+      "Asian Fusion",
+      "Barkeries",
+      "Bars",
+      "Breakfast",
+      "Brunch",
+      "Burgers",
+      "Burmese",
+      "Cafes",
+      "Cajun",
+      "Chinese",
+      "Coffee",
+      "Creperies",
+      "Delis",
+      "Fast Food",
+      "French",
+      "Gluten-Free",
+      "Italian",
+      "Japanese",
+      "Korean",
+      "Lounges",
+      "Mediterranean",
+      "Mexican",
+      "Modern European",
+      "Persian",
+      "Pizza",
+      "Sandwiches",
+      "Seafood",
+      "Soul Food",
+      "Spanish",
+      "Specialty Food",
+      "Steakhouses",
+      "Sushi",
+      "Tea",
+      "Thai",
+      "Vegan",
+      "Vegetarian",
+      "Vietnamese",
+      "Wine Bars"
+    ]
+  end
+
   def us_states
     [
       ['AK', 'AK'],

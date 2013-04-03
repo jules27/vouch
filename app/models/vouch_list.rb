@@ -22,7 +22,7 @@ class VouchList < ActiveRecord::Base
   pg_search_scope :name_search, associated_against: {
     businesses: :name,
     tags:       :name
-  }
+  }, using:{tsearch: {dictionary: "english"}}
 
   # Return a list of items with certain attributes selected
   def items_formatted

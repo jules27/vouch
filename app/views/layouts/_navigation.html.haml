@@ -12,8 +12,16 @@
             = nav_link "My Vouches", vouch_lists_path
             = nav_link "My Friend's Vouches", friends_path
             = nav_link "Places I Want To Go", wish_lists_path
+            -# = nav_link "Browse Restaurants", businesses_path
         %ul.nav.pull-right
           - if user_signed_in?
+            %li.dropdown
+              %a{ :href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown" }
+                Experiment
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to "Browse Restaurants", businesses_path
             %li.dropdown
               %a{ :href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown" }
                 Make Vouches
