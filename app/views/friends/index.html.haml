@@ -45,10 +45,10 @@
                 Restaurant
               %th
                 Neighborhoods
-              %th
-                Yelp Rating
-              %th
-                Reviews
+              -# %th
+              -#   Yelp Rating
+              -# %th
+              -#   Reviews
               %th
                 Tags
               %th
@@ -62,10 +62,10 @@
                   = b.name
                 %td
                   = b.neighborhood
-                %td
-                  = business_rating(b)
-                %td
-                  = business_review_count(b)
+                -# %td
+                -#   = business_rating(b)
+                -# %td
+                -#   = business_review_count(b)
                 %td
                   = item.tag_list
                 %td

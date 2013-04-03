@@ -44,10 +44,10 @@
               Restaurant
             %th
               Neighborhoods
-            %th
-              Yelp Rating
-            %th
-              Reviews
+            -# %th
+            -#   Yelp Rating
+            -# %th
+            -#   Reviews
             %th
               Tags
             %th
@@ -64,10 +64,10 @@
                 = b.name
               %td
                 = b.neighborhood
-              %td
-                = business_rating(b)
-              %td
-                = business_review_count(b)
+              -# %td
+              -#   = business_rating(b)
+              -# %td
+              -#   = business_review_count(b)
               %td.tagging
                 = hidden_field_tag 'item_id', item.id, class: 'item-id'
                 %ul.item-tags
@@ -101,10 +101,10 @@
                 Restaurant
               %th
                 Neighborhoods
-              %th
-                Yelp Rating
-              %th
-                Reviews
+              -# %th
+              -#   Yelp Rating
+              -# %th
+              -#   Reviews
               %th
                 Tags
               %th
@@ -121,10 +121,10 @@
                   = b.name
                 %td
                   = b.neighborhood
-                %td
-                  = business_rating(b)
-                %td
-                  = business_review_count(b)
+                -# %td
+                -#   = business_rating(b)
+                -# %td
+                -#   = business_review_count(b)
                 %td
                   = item.tag_list
                 %td
