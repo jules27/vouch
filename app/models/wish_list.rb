@@ -15,7 +15,7 @@ class WishList < ActiveRecord::Base
   pg_search_scope :name_search, associated_against: {
     businesses: :name,
     tags:       :name
-  }
+  }, using:{tsearch: {dictionary: "english"}}
 
   def empty?
     self.nil? or wish_items.empty?

@@ -1,6 +1,10 @@
 class BusinessesController < ApplicationController
   before_filter :authenticate_user!
 
+  def index
+    @businesses = Business.order("lower(name) ASC").find_all_by_city(current_user.default_city.name)
+  end
+
   def show
     @business = Business.find(params[:id])
   end
@@ -28,6 +32,7 @@ class BusinessesController < ApplicationController
     @business_type = BusinessType.find_by_name(params[:type])
     render action: "new_by_type",
            locals: {
+                     business: @business,
                      business_type: @business_type
                    }
   end

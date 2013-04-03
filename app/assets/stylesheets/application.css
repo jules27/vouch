@@ -18,3 +18,7 @@
   pointer-events: none;
   cursor: default;
 }
+
+.center {
+  text-align: center;
+}

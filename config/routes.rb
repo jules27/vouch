@@ -9,7 +9,7 @@ Vouch::Application.routes.draw do
   resources :vouch_items, only: [:create, :update, :destroy]
 
   # Business related
-  resources :businesses, only: [:create]
+  resources :businesses, only: [:create, :index]
   get  '/businesses/new/:type' => 'businesses#new_by_type', as: 'new_business_by_type'
   get  '/businesses/:id' => 'businesses#show', as: 'business'
 
