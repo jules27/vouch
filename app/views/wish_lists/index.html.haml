@@ -3,6 +3,7 @@
   %p
     You don't have any places you want to go. Please
     = link_to "add one!", friends_path
+  %br
 - else
   - if params[:query].present?
     %h3 Places I Want to Go that Include '#{params[:query]}'
