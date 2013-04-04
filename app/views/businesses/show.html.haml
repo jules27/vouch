@@ -37,12 +37,12 @@
   .span5
     %h4 Friends Who Have Vouched For This Place
     - friend_vouch = false
-    %ul
-    - current_user.friends.each do |friend|
-      - friend.vouch_lists_by_city(@business.city).each do |list|
-        - if list.has_business?(@business)
-          - friend_vouch = true
-          %li #{friend.name}
+    %ul.vouched-friends-list
+      - current_user.friends.each do |friend|
+        - friend.vouch_lists_by_city(@business.city).each do |list|
+          - if list.has_business?(@business)
+            - friend_vouch = true
+            %li <i class="icon-user"></i>#{friend.name}
 
     - if friend_vouch == false
       None yet.
