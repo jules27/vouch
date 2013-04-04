@@ -3,6 +3,7 @@ $ ->
     e.preventDefault()
     currentElement = $(this)
     success = false
+    vouch_item_id = ""
 
     currentElement.addClass("disabled")
 
@@ -18,6 +19,18 @@ $ ->
       }
       success: (data, status, xhr) ->
         success = true
+        vouch_item_id = data.vouch_item_id
+
+    # Make another ajax call to manually add taggings for this item
+    $.ajax '/vouch_items/' + vouch_item_id + '/add_tagging_from_business',
+      type:     'post'
+      async:    false
+      dataType: 'json'
+      data: {
+        business_id: $("#business_id").val()
+      }
+      success: (data, status, xhr) ->
+        console.log "Taggings added!"
 
     if (success == true)
       # Disable this button as well as the wish button
@@ -27,6 +40,7 @@ $ ->
     else
       currentElement.removeClass("disabled")
 
+  # Add this business to my wish list
   $("#wish_business_action").on "click", (e) ->
     e.preventDefault()
     currentElement = $(this)

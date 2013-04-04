@@ -25,6 +25,9 @@ class WishItemsController < ApplicationController
 
     wish_item = wish_list.wish_items.build(params[:wish_item])
     if wish_item.save
+      # Create tags for this business: city, neighbor, category
+      create_tagging_from_business(wish_item.id, params[:wish_item][:business_id])
+
       render json: { success: true }
     else
       render json: { errors: "Wish item was unable to be created." }
@@ -242,6 +245,25 @@ class WishItemsController < ApplicationController
                              error: "You do not have the permission to view this list."
                            }
       end
+    end
+  end
+
+  # Create tagging for a wish item based on business information.
+  # Tagging for city, neighborhoods, and categories.
+  def create_tagging_from_business(wish_item_id, business_id)
+    business = Business.find(business_id)
+
+    city_tag = Tag.find_or_create_by_name(business.city.downcase)
+    WishTagging.create(wish_item_id: wish_item_id, tag_id: city_tag.id)
+
+    business.neighborhood.split(",").each do |neighborhood|
+      neighborhood_tag = Tag.find_or_create_by_name(neighborhood.downcase)
+      WishTagging.create(wish_item_id: wish_item_id, tag_id: neighborhood_tag.id)
+    end
+
+    business.categories_formatted.split(",").each do |category|
+      category_tag = Tag.find_or_create_by_name(category.downcase)
+      WishTagging.create(wish_item_id: wish_item_id, tag_id: category_tag.id)
     end
   end
 end

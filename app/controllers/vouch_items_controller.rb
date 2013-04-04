@@ -51,6 +51,28 @@ class VouchItemsController < ApplicationController
     end
   end
 
+  # Create tagging for a wish item based on business information.
+  # Tagging for city, neighborhoods, and categories.
+  def add_tagging_from_business
+    vouch_item_id = params[:id]
+    business = Business.find(params[:business_id])
+
+    city_tag = Tag.find_or_create_by_name(business.city.downcase)
+    Tagging.create!(vouch_item_id: vouch_item_id, tag_id: city_tag.id)
+
+    business.neighborhood.split(",").each do |neighborhood|
+      neighborhood_tag = Tag.find_or_create_by_name(neighborhood.downcase)
+      Tagging.create!(vouch_item_id: vouch_item_id, tag_id: neighborhood_tag.id)
+    end
+
+    business.categories_formatted.split(",").each do |category|
+      category_tag = Tag.find_or_create_by_name(category.downcase)
+      Tagging.create!(vouch_item_id: vouch_item_id, tag_id: category_tag.id)
+    end
+
+    render json: { success: true }
+  end
+
   def delete_tagging
     vouch_item = VouchItem.find(params[:id])
     tag        = Tag.find_by_name(params[:name])
