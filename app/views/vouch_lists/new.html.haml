@@ -42,10 +42,10 @@
           Restaurant
         %th
           Neighborhoods
-        %th
-          Yelp Rating
-        %th
-          Yelp Reviews
+        -# %th
+        -#   Yelp Rating
+        -# %th
+        -#   Yelp Reviews
         %th
           Tags (No special symbols required)
 
@@ -53,8 +53,8 @@
       %tr.items
         %td{ 'data-bind' => "text: name" }
         %td{ 'data-bind' => "text: neighborhood" }
-        %td{ 'data-bind' => "text: yelp_rating" }
-        %td{ 'data-bind' => "text: yelp_reviews" }
+        -# %td{ 'data-bind' => "text: yelp_rating" }
+        -# %td{ 'data-bind' => "text: yelp_reviews" }
         %td.tagging
           %span{ 'data-bind' => "text: item_id", :class => "item_id", :style => "display:none;" }
           %ul.item-tags

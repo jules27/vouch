@@ -1,4 +1,8 @@
 $ ->
+  # NOte about tagit: there are 3 tagit functions in this file, and they're
+  # all different. If something needs to be changed to tagit (ie. the
+  # delimiter, as an example), the change needs to be made in all 3 places.
+
   # Knockout bindings
   VouchItem = (data) ->
     this.id   = ko.observable(data.id) # Business ID
