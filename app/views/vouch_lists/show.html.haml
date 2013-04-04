@@ -29,10 +29,10 @@
       - @vouch_list.vouch_items.each do |item|
         - b = Business.find(item.business_id)
         %tr
-          %td{ colspan: "3" }
+          %td{ colspan: "4" }
             = share_business_name(b)
-          %td
-            %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
+          -# %td
+            -# %span{ class: "rating-static rating-#{rating_class(b.yelp_rating)}" }
           -# %td
           -#   = b.yelp_review_count
         %tr

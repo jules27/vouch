@@ -173,37 +173,39 @@ $ ->
                 })
 
                 # Manually add tags
-                tag_element.tagit("createTag", item_city.toLowerCase())
-                tag_element.tagit("createTag", item_neighborhood.toLowerCase())
-                $.each item_categories, (index, category) ->
-                  if index % 2 != 1
-                    tag_element.tagit("createTag", category.toLowerCase())
+                addTag(tag_element, item_city, item_neighborhood, item_categories)
 
                 return
           else
+            self.items.push(new VouchItem({
+                  id:   item_id,
+                  name: item_name,
+                  neighborhood: item_neighborhood,
+                  city: item_city,
+                  yelp_rating:  item_yelp_rating,
+                  yelp_reviews: item_yelp_reviews,
+                }))
+            self.newItemName("") # Clear the text box
+
             # Make a new tag input for this item
             row_number = $(".items").length - 1
 
             $.each $(".items"), (index, value) ->
               if (index == row_number)
-                $(value).find(".item-tags").tagit({
+                tag_element = $(value).find(".item-tags")
+                tag_element.tagit({
                   allowDuplicates: false
                   singleField: true
                   singleFieldDelimiter: "|"
                   allowSpaces: true
                   autocomplete: { disabled: true }
                 })
+
+                # Manually add tags
+                addTag(tag_element, item_city, item_neighborhood, item_categories)
+
                 return
 
-            self.items.push(new VouchItem({
-                              id:   item_id,
-                              name: item_name,
-                              neighborhood: item_neighborhood,
-                              city: item_city,
-                              yelp_rating:  item_yelp_rating,
-                              yelp_reviews: item_yelp_reviews,
-                            }))
-            self.newItemName("") # Clear the text box
             return
 
           return
@@ -372,3 +374,18 @@ $ ->
   setTimeout setTag, 500
 
   return
+
+# Function to manually add tags
+addTag = (tagElement, city, neighborhoods, categories) ->
+  # City
+  tagElement.tagit("createTag", city.toLowerCase())
+
+  # Neighborhood(s)
+  neighborhoodsSplit = neighborhoods.split(",")
+  $.each neighborhoodsSplit, (index, neighborhood) ->
+    tagElement.tagit("createTag", neighborhood.toLowerCase())
+
+  # Categories
+  $.each categories, (index, category) ->
+    if index % 2 != 1
+      tagElement.tagit("createTag", category.toLowerCase())
